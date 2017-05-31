@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,99 +9,67 @@ namespace WebMining
 {
     class Engine
     {
-        public List<Record> ParseLog(string[] logTexts)
+        private Parser parser;
+        private Dictionary<string, User> extractedUsers;
+
+        public Engine()
         {
-            List<Record> f = new List<Record>();
-            foreach (var l in logTexts)
-                f.Add(parseString(l));
-            return f;
+            parser = new Parser();
+            extractedUsers = new Dictionary<string, User>();
         }
 
-        public List<User> Magic(string[] logTexts)
+        public List<User> getExtractedUsers()
         {
-            return UserIdentification(ParseLog(logTexts));
+            return extractedUsers.Values.ToList();
         }
 
-        public List<User> UserIdentification(List<Record> records)
+        public Engine ProcessAll(List<string> logfiles)
         {
-            Dictionary<string, User> d = new Dictionary<string, User>();
-
-            foreach (var r in records)
-            {
-                if (d.ContainsKey(r.CookieID) == false)
-                    d.Add(r.CookieID, new User());
-
-                Sessionization(r, d[r.CookieID]);
-            }
-
-            return d.Values.ToList();
+            foreach (var f in logfiles)
+                Process(File.ReadAllLines(f));
+            return this;
         }
 
-        public void Sessionization(Record r, User u)
+        public Engine Process(string[] logTexts)
         {
-            Session s = findCurrectSession(r.Time, u.Sessions);
-
-            if (s != null)
-                connectSessionWithRecord(s, r);
-            else
-                addNewSession(r, u);
+            foreach (var r in parser.ParseLog(logTexts))
+                UserIdentification(r);
+            return this;
         }
 
-        public Session findCurrectSession(DateTime time, List<Session> sessions)
+        private void UserIdentification(Record r)
+        {
+            if (extractedUsers.ContainsKey(r.CookieID) == false)
+                extractedUsers.Add(r.CookieID, new User());
+
+            Sessionization(r, extractedUsers[r.CookieID]);
+        }
+
+        private void Sessionization(Record r, User u)
+        {
+            Session s = findCurrectSession(r.Time, u.Sessions) ?? addNewSession(r, u);
+            s.AddRecord(r);    
+        }
+
+        private Session findCurrectSession(DateTime time, List<Session> sessions)
         {
             foreach (var s in sessions)
-                if ((s.Time - time).Duration().TotalSeconds <= Session.TimeOutSec)
+                if (isBelongToSession(time, s))
                     return s;
 
             return null;
         }
 
+        private bool isBelongToSession(DateTime time, Session s)
+        {
+            return (s.StartTime - time).Duration().TotalSeconds <= Session.TimeOutSec;
+        }
+
         private Session addNewSession(Record r, User u)
         {
-            Session s = new Session() { User = u, Time = r.Time };
-            connectSessionWithUser(s, u);
-            connectSessionWithRecord(s, r);
+            Session s = new Session();
+            u.AddSession(s);
             return s;
-        }
-
-        private void connectSessionWithUser(Session s,User u)
-        {
-            u.Sessions.Add(s);
-            s.User = u;
-        }
-
-        private void connectSessionWithRecord(Session s,Record r)
-        {
-            s.Records.Add(r);
-            r.Session = s;
-        }
-
-        private Record parseString(string line)
-        {
-            // 000006 8vskqfr1mov00fh0 NONE 69.13.76.58	'Opera'	'Mac' 01:00:26 01-01-2017	'PAGE2'	'PAGE1'
-            string[] cells = split(line);
-            return new Record()
-            {
-                ID = int.Parse(cells[0]),
-                CookieID = cells[1],
-                Gender = parseGender(cells[2]),
-                IPaddress = cells[3],
-                Browser = cells[4],
-                OperatingSystem = cells[5],
-                Time = DateTime.Parse(cells[6] + " " + cells[7]),
-                RequstedPage = cells[8],
-                SourcePage = cells[9]
-            };
-        }
-
-        private string[] split(string line)
-        {
-            return line.Split(' ', '\t').Where(x => string.IsNullOrWhiteSpace(x) == false).ToArray();
-        }
-
-        private static bool? parseGender(string d)
-        {
-            return (d == "MALE" ? true : (d == "FMLE" ? false : (bool?) null ));
         }
     }
 }

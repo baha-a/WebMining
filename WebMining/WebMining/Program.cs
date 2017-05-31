@@ -17,10 +17,7 @@ namespace WebMining
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            // Application.Run(new MainForm());
-
-
-            new Engine().Magic(File.ReadAllLines(@"C:\Users\01\Desktop\log.txt")).ForEach(t => Console.WriteLine(t));
+            Application.Run(new MainForm());
         }
     }
 }

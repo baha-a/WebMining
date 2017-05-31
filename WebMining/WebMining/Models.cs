@@ -21,12 +21,19 @@ namespace WebMining
             ID = ++counter;
         }
 
+        public void AddSession(Session s)
+        {
+            Sessions.Add(s);
+            s.User = this;
+        }
+
         public override string ToString()
         {
             string str = "USER_" + ID + " Sesssion(" + Sessions.Count + ")";
             Sessions.ForEach(s=> str += "\r\n\t" + s);
             return str;
         }
+
         #endregion
     }
 
@@ -36,7 +43,8 @@ namespace WebMining
         public int ID { get; private set; }
         public User User { get; set; }
 
-        public DateTime Time { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime LastTime { get; set; }
 
         public List<Record> Records { get; set; }
 
@@ -53,9 +61,21 @@ namespace WebMining
             ID = ++counter;
         }
 
+        public void AddRecord(Record r)
+        {
+            if (Records.Count == 0)
+                StartTime = r.Time;
+
+            if (LastTime < r.Time)
+                LastTime = r.Time;
+
+            Records.Add(r);
+            r.Session = this;
+        }
+
         public override string ToString()
         {
-            return "Ses_" + ID + " Time[" + Time + "] Records(" + Records.Count + ")";
+            return "Ses_" + ID + " Time[" + StartTime.ToString("HH:mm:ss dd-MM-yyyy") + "] Records(" + Records.Count + ")";
         }
         #endregion
     }
