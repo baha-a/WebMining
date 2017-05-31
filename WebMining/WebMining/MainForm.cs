@@ -12,23 +12,22 @@ namespace WebMining
 {
     public partial class MainForm : Form
     {
+        public List<string> logfile { get; private set; }
+
         public MainForm()
         {
             InitializeComponent();
+
+            logfile = new List<string>();
         }
 
-        public string[] logfile { get; private set; }
 
         private void btnLoadLogFile_Click(object sender, EventArgs e)
         {
-            OpenFileDialog d = new OpenFileDialog();
-            d.Filter = "Text File|*.txt|All Files|*.*";
-            d.Multiselect = true;
+            OpenFileDialog d = new OpenFileDialog() { Multiselect = true, Filter = "Text File|*.txt|All Files|*.*" };
             if (d.ShowDialog() == DialogResult.OK)
-            {
-                logfile = d.FileNames;
-                lblLogfiles.Text = logfile.Length + " logfiles selected";
-            }
+                logfile = new List<string>(d.FileNames);
+            lblLogfiles.Text = logfile.Count+ " logfiles selected";
         }
 
 

@@ -1,8 +1,9 @@
 ﻿using System;
+using System.IO;
+using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace WebMining
 {
@@ -16,7 +17,10 @@ namespace WebMining
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            // Application.Run(new MainForm());
+
+
+            new Engine().Magic(File.ReadAllLines(@"C:\Users\01\Desktop\log.txt")).ForEach(t => Console.WriteLine(t));
         }
     }
 }
