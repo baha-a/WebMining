@@ -31,7 +31,9 @@
             this.btnLoadLogFile = new System.Windows.Forms.Button();
             this.lblLogfiles = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnLoadAndCleanData = new System.Windows.Forms.Button();
+            this.lblNotifications = new System.Windows.Forms.Label();
+            this.progressBarDataClean = new System.Windows.Forms.ProgressBar();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -65,28 +67,47 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Input data";
             // 
-            // button1
+            // btnLoadAndCleanData
             // 
-            this.button1.Location = new System.Drawing.Point(290, 204);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnLoadAndCleanData.Location = new System.Drawing.Point(32, 124);
+            this.btnLoadAndCleanData.Name = "btnLoadAndCleanData";
+            this.btnLoadAndCleanData.Size = new System.Drawing.Size(75, 23);
+            this.btnLoadAndCleanData.TabIndex = 3;
+            this.btnLoadAndCleanData.Text = "Data Clean";
+            this.btnLoadAndCleanData.UseVisualStyleBackColor = true;
+            this.btnLoadAndCleanData.Click += new System.EventHandler(this.btnLoadAndCleanData_Click);
+            // 
+            // lblNotifications
+            // 
+            this.lblNotifications.AutoSize = true;
+            this.lblNotifications.Location = new System.Drawing.Point(138, 134);
+            this.lblNotifications.Name = "lblNotifications";
+            this.lblNotifications.Size = new System.Drawing.Size(11, 13);
+            this.lblNotifications.TabIndex = 4;
+            this.lblNotifications.Text = "-";
+            // 
+            // progressBarDataClean
+            // 
+            this.progressBarDataClean.Location = new System.Drawing.Point(12, 158);
+            this.progressBarDataClean.Name = "progressBarDataClean";
+            this.progressBarDataClean.Size = new System.Drawing.Size(372, 11);
+            this.progressBarDataClean.TabIndex = 5;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(396, 265);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.progressBarDataClean);
+            this.Controls.Add(this.lblNotifications);
+            this.Controls.Add(this.btnLoadAndCleanData);
             this.Controls.Add(this.groupBox1);
             this.Name = "MainForm";
             this.Text = "WebMining";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -95,7 +116,9 @@
         private System.Windows.Forms.Button btnLoadLogFile;
         private System.Windows.Forms.Label lblLogfiles;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnLoadAndCleanData;
+        private System.Windows.Forms.Label lblNotifications;
+        private System.Windows.Forms.ProgressBar progressBarDataClean;
     }
 }
 

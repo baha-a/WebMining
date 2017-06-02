@@ -18,6 +18,15 @@ namespace WebMining
             extractedUsers = new Dictionary<string, User>();
         }
 
+
+        private Action<int, string> notifyer;
+        public Engine setNotifyer(Action<int, string> n)
+        {
+            notifyer = n;
+            return this;
+        }
+
+
         public List<User> getExtractedUsers()
         {
             return extractedUsers.Values.ToList();
@@ -25,15 +34,29 @@ namespace WebMining
 
         public Engine ProcessAll(List<string> logfiles)
         {
+            notifyer(0, "start reading data");
+
             foreach (var f in logfiles)
                 Process(File.ReadAllLines(f));
+
             return this;
         }
 
         public Engine Process(string[] logTexts)
         {
-            foreach (var r in parser.ParseLog(logTexts))
+            notifyer(0, "start processing data");
+
+            int i = 0, total = logTexts.Length, every = 1;
+            if (total > 100)
+                every = total / 100;
+            foreach (var r in parser.ParseNextRecord(logTexts))
+            {
+                if (i % every == 0)
+                    notifyer((int)(i *100.0/ total), i + " lines have proccesed");
+                ++i;
                 UserIdentification(r);
+            }
+            notifyer((int)(i * 100.0 / total), i + " lines have proccesed");
             return this;
         }
 

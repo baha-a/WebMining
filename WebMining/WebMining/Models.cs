@@ -94,6 +94,8 @@ namespace WebMining
 
         public string IPaddress { get; set; }
 
+        public string CountryCode { get; set; }
+
         public string Browser { get; set; }
 
         public string OperatingSystem { get; set; }
@@ -108,7 +110,7 @@ namespace WebMining
         #region other code
         public override string ToString()
         {
-            return ID + " "  + CookieID + " " + Gender  + " " + IPaddress + " " + Browser 
+            return ID + " "  + CookieID + " " + Gender  + " " + IPaddress + " " + CountryCode + " " + Browser 
                 + " " + OperatingSystem + " " + Time + " "  + RequstedPage + " " + SourcePage;
         }
         #endregion
