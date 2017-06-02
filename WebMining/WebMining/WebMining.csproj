@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DbscanAlgorithm.cs" />
     <Compile Include="Engine.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>

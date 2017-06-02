@@ -34,6 +34,7 @@
             this.btnLoadAndCleanData = new System.Windows.Forms.Button();
             this.lblNotifications = new System.Windows.Forms.Label();
             this.progressBarDataClean = new System.Windows.Forms.ProgressBar();
+            this.button1 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -93,11 +94,22 @@
             this.progressBarDataClean.Size = new System.Drawing.Size(372, 11);
             this.progressBarDataClean.TabIndex = 5;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(32, 210);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(328, 23);
+            this.button1.TabIndex = 6;
+            this.button1.Text = "test Clustring DBSCAN";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(396, 265);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.progressBarDataClean);
             this.Controls.Add(this.lblNotifications);
             this.Controls.Add(this.btnLoadAndCleanData);
@@ -119,6 +131,7 @@
         private System.Windows.Forms.Button btnLoadAndCleanData;
         private System.Windows.Forms.Label lblNotifications;
         private System.Windows.Forms.ProgressBar progressBarDataClean;
+        private System.Windows.Forms.Button button1;
     }
 }
 

@@ -63,5 +63,10 @@ namespace WebMining
         {
             GC.Collect();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            DbscanAlgorithm.TEST(x => Console.WriteLine(x));
+        }
     }
 }
