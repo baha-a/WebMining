@@ -37,15 +37,26 @@ namespace WebMining
             notifyer(0, "reading data");
 
             foreach (var f in logfiles)
-                Process(File.ReadAllLines(f));
-
+            {
+                preperingVariables(File.ReadLines(f).Count());
+                foreach (var l in File.ReadLines(f))
+                    ProcessLine(l);
+                notify();
+            }
             return this;
         }
 
 
         int processedLine,totalLine,checkEvery;
 
-        public Engine Process(string[] logTexts)
+        public void ProcessLine(string logTexts)
+        {
+            UserIdentification(parser.ParseLine(logTexts));
+            notifyEveryWhile();
+            ++processedLine;
+        }
+
+        public Engine ProcessAllLines(string[] logTexts)
         {
             notifyer(0, "processing data");
 
@@ -88,6 +99,9 @@ namespace WebMining
 
         private void UserIdentification(Record r)
         {
+            if (r == null)
+                return;
+
             if (extractedUsers.ContainsKey(r.CookieID) == false)
                 extractedUsers.Add(r.CookieID, new User());
 

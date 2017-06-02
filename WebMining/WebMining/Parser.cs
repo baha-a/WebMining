@@ -6,25 +6,26 @@ namespace WebMining
 {
     public class Parser
     {
-        public List<Record> ParseLog(string[] logTexts)
+        public List<Record> ParseAll(string[] logTexts)
         {
             List<Record> f = new List<Record>();
             foreach (var l in logTexts)
-                if (isValidLine(l))
-                    f.Add(parseString(l));
+                    f.Add(ParseLine(l));
             return f;
         }
 
         public IEnumerable<Record> ParseNextRecord(string[] logTexts)
         {
             foreach (var l in logTexts)
-                if (isValidLine(l))
-                    yield return parseString(l);
+                    yield return ParseLine(l);
         }
 
-        private Record parseString(string line)
+        public Record ParseLine(string line)
         {
             // 0000000006 8vskqfr1mov00fh0 NONE 69.13.76.58 SY 'Opera' 'Mac' 01:00:26 14-01-2017 'PAGE2' 'PAGE1'
+
+            if (isCommentOrEmpty(line))
+                return null;
 
             string[] cells = split(line);
             return new Record()
@@ -42,20 +43,20 @@ namespace WebMining
             };
         }
 
-        private static bool isValidLine(string line)
+        private static bool isCommentOrEmpty(string line)
         {
-            return isNotComment(line) && isNotEmpty(line);
+            return isComment(line) || isEmpty(line);
 
         }
 
-        private static bool isNotEmpty(string line)
+        private static bool isEmpty(string line)
         {
-            return string.IsNullOrWhiteSpace(line) == false;
+            return string.IsNullOrWhiteSpace(line);
         }
 
-        private static bool isNotComment(string line)
+        private static bool isComment(string line)
         {
-            return line.StartsWith("#") == false;
+            return line.StartsWith("#");
         }
 
         private static DateTime parseData(string time,string data)
