@@ -53,7 +53,7 @@ namespace WebMining
 
             new Engine().setNotifyer(p).ProcessAll(logfiles).getExtractedUsers();//.ForEach(t => Console.WriteLine(t));
             st.Stop();
-            Console.WriteLine("done in " + (st.ElapsedMilliseconds / 1) + " sec");
+            Console.WriteLine("done in " + (st.ElapsedMilliseconds / 1000) + " sec");
 
             btnLoadAndCleanData.Enabled = true;
             freeMemory();

@@ -34,7 +34,7 @@ namespace WebMining
 
         public Engine ProcessAll(List<string> logfiles)
         {
-            notifyer(0, "start reading data");
+            notifyer(0, "reading data");
 
             foreach (var f in logfiles)
                 Process(File.ReadAllLines(f));
@@ -42,22 +42,48 @@ namespace WebMining
             return this;
         }
 
+
+        int processedLine,totalLine,checkEvery;
+
         public Engine Process(string[] logTexts)
         {
-            notifyer(0, "start processing data");
+            notifyer(0, "processing data");
 
-            int i = 0, total = logTexts.Length, every = 1;
-            if (total > 100)
-                every = total / 100;
+            preperingVariables(logTexts.Length);
+
             foreach (var r in parser.ParseNextRecord(logTexts))
             {
-                if (i % every == 0)
-                    notifyer((int)(i *100.0/ total), i + " lines have proccesed");
-                ++i;
+                notifyEveryWhile();
+
                 UserIdentification(r);
+
+                ++processedLine;
             }
-            notifyer((int)(i * 100.0 / total), i + " lines have proccesed");
+
+            notify();
+
             return this;
+        }
+
+        private void notifyEveryWhile()
+        {
+            if (processedLine % checkEvery == 0)
+                notify();
+        }
+
+        private void notify()
+        {
+            notifyer((int)(processedLine * 100.0 / totalLine), processedLine.ToString("N0") + " lines proccesed");
+        }
+
+        private void preperingVariables(int totalsize)
+        {
+            processedLine = 0;
+            totalLine = totalsize;
+            checkEvery = 1;
+
+            if (totalLine > 100)
+                checkEvery = totalLine / 100;
         }
 
         private void UserIdentification(Record r)
