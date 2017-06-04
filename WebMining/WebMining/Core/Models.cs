@@ -36,9 +36,7 @@ namespace WebMining
 
         public double Distance(IClusterable t)
         {
-            User user = (User)t;
-
-            throw new NotImplementedException();
+            return Math.Abs(GetWeight() - t.GetWeight());
         }
 
         public IEnumerable<string> GetTransactions()
@@ -48,11 +46,19 @@ namespace WebMining
                 res.Add(s.GetTransaction());
             return res;
         }
+
+        public double GetWeight()
+        {
+            double r = Sessions.Count();
+            foreach (var s in Sessions)
+                r += s.GetWeight();
+            return r;
+        }
         #endregion
     }
 
 
-    public class Session
+    public class Session : IClusterable
     {
         public int ID { get; private set; }
         public User User { get; set; }
@@ -125,12 +131,26 @@ namespace WebMining
             return c;
         }
 
+        public double Distance(IClusterable t)
+        {
+            return Math.Abs(GetWeight() - t.GetWeight());
+        }
+
+        public double GetWeight()
+        {
+            double r = Records.Count();
+            r += (LastTime - StartTime).TotalSeconds;
+            foreach (var s in Records)
+                r += s.GetWeight();
+            return r;
+        }
+
 
         #endregion
     }
 
 
-    public class Record
+    public class Record : IClusterable
     {
         public Session Session { get; set; }
 
@@ -162,6 +182,17 @@ namespace WebMining
             return ID + " "  + CookieID + " " + Gender  + " " + IPaddress + " " + CountryCode + " " + Browser 
                 + " " + OperatingSystem + " " + Time + " "  + RequstedPage + " " + SourcePage;
         }
+
+        public double Distance(IClusterable t)
+        {
+            return Math.Abs(GetWeight() - t.GetWeight());
+        }
+
+        public double GetWeight()
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
     }
 }

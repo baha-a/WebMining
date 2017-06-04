@@ -22,6 +22,7 @@ namespace WebMining
     public interface IClusterable
     {
         double Distance(IClusterable t);
+        double GetWeight();
     }
 
 
