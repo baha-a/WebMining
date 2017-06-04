@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace WebMining
 {
 
-    public class User
+    public class User : IClusterable
     {
         public int ID { get; private set; }
         public List<Session> Sessions { get; set; }
@@ -34,6 +34,20 @@ namespace WebMining
             return str;
         }
 
+        public double Distance(IClusterable t)
+        {
+            User user = (User)t;
+
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<string> GetTransactions()
+        {
+            List<string> res = new List<string>();
+            foreach (var s in Sessions)
+                res.Add(s.GetTransaction());
+            return res;
+        }
         #endregion
     }
 
@@ -77,6 +91,41 @@ namespace WebMining
         {
             return "Ses_" + ID + " Time[" + StartTime.ToString("HH:mm:ss dd-MM-yyyy") + "] Records(" + Records.Count + ")";
         }
+
+
+        public string GetTransaction()
+        {
+            string res = "";
+            foreach (var r in Records)
+                res += getChar(r.RequstedPage);
+            return res;
+        }
+
+        private char getChar(string page)
+        {
+            if (_items.ContainsKey(page) == false)
+                _items.Add(page, generateUniqueLeter());
+            return _items[page];
+        }
+
+
+        static Dictionary<string,char> _items = new Dictionary<string,char>();
+        public static IEnumerable<char> GetItemsOfTransactions()
+        {
+            return _items.Values;
+        }
+
+        private static int charIndex = 'a';
+        private static char generateUniqueLeter()
+        {
+            char c = '0';
+            for (; charIndex < char.MaxValue;)
+                if (!char.IsControl(c = Convert.ToChar(charIndex++)))
+                    break;
+            return c;
+        }
+
+
         #endregion
     }
 

@@ -48,16 +48,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DbscanAlgorithm.cs" />
-    <Compile Include="Engine.cs" />
+    <Compile Include="AssociationRules\AprioriAlgorithm.cs" />
+    <Compile Include="AssociationRules\AssociationRules.cs" />
+    <Compile Include="AssociationRules\InputParser.cs" />
+    <Compile Include="AssociationRules\IInputParser.cs" />
+    <Compile Include="AssociationRules\Item.cs" />
+    <Compile Include="AssociationRules\ItemsDictionary.cs" />
+    <Compile Include="AssociationRules\Output.cs" />
+    <Compile Include="AssociationRules\Rule.cs" />
+    <Compile Include="Clustering\DbscanAlgorithm.cs" />
+    <Compile Include="Core\Engine.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Models.cs" />
-    <Compile Include="Parser.cs" />
+    <Compile Include="Core\Models.cs" />
+    <Compile Include="Core\Parser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="MainForm.resx">
