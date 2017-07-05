@@ -8,11 +8,33 @@ namespace WebMining.Clustering
 {
     public class KNN
     {
-        public bool? Classifing(int k, User newRecord, IEnumerable<User> records)
+        public IEnumerable<User> TrainingModel { get; private set; }
+
+        public KNN()
         {
-            var distances = calculateDistances(newRecord, getTraningModel(records));
-            var neighbors = getNeighbors(k, distances);
-            return predicateValue(neighbors);
+            TrainingModel = new List<User>();
+        }
+
+        public KNN Initialize(IEnumerable<User> records)
+        {
+            TrainingModel = getTraningModel(records);
+            return this;
+        }
+
+        public KNN AppendToModel(IEnumerable<User> records)
+        {
+            ((List<User>)TrainingModel).AddRange(getTraningModel(records));
+            return this;
+        }
+        public KNN ResetModel()
+        {
+            TrainingModel = new List<User>();
+            return this;
+        }
+
+        public bool? PredicateGender(int k, User neww)
+        {
+            return predicateValue(getNeighbors(k, calculateDistances(neww, TrainingModel)));
         }
 
         private IEnumerable<User> getTraningModel(IEnumerable<User> records)
