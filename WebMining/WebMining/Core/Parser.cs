@@ -6,21 +6,21 @@ namespace WebMining
 {
     public class Parser
     {
-        public List<Record> ParseAll(string[] logTexts)
+        public List<Request> ParseAll(string[] logTexts)
         {
-            List<Record> f = new List<Record>();
+            List<Request> f = new List<Request>();
             foreach (var l in logTexts)
                     f.Add(ParseLine(l));
             return f;
         }
 
-        public IEnumerable<Record> ParseNextRecord(string[] logTexts)
+        public IEnumerable<Request> ParseNextRecord(string[] logTexts)
         {
             foreach (var l in logTexts)
                     yield return ParseLine(l);
         }
 
-        public Record ParseLine(string line)
+        public Request ParseLine(string line)
         {
             // 0000000006 8vskqfr1mov00fh0 NONE 69.13.76.58 SY 'Opera' 'Mac' 01:00:26 14-01-2017 'PAGE2' 'PAGE1'
 
@@ -28,7 +28,7 @@ namespace WebMining
                 return null;
 
             string[] cells = split(line);
-            return new Record()
+            return new Request()
             {
                 ID = int.Parse(cells[0]),
                 CookieID = cells[1],
@@ -40,7 +40,7 @@ namespace WebMining
                 Time = parseData(cells[7], cells[8]),
                 RequstedPage = cells[9],
                 SourcePage = cells[10]
-            };
+            }.CalcualetValues();
         }
 
         private static bool isCommentOrEmpty(string line)

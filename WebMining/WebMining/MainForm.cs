@@ -42,22 +42,21 @@ namespace WebMining
         private void loadAndCleanData()
         {
             btnLoadAndCleanData.Enabled = false;
-            Stopwatch st = new Stopwatch();
-            st.Start();
+            Stopwatch st = Stopwatch.StartNew();
 
             Action<int, string> p = (x, y) =>
             {
-                //Console.WriteLine(x + " %  - " + y);
                 lblNotifications.Text = x + " %  - " + y;
                 progressBarDataClean.Value = x;
             };
 
             extractedUsers = new Engine().setNotifyer(p).ProcessAll(logfiles).getExtractedUsers();//.ForEach(t => Console.WriteLine(t));
-            st.Stop();
+
             Console.WriteLine("done in " + (st.ElapsedMilliseconds / 1000) + " sec");
 
             btnLoadAndCleanData.Enabled = true;
             freeMemory();
+            st.Stop();
         }
 
         private void freeMemory()

@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 namespace WebMining
 {
 
-    public class User : IClusterable
+    public class User : IWeightable
     {
         public int ID { get; private set; }
         public List<Session> Sessions { get; set; }
 
+        public bool? Gender { get; set; }
 
         #region other code
         private static int counter = 0;
@@ -34,7 +35,7 @@ namespace WebMining
             return str;
         }
 
-        public double Distance(IClusterable t)
+        public double Distance(IWeightable t)
         {
             return Math.Abs(GetWeight() - t.GetWeight());
         }
@@ -58,7 +59,7 @@ namespace WebMining
     }
 
 
-    public class Session : IClusterable
+    public class Session : IWeightable
     {
         public int ID { get; private set; }
         public User User { get; set; }
@@ -66,7 +67,7 @@ namespace WebMining
         public DateTime StartTime { get; set; }
         public DateTime LastTime { get; set; }
 
-        public List<Record> Records { get; set; }
+        public List<Request> Records { get; set; }
 
 
 
@@ -77,11 +78,11 @@ namespace WebMining
 
         public Session()
         {
-            Records = new List<Record>();
+            Records = new List<Request>();
             ID = ++counter;
         }
 
-        public void AddRecord(Record r)
+        public void AddRecord(Request r)
         {
             if (Records.Count == 0)
                 StartTime = r.Time;
@@ -131,7 +132,7 @@ namespace WebMining
             return c;
         }
 
-        public double Distance(IClusterable t)
+        public double Distance(IWeightable t)
         {
             return Math.Abs(GetWeight() - t.GetWeight());
         }
@@ -150,7 +151,7 @@ namespace WebMining
     }
 
 
-    public class Record : IClusterable
+    public class Request : IWeightable
     {
         public Session Session { get; set; }
 
@@ -183,7 +184,7 @@ namespace WebMining
                 + " " + OperatingSystem + " " + Time + " "  + RequstedPage + " " + SourcePage;
         }
 
-        public double Distance(IClusterable t)
+        public double Distance(IWeightable t)
         {
             return Math.Abs(GetWeight() - t.GetWeight());
         }
@@ -191,6 +192,32 @@ namespace WebMining
         public double GetWeight()
         {
             throw new NotImplementedException();
+        }
+
+
+        public Request CalcualetValues()
+        {
+            // to do later
+            // calculate time for request
+            //
+            return this;
+        }
+
+
+        public double Normalization(double v)
+        {
+            return (v - MinWeight) / (MaxWeight - MinWeight);
+        }
+
+        public static double MaxWeight { get; private set; }
+        public static double MinWeight { get; private set; }
+
+        public static void SetMinMaxValues(double v)
+        {
+            if (v > MaxWeight)
+                MaxWeight = v;
+            if (v < MinWeight)
+                MinWeight = v;
         }
 
         #endregion

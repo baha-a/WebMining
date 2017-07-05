@@ -56,7 +56,9 @@
     <Compile Include="AssociationRules\ItemsDictionary.cs" />
     <Compile Include="AssociationRules\Output.cs" />
     <Compile Include="AssociationRules\Rule.cs" />
-    <Compile Include="Clustering\DbscanAlgorithm.cs" />
+    <Compile Include="Clustering and Classification\DbscanAlgorithm.cs" />
+    <Compile Include="Clustering and Classification\K-NNAlgorithm.cs" />
+    <Compile Include="Clustering and Classification\Pair.cs" />
     <Compile Include="Core\Engine.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>

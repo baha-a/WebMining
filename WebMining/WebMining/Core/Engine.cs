@@ -97,7 +97,7 @@ namespace WebMining
                 checkEvery = totalLine / 100;
         }
 
-        private void UserIdentification(Record r)
+        private void UserIdentification(Request r)
         {
             if (r == null)
                 return;
@@ -105,10 +105,18 @@ namespace WebMining
             if (extractedUsers.ContainsKey(r.CookieID) == false)
                 extractedUsers.Add(r.CookieID, new User());
 
-            Sessionization(r, extractedUsers[r.CookieID]);
+            Sessionization(r, Profilezation(r));
         }
 
-        private void Sessionization(Record r, User u)
+        private User Profilezation(Request r)
+        {
+            var u = extractedUsers[r.CookieID];
+            if (u.Gender == null && r.Gender != null)
+                u.Gender = r.Gender;
+            return u;
+        }
+
+        private void Sessionization(Request r, User u)
         {
             Session s = findCurrectSession(r.Time, u.Sessions) ?? addNewSession(r, u);
             s.AddRecord(r);    
@@ -128,7 +136,7 @@ namespace WebMining
             return (s.StartTime - time).Duration().TotalSeconds <= Session.TimeOutSec;
         }
 
-        private Session addNewSession(Record r, User u)
+        private Session addNewSession(Request r, User u)
         {
             Session s = new Session();
             u.AddSession(s);

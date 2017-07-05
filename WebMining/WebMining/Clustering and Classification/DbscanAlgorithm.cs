@@ -5,23 +5,28 @@ using System.Linq;
 
 namespace WebMining
 {
-    public class TestItem : IClusterable
+    public class TestItem : IWeightable
     {
         public double X;
         public double Y;
         public TestItem(double x, double y) { X = x; Y = y; }
 
-        public double Distance(IClusterable tp)
+        public double Distance(IWeightable tp)
         {
             TestItem t = (TestItem)tp;
             return Math.Sqrt(((X - t.X) * (X - t.X)) + ((Y - t.Y) * (Y - t.Y)));
         }
+
+        public double GetWeight()
+        {
+            return X + Y;
+        }
     }
 
 
-    public interface IClusterable
+    public interface IWeightable
     {
-        double Distance(IClusterable t);
+        double Distance(IWeightable t);
         double GetWeight();
     }
 
@@ -36,9 +41,9 @@ namespace WebMining
         {
             public bool IsVisited;
             public int ClusterId;
-            public IClusterable ClusterPoint;
+            public IWeightable ClusterPoint;
 
-            public DbscanPoint(IClusterable x)
+            public DbscanPoint(IWeightable x)
             {
                 ClusterPoint = x;
                 IsVisited = false;
@@ -59,7 +64,7 @@ namespace WebMining
         }
 
         DbscanPoint[] _dataset;
-        public List<IClusterable> Clustering(IEnumerable<IClusterable> dataset)
+        public List<IWeightable> Clustering(IEnumerable<IWeightable> dataset)
         {
             _dataset = dataset.Select(x => new DbscanPoint(x)).ToArray();
             int clusterId = 0;
@@ -98,7 +103,7 @@ namespace WebMining
             }
         }
 
-        private IEnumerable<DbscanPoint> neighbor(IClusterable point)
+        private IEnumerable<DbscanPoint> neighbor(IWeightable point)
         {
             return _dataset.Where(x => point.Distance(x.ClusterPoint) <= Epsilon);
         }
@@ -129,7 +134,7 @@ namespace WebMining
             st.Start();
 
 
-            List<IClusterable> clusters = new DbscanAlgorithm(1, 10).Clustering(featureData);
+            List<IWeightable> clusters = new DbscanAlgorithm(1, 10).Clustering(featureData);
 
 
             st.Stop();
