@@ -10,31 +10,10 @@ namespace WebMining.Clustering
     {
         public IEnumerable<User> TrainingModel { get; private set; }
 
-        public KNN()
-        {
-            TrainingModel = new List<User>();
-        }
-
-        public KNN Initialize(IEnumerable<User> records)
-        {
-            TrainingModel = getTraningModel(records);
-            return this;
-        }
-
-        public KNN AppendToModel(IEnumerable<User> records)
-        {
-            ((List<User>)TrainingModel).AddRange(getTraningModel(records));
-            return this;
-        }
-        public KNN ResetModel()
-        {
-            TrainingModel = new List<User>();
-            return this;
-        }
 
         public bool? PredicateGender(int k, User neww)
         {
-            return predicateValue(getNeighbors(k, calculateDistances(neww, TrainingModel)));
+            return guess(getNeighbors(k, calculateDistances(neww, TrainingModel)));
         }
 
         private IEnumerable<User> getTraningModel(IEnumerable<User> records)
@@ -55,7 +34,7 @@ namespace WebMining.Clustering
             return distances;
         }
 
-        private static bool? predicateValue(IEnumerable<User> neighbors)
+        private static bool? guess(IEnumerable<User> neighbors)
         {
             int TRUE = 0, FALSE = 0;
 
@@ -66,6 +45,32 @@ namespace WebMining.Clustering
                     FALSE++;
 
             return (TRUE >= FALSE);
+        }
+
+
+
+
+
+        public KNN()
+        {
+            TrainingModel = new List<User>();
+        }
+
+        public KNN Initialize(IEnumerable<User> records)
+        {
+            TrainingModel = getTraningModel(records);
+            return this;
+        }
+
+        public KNN AppendToModel(IEnumerable<User> records)
+        {
+            ((List<User>)TrainingModel).AddRange(getTraningModel(records));
+            return this;
+        }
+        public KNN ResetModel()
+        {
+            TrainingModel = new List<User>();
+            return this;
         }
     }
 }

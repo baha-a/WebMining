@@ -122,6 +122,21 @@ namespace WebMining
             return _items.Values;
         }
 
+        static Dictionary<char, string> _itemsreversed;
+        static void BuildReverseItemsOfTransactions()
+        {
+            _itemsreversed = new Dictionary<char, string>();
+            foreach (var t in _items)
+                _itemsreversed.Add(t.Value, t.Key);
+        }
+
+        public static string GetItemsByLetter(char c)
+        {
+            if (_itemsreversed == null)
+                BuildReverseItemsOfTransactions();
+            return _itemsreversed[c];
+        }
+
         private static int charIndex = 'a';
         private static char generateUniqueLeter()
         {
