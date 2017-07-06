@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace WebMining
 {
 
-    public class User : IWeightable
+    public class User : IDistancMeasurable
     {
         public int ID { get; private set; }
         public List<Session> Sessions { get; set; }
@@ -35,9 +35,19 @@ namespace WebMining
             return str;
         }
 
-        public double Distance(IWeightable t)
+        public double Distance(IDistancMeasurable t)
         {
-            return Math.Abs(GetWeight() - t.GetWeight());
+            User u = t as User;
+            if (u == null)
+                return -1;
+
+            double dis = Math.Abs(Sessions.Count() - u.Sessions.Count());
+
+            foreach (var s in Sessions)
+                foreach (var ss in u.Sessions)
+                    dis += s.Distance(ss);
+
+            return dis;
         }
 
         public IEnumerable<string> GetTransactions()
@@ -47,19 +57,11 @@ namespace WebMining
                 res.Add(s.GetTransaction());
             return res;
         }
-
-        public double GetWeight()
-        {
-            double r = Sessions.Count();
-            foreach (var s in Sessions)
-                r += s.GetWeight();
-            return r;
-        }
         #endregion
     }
 
 
-    public class Session : IWeightable
+    public class Session : IDistancMeasurable
     {
         public int ID { get; private set; }
         public User User { get; set; }
@@ -147,26 +149,27 @@ namespace WebMining
             return c;
         }
 
-        public double Distance(IWeightable t)
+        public double Distance(IDistancMeasurable t)
         {
-            return Math.Abs(GetWeight() - t.GetWeight());
+            Session s = t as Session;
+            if (s == null)
+                return -1;
+
+            double dis = Math.Abs(Records.Count() - s.Records.Count()) +
+                Math.Abs(StartTime.Ticks - s.StartTime.Ticks) +
+                Math.Abs(LastTime.Ticks - s.LastTime.Ticks) +
+                Math.Abs((LastTime - StartTime).TotalSeconds - (s.LastTime - s.StartTime).TotalSeconds);
+
+            foreach (var r in Records)
+                foreach (var rr in s.Records)
+                    dis += r.Distance(rr);
+            return dis;
         }
-
-        public double GetWeight()
-        {
-            double r = Records.Count();
-            r += (LastTime - StartTime).TotalSeconds;
-            foreach (var s in Records)
-                r += s.GetWeight();
-            return r;
-        }
-
-
         #endregion
     }
 
 
-    public class Request : IWeightable
+    public class Request : IDistancMeasurable
     {
         public Session Session { get; set; }
 
@@ -178,6 +181,7 @@ namespace WebMining
         public bool? Gender { get; set; }
 
         public string IPaddress { get; set; }
+
 
         public string CountryCode { get; set; }
 
@@ -199,42 +203,66 @@ namespace WebMining
                 + " " + OperatingSystem + " " + Time + " "  + RequstedPage + " " + SourcePage;
         }
 
-        public double Distance(IWeightable t)
+        public double Distance(IDistancMeasurable t)
         {
-            return Math.Abs(GetWeight() - t.GetWeight());
+            Request r = t as Request;
+            if (r == null)
+                return -1;
+
+            double dis = 0;
+            if (r.Gender != Gender)
+                dis += 1;
+            if (r.CountryCode != CountryCode)
+                dis += 1;
+            if (r.Browser != Browser)
+                dis += 1;
+            if (r.OperatingSystem != OperatingSystem)
+                dis += 1;
+            if (r.RequstedPage != RequstedPage)
+                dis += 1;
+            if (r.SourcePage != SourcePage)
+                dis += 1;
+
+            return dis + distanceTime(Time, r.Time);
         }
 
-        public double GetWeight()
+        double distanceTime(DateTime t, DateTime p)
         {
-            throw new NotImplementedException();
+            return Math.Abs(t.Day - p.Day) +
+                Math.Abs(t.Month - p.Month) +
+                Math.Abs(t.Year - p.Year) +
+                Math.Abs(t.Hour - p.Hour) +
+                +Math.Abs(t.Minute - p.Minute) +
+                +Math.Abs(t.Second - p.Second);
         }
-
-
         public Request CalcualetValues()
         {
-            // to do later
-            // calculate time for request
-            //
+            timeNormalization.SetMinMaxValues(Time.Ticks);
             return this;
         }
 
 
-        public double Normalization(double v)
+        static MinMax timeNormalization = new MinMax();
+        public double NormalizationTime()
         {
-            return (v - MinWeight) / (MaxWeight - MinWeight);
+            return (Time.Ticks - timeNormalization.MinWeight) / (timeNormalization.MaxWeight - timeNormalization.MinWeight);
         }
+        
 
-        public static double MaxWeight { get; private set; }
-        public static double MinWeight { get; private set; }
+        #endregion
+    }
 
-        public static void SetMinMaxValues(double v)
+    public class MinMax
+    {
+        public double MaxWeight { get; private set; }
+        public double MinWeight { get; private set; }
+
+        public void SetMinMaxValues(double v)
         {
             if (v > MaxWeight)
                 MaxWeight = v;
             if (v < MinWeight)
                 MinWeight = v;
         }
-
-        #endregion
     }
 }
