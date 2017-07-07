@@ -36,10 +36,13 @@
             this.progressBarDataClean = new System.Windows.Forms.ProgressBar();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.txtboxMinSupp = new System.Windows.Forms.TextBox();
+            this.txtboxMinConf = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.txtboxEpsilon = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.button3 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -103,7 +106,7 @@
             // 
             this.button1.Location = new System.Drawing.Point(32, 210);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(328, 23);
+            this.button1.Size = new System.Drawing.Size(202, 23);
             this.button1.TabIndex = 6;
             this.button1.Text = "test Clustring DBSCAN";
             this.button1.UseVisualStyleBackColor = true;
@@ -119,21 +122,21 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // textBox1
+            // txtboxMinSupp
             // 
-            this.textBox1.Location = new System.Drawing.Point(302, 242);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(58, 20);
-            this.textBox1.TabIndex = 8;
-            this.textBox1.Text = "0.04";
+            this.txtboxMinSupp.Location = new System.Drawing.Point(302, 242);
+            this.txtboxMinSupp.Name = "txtboxMinSupp";
+            this.txtboxMinSupp.Size = new System.Drawing.Size(58, 20);
+            this.txtboxMinSupp.TabIndex = 8;
+            this.txtboxMinSupp.Text = "0.04";
             // 
-            // textBox2
+            // txtboxMinConf
             // 
-            this.textBox2.Location = new System.Drawing.Point(302, 264);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(58, 20);
-            this.textBox2.TabIndex = 9;
-            this.textBox2.Text = "0.04";
+            this.txtboxMinConf.Location = new System.Drawing.Point(302, 264);
+            this.txtboxMinConf.Name = "txtboxMinConf";
+            this.txtboxMinConf.Size = new System.Drawing.Size(58, 20);
+            this.txtboxMinConf.TabIndex = 9;
+            this.txtboxMinConf.Text = "0.04";
             // 
             // label1
             // 
@@ -153,15 +156,45 @@
             this.label2.TabIndex = 11;
             this.label2.Text = "MinConf";
             // 
+            // txtboxEpsilon
+            // 
+            this.txtboxEpsilon.Location = new System.Drawing.Point(302, 210);
+            this.txtboxEpsilon.Name = "txtboxEpsilon";
+            this.txtboxEpsilon.Size = new System.Drawing.Size(58, 20);
+            this.txtboxEpsilon.TabIndex = 12;
+            this.txtboxEpsilon.Text = "1.0";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(249, 215);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(40, 13);
+            this.label3.TabIndex = 13;
+            this.label3.Text = "Epsilon";
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(32, 175);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(202, 23);
+            this.button3.TabIndex = 14;
+            this.button3.Text = "study the dateset";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(396, 296);
+            this.Controls.Add(this.button3);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.txtboxEpsilon);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtboxMinConf);
+            this.Controls.Add(this.txtboxMinSupp);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.progressBarDataClean);
@@ -187,10 +220,13 @@
         private System.Windows.Forms.ProgressBar progressBarDataClean;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox txtboxMinSupp;
+        private System.Windows.Forms.TextBox txtboxMinConf;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txtboxEpsilon;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button button3;
     }
 }
 

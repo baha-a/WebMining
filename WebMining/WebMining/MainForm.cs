@@ -60,7 +60,18 @@ namespace WebMining
 
         private void button1_Click(object sender, EventArgs e)
         {
-            DbscanAlgorithm.TEST(x => Console.WriteLine(x));
+            Stopwatch st = Stopwatch.StartNew();
+            var clusters = new DbscanAlgorithm(double.Parse(txtboxEpsilon.Text), 1).Clustering(
+                extractedUsers.Take(100));
+            st.Stop();
+
+            Console.WriteLine("Time = " + (st.ElapsedMilliseconds / 1000) + " sec");
+            Console.WriteLine("Count = " + clusters.Count);
+
+            foreach (var c in clusters)
+                Console.WriteLine(c.Distance(new User()) + "");
+
+            //DbscanAlgorithm.TEST(x => Console.WriteLine(x));
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -70,8 +81,8 @@ namespace WebMining
 
         private void assicuationRuls()
         {
-            double minsupport = double.Parse(textBox1.Text); // 1.0000000000000001
-            double minconfidence = double.Parse(textBox2.Text);
+            double minsupport = double.Parse(txtboxMinSupp.Text); // 1.0000000000000001
+            double minconfidence = double.Parse(txtboxMinConf.Text);
 
             Stopwatch st = Stopwatch.StartNew();
 
@@ -97,6 +108,46 @@ namespace WebMining
             //}
 
             //File.WriteAllLines("c:\\apiroir.txt", sessions.Select(x => x.GetTransaction()));
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Statical();
+        }
+        private void Statical()
+        {
+            double ava = 0;
+            int count = 0;
+            int totalcount = (extractedUsers.Count * (extractedUsers.Count + 1) / 2);
+            Console.WriteLine("user count = " + extractedUsers.Count);
+            Console.WriteLine("total count = " + totalcount);
+            Console.WriteLine();
+            MinMax m = new MinMax();
+            double tmp = 0;
+            for (int i = 0; i < extractedUsers.Count; i++)
+            {
+                for (int j = extractedUsers.Count - 1; j > i; j--)
+                {
+                    tmp = extractedUsers[i].Distance(extractedUsers[j]);
+                    m.SetMinMaxValues(tmp);
+                    ava += tmp;
+                    count++;
+                }
+                Console.Title = (((count * 1.0) / totalcount * 100) + " %");
+            }
+
+            Console.WriteLine("min   = " + m.MinWeight);
+            Console.WriteLine("max   = " + m.MaxWeight);
+            Console.WriteLine("sum   = " + ava);
+            Console.WriteLine("avarg = " + (ava / totalcount));
+            Console.WriteLine();
+
+            Console.WriteLine("----------------");
+            Console.WriteLine(extractedUsers[0].ToString());
+            Console.WriteLine("----------------");
+            Console.WriteLine(extractedUsers[1].ToString());
+            Console.WriteLine("----------------");
+            Console.WriteLine(extractedUsers[0].Distance(extractedUsers[1]));
         }
     }
 }

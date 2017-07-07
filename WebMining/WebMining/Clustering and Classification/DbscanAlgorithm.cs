@@ -5,13 +5,13 @@ using System.Linq;
 
 namespace WebMining
 {
-    public class TestItem : IDistancMeasurable
+    public class TestItem : IMeasurable
     {
         public double X;
         public double Y;
         public TestItem(double x, double y) { X = x; Y = y; }
 
-        public double Distance(IDistancMeasurable tp)
+        public double Distance(IMeasurable tp)
         {
             TestItem t = (TestItem)tp;
             return Math.Sqrt(((X - t.X) * (X - t.X)) + ((Y - t.Y) * (Y - t.Y)));
@@ -24,9 +24,9 @@ namespace WebMining
     }
 
 
-    public interface IDistancMeasurable
+    public interface IMeasurable
     {
-        double Distance(IDistancMeasurable t);
+        double Distance(IMeasurable t);
     }
 
 
@@ -40,9 +40,9 @@ namespace WebMining
         {
             public bool IsVisited;
             public int ClusterId;
-            public IDistancMeasurable ClusterPoint;
+            public IMeasurable ClusterPoint;
 
-            public DbscanPoint(IDistancMeasurable x)
+            public DbscanPoint(IMeasurable x)
             {
                 ClusterPoint = x;
                 IsVisited = false;
@@ -63,7 +63,7 @@ namespace WebMining
         }
 
         DbscanPoint[] _dataset;
-        public List<IDistancMeasurable> Clustering(IEnumerable<IDistancMeasurable> dataset)
+        public List<IMeasurable> Clustering(IEnumerable<IMeasurable> dataset)
         {
             _dataset = dataset.Select(x => new DbscanPoint(x)).ToArray();
             int clusterId = 0;
@@ -102,7 +102,7 @@ namespace WebMining
             }
         }
 
-        private IEnumerable<DbscanPoint> neighbor(IDistancMeasurable point)
+        private IEnumerable<DbscanPoint> neighbor(IMeasurable point)
         {
             return _dataset.Where(x => point.Distance(x.ClusterPoint) <= Epsilon);
         }
@@ -133,7 +133,7 @@ namespace WebMining
             st.Start();
 
 
-            List<IDistancMeasurable> clusters = new DbscanAlgorithm(1, 10).Clustering(featureData);
+            List<IMeasurable> clusters = new DbscanAlgorithm(1, 10).Clustering(featureData);
 
 
             st.Stop();

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace WebMining
 {
 
-    public class User : IDistancMeasurable
+    public class User : IMeasurable
     {
         public int ID { get; private set; }
         public List<Session> Sessions { get; set; }
@@ -35,7 +35,7 @@ namespace WebMining
             return str;
         }
 
-        public double Distance(IDistancMeasurable t)
+        public double Distance(IMeasurable t)
         {
             User u = t as User;
             if (u == null)
@@ -61,7 +61,7 @@ namespace WebMining
     }
 
 
-    public class Session : IDistancMeasurable
+    public class Session : IMeasurable
     {
         public int ID { get; private set; }
         public User User { get; set; }
@@ -149,15 +149,16 @@ namespace WebMining
             return c;
         }
 
-        public double Distance(IDistancMeasurable t)
+        public double Distance(IMeasurable t)
         {
             Session s = t as Session;
             if (s == null)
                 return -1;
 
-            double dis = Math.Abs(Records.Count() - s.Records.Count()) +
-                Math.Abs(StartTime.Ticks - s.StartTime.Ticks) +
-                Math.Abs(LastTime.Ticks - s.LastTime.Ticks) +
+            double dis = 
+                //Math.Abs(Records.Count() - s.Records.Count()) +
+                //Math.Abs(StartTime.Ticks - s.StartTime.Ticks) +
+                //Math.Abs(LastTime.Ticks - s.LastTime.Ticks) +
                 Math.Abs((LastTime - StartTime).TotalSeconds - (s.LastTime - s.StartTime).TotalSeconds);
 
             foreach (var r in Records)
@@ -169,7 +170,7 @@ namespace WebMining
     }
 
 
-    public class Request : IDistancMeasurable
+    public class Request : IMeasurable
     {
         public Session Session { get; set; }
 
@@ -203,7 +204,7 @@ namespace WebMining
                 + " " + OperatingSystem + " " + Time + " "  + RequstedPage + " " + SourcePage;
         }
 
-        public double Distance(IDistancMeasurable t)
+        public double Distance(IMeasurable t)
         {
             Request r = t as Request;
             if (r == null)
