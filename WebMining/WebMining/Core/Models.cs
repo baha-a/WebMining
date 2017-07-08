@@ -66,10 +66,17 @@ namespace WebMining
         public int ID { get; private set; }
         public User User { get; set; }
 
-        public DateTime StartTime { get; set; }
-        public DateTime LastTime { get; set; }
+        public string CountryCode { get; set; }
+        public string Browser { get; set; }
+        public string OperatingSystem { get; set; }
 
-        public List<Request> Records { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+
+        public TimeSpan Duration { get { return (EndTime - StartTime); } }
+
+
+        public List<Request> Requests { get; set; }
 
 
 
@@ -80,32 +87,39 @@ namespace WebMining
 
         public Session()
         {
-            Records = new List<Request>();
+            Requests = new List<Request>();
             ID = ++counter;
         }
 
-        public void AddRecord(Request r)
+        public void AddRequest(Request r)
         {
-            if (Records.Count == 0)
+            if (Requests.Count == 0)
                 StartTime = r.Time;
 
-            if (LastTime < r.Time)
-                LastTime = r.Time;
+            if (EndTime < r.Time)
+                EndTime = r.Time;
 
-            Records.Add(r);
+            if (string.IsNullOrEmpty(CountryCode))
+                CountryCode = r.CountryCode;
+            if (string.IsNullOrEmpty(Browser))
+                Browser = r.Browser;
+            if (string.IsNullOrEmpty(OperatingSystem))
+                OperatingSystem = r.OperatingSystem;
+
+            Requests.Add(r);
             r.Session = this;
         }
 
         public override string ToString()
         {
-            return "Ses_" + ID + " Time[" + StartTime.ToString("HH:mm:ss dd-MM-yyyy") + "] Records(" + Records.Count + ")";
+            return "Ses_" + ID + " Time[" + StartTime.ToString("HH:mm:ss dd-MM-yyyy") + "] Requests(" + Requests.Count + ")";
         }
 
 
         public string GetTransaction()
         {
             string res = "";
-            foreach (var r in Records)
+            foreach (var r in Requests)
                 res += getChar(r.RequstedPage);
             return res;
         }
@@ -155,22 +169,46 @@ namespace WebMining
             if (s == null)
                 return -1;
 
-            double dis = 
-                //Math.Abs(Records.Count() - s.Records.Count()) +
-                //Math.Abs(StartTime.Ticks - s.StartTime.Ticks) +
-                //Math.Abs(LastTime.Ticks - s.LastTime.Ticks) +
-                Math.Abs((LastTime - StartTime).TotalSeconds - (s.LastTime - s.StartTime).TotalSeconds);
+            double dis = 0;
 
-            foreach (var r in Records)
-                foreach (var rr in s.Records)
-                    dis += r.Distance(rr);
+            if (s.User.Gender != User.Gender)
+                dis += 1;
+            if (s.CountryCode != CountryCode)
+                dis += 1;
+            if (s.Browser != Browser)
+                dis += 1;
+            if (s.OperatingSystem != OperatingSystem)
+                dis += 1;
+
+
+            dis += Math.Abs(Duration.TotalMinutes - s.Duration.TotalMinutes);
+            dis += Math.Abs(Requests.Count() - s.Requests.Count());
+
+            dis += similaritor.GetDissimilarity(GetTransaction(), s.GetTransaction()) * SCALE;
+
             return dis;
         }
+
+        SmithWaterman similaritor = new SmithWaterman();
+        static double SCALE = 10;
+
+        //double distanceTime(DateTime t, DateTime p)
+        //{
+        //    return 0
+        //        //Math.Abs(t.Day - p.Day) +
+        //        //Math.Abs(t.Month - p.Month) +
+        //        //Math.Abs(t.Year - p.Year) +
+        //        //Math.Abs(t.Hour - p.Hour) +
+        //        //+Math.Abs(t.Minute - p.Minute) +
+        //        //+Math.Abs(t.Second - p.Second)
+        //        ;
+        //}
+
         #endregion
     }
 
 
-    public class Request : IMeasurable
+    public class Request
     {
         public Session Session { get; set; }
 
@@ -204,51 +242,12 @@ namespace WebMining
                 + " " + OperatingSystem + " " + Time + " "  + RequstedPage + " " + SourcePage;
         }
 
-        public double Distance(IMeasurable t)
-        {
-            Request r = t as Request;
-            if (r == null)
-                return -1;
-
-            double dis = 0;
-            if (r.Gender != Gender)
-                dis += 1;
-            if (r.CountryCode != CountryCode)
-                dis += 1;
-            if (r.Browser != Browser)
-                dis += 1;
-            if (r.OperatingSystem != OperatingSystem)
-                dis += 1;
-            if (r.RequstedPage != RequstedPage)
-                dis += 1;
-            if (r.SourcePage != SourcePage)
-                dis += 1;
-
-            return dis + distanceTime(Time, r.Time);
-        }
-
-        double distanceTime(DateTime t, DateTime p)
-        {
-            return Math.Abs(t.Day - p.Day) +
-                Math.Abs(t.Month - p.Month) +
-                Math.Abs(t.Year - p.Year) +
-                Math.Abs(t.Hour - p.Hour) +
-                +Math.Abs(t.Minute - p.Minute) +
-                +Math.Abs(t.Second - p.Second);
-        }
         public Request CalcualetValues()
         {
-            timeNormalization.SetMinMaxValues(Time.Ticks);
+            // I forget what I planned to do with this function
             return this;
         }
 
-
-        static MinMax timeNormalization = new MinMax();
-        public double NormalizationTime()
-        {
-            return (Time.Ticks - timeNormalization.MinWeight) / (timeNormalization.MaxWeight - timeNormalization.MinWeight);
-        }
-        
 
         #endregion
     }

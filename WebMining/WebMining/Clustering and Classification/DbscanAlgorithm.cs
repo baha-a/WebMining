@@ -31,6 +31,31 @@ namespace WebMining
 
 
 
+    public class Cluster
+    {
+        public int ID { get; set; }
+        public IEnumerable<IMeasurable> Dataset { get; set; }
+
+        public IMeasurable Center { get; private set; }
+
+        public Func<IEnumerable<IMeasurable>, IMeasurable> Marger { get; set; }
+
+        static int IDer = 0;
+        public Cluster(IEnumerable<IMeasurable> e, Func<IEnumerable<IMeasurable>, IMeasurable> marge)
+        {
+            ID = IDer++;
+            Dataset = e;
+            Marger = marge;
+            RecalcuateCenter();
+        }
+
+        public void RecalcuateCenter()
+        {
+            Center = Marger(Dataset);
+        }
+    }
+
+
     public class DbscanAlgorithm
     {
         private const int UNCLASSIFIED = 0;
@@ -63,7 +88,12 @@ namespace WebMining
         }
 
         DbscanPoint[] _dataset;
-        public List<IMeasurable> Clustering(IEnumerable<IMeasurable> dataset)
+        public IEnumerable<Cluster> Clustering(IEnumerable<IMeasurable> dataset)
+        {
+            return Clustering(dataset, x => x.First());
+        }
+
+        public IEnumerable<Cluster> Clustering(IEnumerable<IMeasurable> dataset, Func<IEnumerable<IMeasurable>, IMeasurable> marge)
         {
             _dataset = dataset.Select(x => new DbscanPoint(x)).ToArray();
             int clusterId = 0;
@@ -71,16 +101,17 @@ namespace WebMining
             {
                 p.IsVisited = true;
 
-                var neighborPts = neighbor(p.ClusterPoint);
+                var neighbors = neighbor(p.ClusterPoint);
 
-                if (neighborPts.Count() < MinPts)
+                if (neighbors.Count() < MinPts)
                     p.ClusterId = NOISE;
                 else
-                    ExpandCluster(p, neighborPts, ++clusterId);
+                    ExpandCluster(p, neighbors, ++clusterId);
             }
-            return _dataset.Where(x => x.ClusterId > 0).GroupBy(x => x.ClusterId).Select(x => x.First().ClusterPoint).ToList();
+
+            return fillResultInClusters(marge);
         }
-        
+
         private void ExpandCluster(DbscanPoint newPoint, IEnumerable<DbscanPoint> neighborPts, int clusterId)
         {
             newPoint.ClusterId = clusterId;
@@ -102,12 +133,15 @@ namespace WebMining
             }
         }
 
+        private IEnumerable<Cluster> fillResultInClusters(Func<IEnumerable<IMeasurable>, IMeasurable> marge)
+        {
+            return _dataset.Where(x => x.ClusterId > 0).GroupBy(x => x.ClusterId).Select(x => new Cluster(x.Select(y => y.ClusterPoint), marge));
+        }
+
         private IEnumerable<DbscanPoint> neighbor(IMeasurable point)
         {
             return _dataset.Where(x => point.Distance(x.ClusterPoint) <= Epsilon);
         }
-
-
 
 
 
@@ -133,18 +167,18 @@ namespace WebMining
             st.Start();
 
 
-            List<IMeasurable> clusters = new DbscanAlgorithm(1, 10).Clustering(featureData);
+            var clusters = new DbscanAlgorithm(1, 10).Clustering(featureData);
 
 
             st.Stop();
 
             print("\r\ntime: "+st.ElapsedMilliseconds + " msec");
             print("items count:" + featureData.Count);
-            print("clusters count: " + clusters.Count);
+            print("clusters count: " + clusters.Count());
             print("");
 
             foreach (var c in clusters)
-                print(c.Distance(new TestItem(0, 0)) + "");
+                print(c.Center.Distance(new TestItem(0, 0)) + "");
         }
     }
 }

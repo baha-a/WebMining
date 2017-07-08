@@ -117,7 +117,8 @@ namespace WebMining
         private void Sessionization(Request r, User u)
         {
             Session s = findCurrectSession(r.Time, u.Sessions) ?? addNewSession(r, u);
-            s.AddRecord(r);    
+
+            s.AddRequest(r);
         }
 
         private Session findCurrectSession(DateTime time, List<Session> sessions)

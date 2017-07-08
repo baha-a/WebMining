@@ -61,15 +61,15 @@ namespace WebMining
         private void button1_Click(object sender, EventArgs e)
         {
             Stopwatch st = Stopwatch.StartNew();
-            var clusters = new DbscanAlgorithm(double.Parse(txtboxEpsilon.Text), 1).Clustering(
-                extractedUsers.Take(100));
+            var clusters = new DbscanAlgorithm(double.Parse(txtboxEpsilon.Text), 1).Clustering(extractedUsers.Take(100));
             st.Stop();
 
             Console.WriteLine("Time = " + (st.ElapsedMilliseconds / 1000) + " sec");
-            Console.WriteLine("Count = " + clusters.Count);
+            Console.WriteLine("Count = " + clusters.Count());
 
+            Console.WriteLine();
             foreach (var c in clusters)
-                Console.WriteLine(c.Distance(new User()) + "");
+                Console.WriteLine(c.Center.Distance(extractedUsers[0]) + "");
 
             //DbscanAlgorithm.TEST(x => Console.WriteLine(x));
         }
