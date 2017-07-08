@@ -252,6 +252,7 @@ namespace WebMining
         #endregion
     }
 
+
     public class MinMax
     {
         public double MaxWeight { get; private set; }

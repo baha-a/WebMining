@@ -45,13 +45,15 @@ namespace WebMining
         }
 
 
-        int processedLine,totalLine,checkEvery;
+        int processedLine,totalLine,checkEvery = 1;
 
-        public void ProcessLine(string logTexts)
+        public Engine ProcessLine(string logTexts)
         {
             UserIdentification(parser.ParseLine(logTexts));
-            notifyEveryWhile();
             ++processedLine;
+            notifyEveryWhile();
+
+            return this;
         }
 
         public Engine ProcessAllLines(string[] logTexts)
@@ -93,6 +95,9 @@ namespace WebMining
 
             if (totalLine > 100)
                 checkEvery = totalLine / 100;
+
+            if (checkEvery == 0)
+                checkEvery = 1;
         }
 
         private void UserIdentification(Request r)

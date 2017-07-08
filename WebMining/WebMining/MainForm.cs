@@ -29,15 +29,13 @@ namespace WebMining
 
         private void btnLoadAndCleanData_Click(object sender, EventArgs e)
         {
-            new Thread(loadAndCleanData) { IsBackground = true }.Start();
+            btnLoadAndCleanData.Enabled = false;
+            callback(loadAndCleanData, x => { btnLoadAndCleanData.Enabled = true; Console.WriteLine("\t\tdone in " + (x / 1000) + " sec"); });
         }
 
         List<User> extractedUsers;
         private void loadAndCleanData()
         {
-            btnLoadAndCleanData.Enabled = false;
-            Stopwatch st = Stopwatch.StartNew();
-
             Action<int, string> p = (x, y) =>
             {
                 lblNotifications.Text = x + " %  - " + y;
@@ -46,11 +44,7 @@ namespace WebMining
 
             extractedUsers = new Engine().setNotifyer(p).ProcessAll(logfiles).getExtractedUsers();//.ForEach(t => Console.WriteLine(t));
 
-            Console.WriteLine("done in " + (st.ElapsedMilliseconds / 1000) + " sec");
-
-            btnLoadAndCleanData.Enabled = true;
             freeMemory();
-            st.Stop();
         }
 
         private void freeMemory()
@@ -60,23 +54,25 @@ namespace WebMining
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Stopwatch st = Stopwatch.StartNew();
-            var clusters = new DbscanAlgorithm(double.Parse(txtboxEpsilon.Text), 1).Clustering(extractedUsers.Take(100));
-            st.Stop();
+            button1.Enabled = false;
+            callback(clustering, x => { button1.Enabled = true; Console.WriteLine("\t\tdone in " + (x / 1000) + " sec"); });
+        }
 
-            Console.WriteLine("Time = " + (st.ElapsedMilliseconds / 1000) + " sec");
+        private void clustering()
+        {
+            var clusters = new DbscanAlgorithm(double.Parse(txtboxEpsilon.Text), 1).Clustering(extractedUsers.Take(100));
+
             Console.WriteLine("Count = " + clusters.Count());
 
             Console.WriteLine();
             foreach (var c in clusters)
                 Console.WriteLine(c.Center.Distance(extractedUsers[0]) + "");
-
-            //DbscanAlgorithm.TEST(x => Console.WriteLine(x));
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            new Thread(assicuationRuls) { IsBackground = true }.Start();
+            button2.Enabled = false;
+            callback(assicuationRuls, x => { button2.Enabled = true; Console.WriteLine("\t\tdone in " + (x / 1000) + " sec"); });
         }
 
         private void assicuationRuls()
@@ -112,7 +108,8 @@ namespace WebMining
 
         private void button3_Click(object sender, EventArgs e)
         {
-            Statical();
+            button3.Enabled = false;
+            callback(Statical, x => { button3.Enabled = true; Console.WriteLine("\t\tdone in " + (x / 1000) + " sec"); });
         }
         private void Statical()
         {
@@ -148,6 +145,41 @@ namespace WebMining
             Console.WriteLine(extractedUsers[1].ToString());
             Console.WriteLine("----------------");
             Console.WriteLine(extractedUsers[0].Distance(extractedUsers[1]));
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            button4.Enabled = false;
+            callback(classification, x => { button4.Enabled = true; Console.WriteLine("\t\tdone in " + (x / 1000) + " sec"); });
+        }
+
+        private void classification()
+        {
+            var user = new Engine().setNotifyer((x,y)=> { }).ProcessLine(txtboxClassificationRequest.Text).getExtractedUsers().First();
+            bool? result = new KNN().Initialize(extractedUsers).PredicateGender(int.Parse(txtboxClassification.Text), user);
+
+            string gender = "Unknowen";
+            if (result == true)
+                gender = "MALE";
+            else if (result == false)
+                gender = "FEMALE";
+
+            Console.Write("predicate gender is : ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(gender);
+            Console.ResetColor();
+        }
+
+        void callback(Action core, Action<long> after)
+        {
+            new Thread(() =>
+            {
+                Stopwatch st = Stopwatch.StartNew();
+                core();
+                st.Stop();
+                after(st.ElapsedMilliseconds);
+            })
+            { IsBackground = true }.Start();
         }
     }
 }
