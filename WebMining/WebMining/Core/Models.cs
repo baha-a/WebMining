@@ -172,7 +172,7 @@ namespace WebMining
         {
             Session s = t as Session;
             if (s == null)
-                return -1;
+                throw new Exception("The Argument must by 'Session' only") ;
 
             double dis = 0;
 
@@ -188,6 +188,7 @@ namespace WebMining
 
             dis += Math.Abs(Duration.TotalMinutes - s.Duration.TotalMinutes);
             dis += Math.Abs(Requests.Count() - s.Requests.Count());
+            dis += distanceTime(StartTime, s.StartTime);
 
             dis += similaritor.GetDissimilarity(GetTransaction(), s.GetTransaction()) * SCALE;
 
@@ -197,17 +198,17 @@ namespace WebMining
         SmithWaterman similaritor = new SmithWaterman();
         static double SCALE = 10;
 
-        //double distanceTime(DateTime t, DateTime p)
-        //{
-        //    return 0
-        //        //Math.Abs(t.Day - p.Day) +
-        //        //Math.Abs(t.Month - p.Month) +
-        //        //Math.Abs(t.Year - p.Year) +
-        //        //Math.Abs(t.Hour - p.Hour) +
-        //        //+Math.Abs(t.Minute - p.Minute) +
-        //        //+Math.Abs(t.Second - p.Second)
-        //        ;
-        //}
+        double distanceTime(DateTime t, DateTime p)
+        {
+            return normalize(Math.Abs((t.Hour  - p.Hour ) % 24), 24) +
+                   normalize(Math.Abs((t.Day   - p.Day  ) % 7 ),  7) +
+                   normalize(Math.Abs((t.Month - p.Month) % 12), 12);
+        }
+
+        double normalize(double value, double max, double min = 0)
+        {
+            return (value - min) / (max - min);
+        }
 
         #endregion
     }

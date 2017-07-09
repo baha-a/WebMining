@@ -42,8 +42,10 @@ namespace WebMining
         {
             Action<int, string> p = (x, y) =>
             {
+#if DEBUG == false
                 lblNotifications.Text = x + " %  - " + y;
                 progressBarDataClean.Value = x;
+#endif
             };
 
             extractedUsers = new Engine().setNotifyer(p).ProcessAll(logfiles).getExtractedUsers();
@@ -62,9 +64,10 @@ namespace WebMining
             callback(clustering, x => { button1.Enabled = true; Console.WriteLine("\t\tdone in " + (x / 1000) + " sec"); });
         }
 
+        IEnumerable<Cluster> clusters;
         private void clustering()
         {
-            var clusters = new DbscanAlgorithm(double.Parse(txtboxEpsilon.Text), 1).Clustering(extractedUsers.Take(100));
+            clusters = new DbscanAlgorithm(double.Parse(txtboxEpsilon.Text), 1).Clustering(extractedUsers);
 
             Console.WriteLine("Count = " + clusters.Count());
 
@@ -92,6 +95,8 @@ namespace WebMining
 
             Output output = new AssociationRules(new Apriori(new SessionInputParser(sessions)).GenerateFrequentItemsets(minsupport))
                 .GenerateRules(minconfidence); //.parse(new SessionOutputParser());
+
+            associationRules = output.StrongRules;
 
             SessionOutputParser outer = new SessionOutputParser();
 
@@ -162,14 +167,16 @@ namespace WebMining
         private void button4_Click(object sender, EventArgs e)
         {
             button4.Enabled = false;
-            callback(classification, x => { button4.Enabled = true; Console.WriteLine("\t\tdone in " + (x / 1000) + " sec"); });
+            callback(classification, x => { button4.Enabled = true; Console.WriteLine("\t\tdone in " + x + " milisec"); });
         }
 
         Recommender recommender;
+        private IList<Rule> associationRules;
+
         private void classification()
         {
             if (recommender == null)
-                recommender = new Recommender(extractedUsers);
+                recommender = new Recommender(extractedUsers, clusters) { Rules = associationRules};
 
             recommender.K = int.Parse(txtboxClassification.Text);
             var result = recommender.Recommend(txtboxClassificationRequest.Text);
@@ -216,42 +223,5 @@ namespace WebMining
             Console.WriteLine("client :" + m);
             return "ok";
         }
-    }
-}
-
-
-class RecommendationResult
-{
-    public bool? Gender { get; set; }
-
-    public IEnumerable<string> Pages { get; set;}
-
-    public Cluster Cluster { get; set; }
-
-}
-class Recommender
-{
-    public int K { get; set; }
-    public IEnumerable<Rule> Rules { get; set; }
-
-    Engine cacher = new Engine();
-    KNN knn = new KNN();
-
-    public Recommender(IEnumerable<User> extractedUsers)
-    {
-        knn.Initialize(extractedUsers);
-    }
-
-    public RecommendationResult Recommend(string request)
-    {
-        var user = cacher.ProcessLineWithoutAddAnything(request);
-        string t = user.Sessions.Last().GetTransaction();
-
-        return new RecommendationResult()
-        {
-            Gender = knn.PredicateGender(K, user),
-            Pages = Rules.Where(x => x.X == t).OrderBy(x => x.Confidence).Select(x => x.Y),
-            Cluster = null
-        };
     }
 }
