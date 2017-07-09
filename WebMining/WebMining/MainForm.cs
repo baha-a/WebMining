@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WebMining;
 
 namespace WebMining
 {
@@ -164,17 +165,28 @@ namespace WebMining
             callback(classification, x => { button4.Enabled = true; Console.WriteLine("\t\tdone in " + (x / 1000) + " sec"); });
         }
 
-        static Engine cacher = new Engine();
+        Recommender recommender;
         private void classification()
         {
-            var user = cacher.ProcessLineWithoutAddAnything(txtboxClassificationRequest.Text);
-            bool? result = new KNN().Initialize(extractedUsers).PredicateGender(int.Parse(txtboxClassification.Text), user);
+            if (recommender == null)
+                recommender = new Recommender(extractedUsers);
+
+            recommender.K = int.Parse(txtboxClassification.Text);
+            var result = recommender.Recommend(txtboxClassificationRequest.Text);
+
 
             string gender = "UNKNOWEN";
-            if (result == true)
+            if (result.Gender == true)
                 gender = "MALE";
-            else if (result == false)
+            else if (result.Gender == false)
                 gender = "FEMALE";
+
+
+
+            ////////////////////////
+            ////////////////////////        continue here, extract RULEs from result and apply it
+            ////////////////////////                       and fix culster in the result
+            ////////////////////////
 
             Console.Write("predicate gender is : ");
             Console.ForegroundColor = ConsoleColor.Red;
@@ -207,3 +219,39 @@ namespace WebMining
     }
 }
 
+
+class RecommendationResult
+{
+    public bool? Gender { get; set; }
+
+    public IEnumerable<string> Pages { get; set;}
+
+    public Cluster Cluster { get; set; }
+
+}
+class Recommender
+{
+    public int K { get; set; }
+    public IEnumerable<Rule> Rules { get; set; }
+
+    Engine cacher = new Engine();
+    KNN knn = new KNN();
+
+    public Recommender(IEnumerable<User> extractedUsers)
+    {
+        knn.Initialize(extractedUsers);
+    }
+
+    public RecommendationResult Recommend(string request)
+    {
+        var user = cacher.ProcessLineWithoutAddAnything(request);
+        string t = user.Sessions.Last().GetTransaction();
+
+        return new RecommendationResult()
+        {
+            Gender = knn.PredicateGender(K, user),
+            Pages = Rules.Where(x => x.X == t).OrderBy(x => x.Confidence).Select(x => x.Y),
+            Cluster = null
+        };
+    }
+}
