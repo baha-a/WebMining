@@ -50,12 +50,13 @@
   <ItemGroup>
     <Compile Include="AssociationRules\AprioriAlgorithm.cs" />
     <Compile Include="AssociationRules\AssociationRules.cs" />
-    <Compile Include="AssociationRules\InputParser.cs" />
-    <Compile Include="AssociationRules\IInputParser.cs" />
+    <Compile Include="AssociationRules\SessionParser\InputParser.cs" />
+    <Compile Include="AssociationRules\SessionParser\ParserInterfaces.cs" />
     <Compile Include="AssociationRules\Item.cs" />
     <Compile Include="AssociationRules\ItemsDictionary.cs" />
     <Compile Include="AssociationRules\Output.cs" />
     <Compile Include="AssociationRules\Rule.cs" />
+    <Compile Include="AssociationRules\SessionParser\OutputParser.cs" />
     <Compile Include="Clustering and Classification\Cluster.cs" />
     <Compile Include="Clustering and Classification\DbscanAlgorithm.cs" />
     <Compile Include="Clustering and Classification\IMeasurable.cs" />

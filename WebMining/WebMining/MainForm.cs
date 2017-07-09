@@ -45,7 +45,7 @@ namespace WebMining
                 progressBarDataClean.Value = x;
             };
 
-            extractedUsers = new Engine().setNotifyer(p).ProcessAll(logfiles).getExtractedUsers();//.ForEach(t => Console.WriteLine(t));
+            extractedUsers = new Engine().setNotifyer(p).ProcessAll(logfiles).getExtractedUsers();
 
             freeMemory();
         }
@@ -89,24 +89,32 @@ namespace WebMining
             foreach (var u in extractedUsers)
                 sessions.AddRange(u.Sessions);
 
-            Output output = new AssociationRules(new Apriori(new SessionInputParser(sessions)).GenerateFrequentItemsets(minsupport)).GenerateRules(minconfidence);
+            Output output = new AssociationRules(new Apriori(new SessionInputParser(sessions)).GenerateFrequentItemsets(minsupport))
+                .GenerateRules(minconfidence); //.parse(new SessionOutputParser());
 
+            SessionOutputParser outer = new SessionOutputParser();
+
+            Console.WriteLine("--------------------");
+            Console.WriteLine("session count: " + sessions.Count + "  -  ex: " + outer.Parse(sessions.First().GetTransaction()));
             Console.WriteLine();
-            Console.WriteLine("session: " + sessions.Count + "  -  " + sessions.First().GetTransaction());
             Console.WriteLine("FrequentItems: " + output.FrequentItems.Count);
+            Console.WriteLine("FrequentItems first: " + outer.Parse(output.FrequentItems.First().Name));
+            Console.WriteLine();
             Console.WriteLine("ClosedItemSets: " + output.ClosedItemSets.Count);
+            Console.WriteLine("ClosedItemSets first: " + outer.Parse(output.ClosedItemSets.First().Key));
+            Console.WriteLine("ClosedItemSets first first: " + outer.Parse(output.ClosedItemSets.First().Value.First().Key));
+            Console.WriteLine();
             Console.WriteLine("MaximalItemSets: " + output.MaximalItemSets.Count);
+            Console.WriteLine("MaximalItemSets first: " + outer.Parse(output.MaximalItemSets.First().ToString()));
+            Console.WriteLine();
             Console.WriteLine("StrongRules: " + output.StrongRules.Count);
-
-            Console.WriteLine(st.ElapsedMilliseconds);
-
-            //foreach (var s in sessions)
-            //{
-            //    Console.WriteLine(s.GetTransaction());
-            //    Console.ReadKey();
-            //}
-
-            //File.WriteAllLines("c:\\apiroir.txt", sessions.Select(x => x.GetTransaction()));
+            Console.WriteLine("StrongRules first: " + outer.Parse(output.StrongRules.First().X) + "  ===>  " + outer.Parse(output.StrongRules.First().Y));
+            Console.WriteLine("StrongRules midel: " + outer.Parse(output.StrongRules.ElementAt(output.StrongRules.Count / 2).X) 
+                + "  ===>  " + outer.Parse(output.StrongRules.ElementAt(output.StrongRules.Count / 2).Y));
+            Console.WriteLine("StrongRules last: " + outer.Parse(output.StrongRules.Last().X) + "  ===>  " + outer.Parse(output.StrongRules.Last().Y));
+            Console.WriteLine();
+            Console.WriteLine("--------------------");
+            Console.WriteLine("ElapsedMilliseconds: " + st.ElapsedMilliseconds);
         }
 
         private void button3_Click(object sender, EventArgs e)

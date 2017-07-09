@@ -6,8 +6,8 @@ namespace WebMining
 {
     public class Apriori
     {
-        IInputParser transactions;
-        public Apriori(IInputParser _transactions)
+        ITransactionInputParser transactions;
+        public Apriori(ITransactionInputParser _transactions)
         {
             transactions = _transactions;
         }

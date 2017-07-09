@@ -138,8 +138,13 @@ namespace WebMining
             return _items.Values;
         }
 
+        public static IEnumerable<string> GetAllPages()
+        {
+            return _items.Keys;
+        }
+
         static Dictionary<char, string> _itemsreversed;
-        static void BuildReverseItemsOfTransactions()
+        public static void BuildReverseItemsOfTransactions()
         {
             _itemsreversed = new Dictionary<char, string>();
             foreach (var t in _items)

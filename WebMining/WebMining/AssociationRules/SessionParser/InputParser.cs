@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace WebMining
 {
-    public class StringInputParser: IInputParser
+    public class StringInputParser: ITransactionInputParser
     {
         IEnumerable<string> _transactions;
         IEnumerable<char> _items;
@@ -42,7 +42,7 @@ namespace WebMining
         }
     }
 
-    public class SessionInputParser : IInputParser
+    public class SessionInputParser : ITransactionInputParser
     {
         IList<string> _transactions;
         IEnumerable<char> _items;
@@ -73,7 +73,7 @@ namespace WebMining
         }
     }
 
-
+    
     //public class RealInputParser : IInputParser
     //{
     //    IEnumerable<IEnumerable<string>> _transactions;
