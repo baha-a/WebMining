@@ -36,7 +36,23 @@ namespace WebMining
             MinPts = minPts;
         }
 
+        private Action<int, string> notifyer;
+        public DbscanAlgorithm setNotifyer(Action<int, string> n)
+        {
+            notifyer = n;
+            return this;
+        }
+
+        public void notify(int d,string s)
+        {
+            if (notifyer != null)
+                notifyer(d, s);
+        }
+
+
         DbscanPoint[] _dataset;
+        private int totalCountOfItem;
+
         public IEnumerable<Cluster> Clustering(IEnumerable<IMeasurable> dataset)
         {
             return Clustering(dataset, x => x.First());
@@ -44,10 +60,19 @@ namespace WebMining
 
         public IEnumerable<Cluster> Clustering(IEnumerable<IMeasurable> dataset, Func<IEnumerable<IMeasurable>, IMeasurable> marge)
         {
-            _dataset = dataset.Select(x => new DbscanPoint(x)).ToArray();
+            counter = 0;
+            notify(0, "start clustering");
+
             int clusterId = 0;
-            foreach (var p in _dataset.Where(x => x.IsVisited == false))
-            {
+            totalCountOfItem = dataset.Count();
+            _dataset = dataset.Select(x => new DbscanPoint(x)).ToArray();
+
+            foreach (var p in _dataset)
+            {                
+                if (p.IsVisited)
+                    continue;
+
+                increceCounterAndNotify();
                 p.IsVisited = true;
 
                 var neighbors = neighbor(p.ClusterPoint);
@@ -58,8 +83,13 @@ namespace WebMining
                     ExpandCluster(p, neighbors, ++clusterId);
             }
 
-            return fillResultInClusters(marge);
+            notify(90, "preparing clusters");
+            var res = fillResultInClusters(marge);
+            notify(100, "finish clustering");
+            return res;
         }
+
+        int counter = 0;
 
         private void ExpandCluster(DbscanPoint newPoint, IEnumerable<DbscanPoint> neighborPts, int clusterId)
         {
@@ -67,6 +97,8 @@ namespace WebMining
             var queue = new Queue<DbscanPoint>(neighborPts);
             while (queue.Count > 0)
             {
+                increceCounterAndNotify();
+
                 var point = queue.Dequeue();
                 if (point.ClusterId == UNCLASSIFIED)
                     point.ClusterId = clusterId;
@@ -80,6 +112,13 @@ namespace WebMining
                     foreach (var neighbor in neighbors.Where(neighbor => !neighbor.IsVisited))
                         queue.Enqueue(neighbor);
             }
+        }
+
+        private void increceCounterAndNotify()
+        {
+            counter++;
+            if (counter % 100 == 0)
+                notify((int)((counter * 90.0 / totalCountOfItem) % 100), "clustering");
         }
 
         private IEnumerable<Cluster> fillResultInClusters(Func<IEnumerable<IMeasurable>, IMeasurable> marge)

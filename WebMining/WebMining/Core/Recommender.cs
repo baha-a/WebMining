@@ -12,10 +12,9 @@ namespace WebMining
         Engine cacher = new Engine();
         KNN knn = new KNN();
 
-        public Recommender(IEnumerable<User> extractedUsers, IEnumerable<Cluster> clusters)
+        public Recommender(IEnumerable<User> extractedUsers)
         {
             knn.Initialize(extractedUsers);
-            Clusters = clusters;
         }
 
         public RecommendationResult Recommend(string request)

@@ -33,6 +33,11 @@ namespace WebMining
 
         private void btnLoadAndCleanData_Click(object sender, EventArgs e)
         {
+            if (logfiles == null || logfiles.Count() == 0)
+            {
+                MessageBox.Show("no input files");
+                return;
+            }
             btnLoadAndCleanData.Enabled = false;
             callback(loadAndCleanData, x => { btnLoadAndCleanData.Enabled = true; Console.WriteLine("\t\tdone in " + (x / 1000) + " sec"); });
         }
@@ -40,15 +45,10 @@ namespace WebMining
         List<User> extractedUsers;
         private void loadAndCleanData()
         {
-            Action<int, string> p = (x, y) =>
-            {
-#if DEBUG == false
-                lblNotifications.Text = x + " %  - " + y;
-                progressBarDataClean.Value = x;
-#endif
-            };
-
-            extractedUsers = new Engine().setNotifyer(p).ProcessAll(logfiles).getExtractedUsers();
+            extractedUsers = new Engine()
+                .setNotifyer(Processbarhandler)
+                .ProcessAll(logfiles)
+                .getExtractedUsers();
 
             freeMemory();
         }
@@ -60,6 +60,11 @@ namespace WebMining
 
         private void button1_Click(object sender, EventArgs e)
         {
+            if (extractedUsers == null)
+            {
+                MessageBox.Show("no input data");
+                return;
+            }
             button1.Enabled = false;
             callback(clustering, x => { button1.Enabled = true; Console.WriteLine("\t\tdone in " + (x / 1000) + " sec"); });
         }
@@ -67,7 +72,9 @@ namespace WebMining
         IEnumerable<Cluster> clusters;
         private void clustering()
         {
-            clusters = new DbscanAlgorithm(double.Parse(txtboxEpsilon.Text), 1).Clustering(extractedUsers);
+            clusters = new DbscanAlgorithm(double.Parse(txtboxEpsilon.Text), 1)
+                .setNotifyer(Processbarhandler)
+                .Clustering(extractedUsers);
 
             Console.WriteLine("Count = " + clusters.Count());
 
@@ -78,6 +85,11 @@ namespace WebMining
 
         private void button2_Click(object sender, EventArgs e)
         {
+            if (extractedUsers == null)
+            {
+                MessageBox.Show("no input data");
+                return;
+            }
             button2.Enabled = false;
             callback(assicuationRuls, x => { button2.Enabled = true; Console.WriteLine("\t\tdone in " + (x / 1000) + " sec"); });
         }
@@ -108,6 +120,7 @@ namespace WebMining
             Console.WriteLine();
             Console.WriteLine("ClosedItemSets: " + output.ClosedItemSets.Count);
             Console.WriteLine("ClosedItemSets first: " + outer.Parse(output.ClosedItemSets.First().Key));
+            if(output.ClosedItemSets.First().Value.Count > 0)
             Console.WriteLine("ClosedItemSets first first: " + outer.Parse(output.ClosedItemSets.First().Value.First().Key));
             Console.WriteLine();
             Console.WriteLine("MaximalItemSets: " + output.MaximalItemSets.Count);
@@ -125,6 +138,11 @@ namespace WebMining
 
         private void button3_Click(object sender, EventArgs e)
         {
+            if (extractedUsers == null)
+            {
+                MessageBox.Show("no input data");
+                return;
+            }
             button3.Enabled = false;
             callback(Statical, x => { button3.Enabled = true; Console.WriteLine("\t\tdone in " + (x / 1000) + " sec"); });
         }
@@ -147,8 +165,10 @@ namespace WebMining
                     ava += tmp;
                     count++;
                 }
-                Console.Title = (((count * 1.0) / totalcount * 100) + " %");
+                Processbarhandler((int)((count * 1.0) / totalcount * 100), " wait ");
             }
+
+            Processbarhandler(100, " finish ");
 
             Console.WriteLine("min   = " + m.MinWeight);
             Console.WriteLine("max   = " + m.MaxWeight);
@@ -164,8 +184,18 @@ namespace WebMining
             Console.WriteLine(extractedUsers[0].Distance(extractedUsers[1]));
         }
 
+        private void Processbarhandler(int x, string y)
+        {
+            lblNotifications.Text = (progressBarDataClean.Value = x) + " %  - " + y;
+        }
+
         private void button4_Click(object sender, EventArgs e)
         {
+            if (clusters == null || associationRules == null)
+            {
+                MessageBox.Show("do 'Clustering' and 'Association Rule' first");
+                return;
+            }
             button4.Enabled = false;
             callback(classification, x => { button4.Enabled = true; Console.WriteLine("\t\tdone in " + x + " milisec"); });
         }
@@ -176,8 +206,10 @@ namespace WebMining
         private void classification()
         {
             if (recommender == null)
-                recommender = new Recommender(extractedUsers, clusters) { Rules = associationRules};
+                recommender = new Recommender(extractedUsers);
 
+            recommender.Clusters = clusters;
+            recommender.Rules = associationRules;
             recommender.K = int.Parse(txtboxClassification.Text);
             var result = recommender.Recommend(txtboxClassificationRequest.Text);
 
@@ -189,11 +221,12 @@ namespace WebMining
                 gender = "FEMALE";
 
 
-
-            ////////////////////////
-            ////////////////////////        continue here, extract RULEs from result and apply it
-            ////////////////////////                       and fix culster in the result
-            ////////////////////////
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            ////////////////////////                                                                        ////////////////////////
+            ////////////////////////        continue here, extract RULEs from result and apply it           ////////////////////////
+            ////////////////////////                       and fix culster in the result                    ////////////////////////
+            ////////////////////////                                                                        ////////////////////////
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
             Console.Write("predicate gender is : ");
             Console.ForegroundColor = ConsoleColor.Red;

@@ -172,7 +172,7 @@ namespace WebMining
         {
             Session s = t as Session;
             if (s == null)
-                throw new Exception("The Argument must by 'Session' only") ;
+                throw new Exception("The Argument must be of the type 'Session' only") ;
 
             double dis = 0;
 

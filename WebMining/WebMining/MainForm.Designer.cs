@@ -191,7 +191,7 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(32, 310);
+            this.button4.Location = new System.Drawing.Point(32, 305);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(202, 23);
             this.button4.TabIndex = 15;
@@ -201,7 +201,7 @@
             // 
             // txtboxClassification
             // 
-            this.txtboxClassification.Location = new System.Drawing.Point(302, 312);
+            this.txtboxClassification.Location = new System.Drawing.Point(302, 307);
             this.txtboxClassification.Name = "txtboxClassification";
             this.txtboxClassification.Size = new System.Drawing.Size(58, 20);
             this.txtboxClassification.TabIndex = 16;
@@ -210,7 +210,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(276, 315);
+            this.label4.Location = new System.Drawing.Point(276, 310);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(13, 13);
             this.label4.TabIndex = 17;
@@ -218,7 +218,7 @@
             // 
             // txtboxClassificationRequest
             // 
-            this.txtboxClassificationRequest.Location = new System.Drawing.Point(32, 353);
+            this.txtboxClassificationRequest.Location = new System.Drawing.Point(32, 348);
             this.txtboxClassificationRequest.Multiline = true;
             this.txtboxClassificationRequest.Name = "txtboxClassificationRequest";
             this.txtboxClassificationRequest.Size = new System.Drawing.Size(328, 49);
@@ -237,7 +237,7 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(32, 408);
+            this.button5.Location = new System.Drawing.Point(32, 440);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(328, 23);
             this.button5.TabIndex = 20;
@@ -249,7 +249,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(396, 462);
+            this.ClientSize = new System.Drawing.Size(396, 475);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.txtboxClassificationRequest);
@@ -269,6 +269,7 @@
             this.Controls.Add(this.lblNotifications);
             this.Controls.Add(this.btnLoadAndCleanData);
             this.Controls.Add(this.groupBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "MainForm";
             this.Text = "WebMining";
             this.groupBox1.ResumeLayout(false);
