@@ -78,7 +78,7 @@ namespace WebMining
 
         private void notifyEveryWhile()
         {
-            if (processedLine % checkEvery == 0)
+            if (processedLine % checkEvery == 0 && notifyer != null)
                 notify();
         }
 

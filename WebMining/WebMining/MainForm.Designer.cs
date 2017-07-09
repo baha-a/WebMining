@@ -48,6 +48,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.txtboxClassificationRequest = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.button5 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -190,7 +191,7 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(32, 308);
+            this.button4.Location = new System.Drawing.Point(32, 310);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(202, 23);
             this.button4.TabIndex = 15;
@@ -200,7 +201,7 @@
             // 
             // txtboxClassification
             // 
-            this.txtboxClassification.Location = new System.Drawing.Point(302, 310);
+            this.txtboxClassification.Location = new System.Drawing.Point(302, 312);
             this.txtboxClassification.Name = "txtboxClassification";
             this.txtboxClassification.Size = new System.Drawing.Size(58, 20);
             this.txtboxClassification.TabIndex = 16;
@@ -209,7 +210,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(276, 313);
+            this.label4.Location = new System.Drawing.Point(276, 315);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(13, 13);
             this.label4.TabIndex = 17;
@@ -217,7 +218,7 @@
             // 
             // txtboxClassificationRequest
             // 
-            this.txtboxClassificationRequest.Location = new System.Drawing.Point(32, 351);
+            this.txtboxClassificationRequest.Location = new System.Drawing.Point(32, 353);
             this.txtboxClassificationRequest.Multiline = true;
             this.txtboxClassificationRequest.Name = "txtboxClassificationRequest";
             this.txtboxClassificationRequest.Size = new System.Drawing.Size(328, 49);
@@ -228,17 +229,28 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(35, 336);
+            this.label5.Location = new System.Drawing.Point(35, 338);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(47, 13);
             this.label5.TabIndex = 19;
             this.label5.Text = "Request";
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(32, 408);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(328, 23);
+            this.button5.TabIndex = 20;
+            this.button5.Text = "Run Namedpipe Server";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(396, 462);
+            this.Controls.Add(this.button5);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.txtboxClassificationRequest);
             this.Controls.Add(this.label4);
@@ -288,6 +300,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtboxClassificationRequest;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button button5;
     }
 }
 

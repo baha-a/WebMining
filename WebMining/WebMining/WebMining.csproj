@@ -59,11 +59,13 @@
     <Compile Include="Clustering and Classification\Cluster.cs" />
     <Compile Include="Clustering and Classification\DbscanAlgorithm.cs" />
     <Compile Include="Clustering and Classification\IMeasurable.cs" />
+    <Compile Include="Core\PipedServer.cs" />
     <Compile Include="Clustering and Classification\SmithWatermanSimilarityAlgorithm.cs" />
     <Compile Include="Clustering and Classification\K-NNAlgorithm.cs" />
     <Compile Include="Clustering and Classification\Pair.cs" />
     <Compile Include="Clustering and Classification\TestItem.cs" />
     <Compile Include="Core\Engine.cs" />
+    <Compile Include="Core\PipedClient.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

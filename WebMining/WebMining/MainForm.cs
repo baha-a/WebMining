@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using System.IO.Pipes;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace WebMining
@@ -155,7 +158,7 @@ namespace WebMining
 
         private void classification()
         {
-            var user = new Engine().setNotifyer((x,y)=> { }).ProcessLine(txtboxClassificationRequest.Text).getExtractedUsers().First();
+            var user = new Engine().ProcessLine(txtboxClassificationRequest.Text).getExtractedUsers().First();
             bool? result = new KNN().Initialize(extractedUsers).PredicateGender(int.Parse(txtboxClassification.Text), user);
 
             string gender = "Unknowen";
@@ -180,6 +183,17 @@ namespace WebMining
                 after(st.ElapsedMilliseconds);
             })
             { IsBackground = true }.Start();
+        }
+
+        private void button5_Click(object sender1, EventArgs e1)
+        {
+            PipedServer server = new PipedServer("webminner", receive);
+            Console.WriteLine("server is running . . . ");
+        }
+        string receive(string m)
+        {
+            Console.WriteLine("client :" + m);
+            return "ok";
         }
     }
 }
