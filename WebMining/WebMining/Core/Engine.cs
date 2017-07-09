@@ -45,11 +45,27 @@ namespace WebMining
         }
 
 
+        private static Dictionary<string, User> cache = new Dictionary<string, User>();
+        public User ProcessLineWithoutAddAnything(string logline)
+        {
+            var request = parser.ParseLine(logline);
+
+            if (cache.ContainsKey(request.CookieID) == false)
+                cache.Add(request.CookieID, new User());
+
+            var user = cache[request.CookieID];
+
+            Sessionization(request, user);
+            return user;
+        }
+
+
         int processedLine,totalLine,checkEvery = 1;
 
         public Engine ProcessLine(string logTexts)
         {
             UserIdentification(parser.ParseLine(logTexts));
+
             ++processedLine;
             notifyEveryWhile();
 
@@ -121,9 +137,7 @@ namespace WebMining
 
         private void Sessionization(Request r, User u)
         {
-            Session s = findCurrectSession(r.Time, u.Sessions) ?? addNewSession(r, u);
-
-            s.AddRequest(r);
+            (findCurrectSession(r.Time, u.Sessions) ?? addNewSession(r, u)).AddRequest(r);
         }
 
         private Session findCurrectSession(DateTime time, List<Session> sessions)

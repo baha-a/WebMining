@@ -156,12 +156,13 @@ namespace WebMining
             callback(classification, x => { button4.Enabled = true; Console.WriteLine("\t\tdone in " + (x / 1000) + " sec"); });
         }
 
+        static Engine cacher = new Engine();
         private void classification()
         {
-            var user = new Engine().ProcessLine(txtboxClassificationRequest.Text).getExtractedUsers().First();
+            var user = cacher.ProcessLineWithoutAddAnything(txtboxClassificationRequest.Text);
             bool? result = new KNN().Initialize(extractedUsers).PredicateGender(int.Parse(txtboxClassification.Text), user);
 
-            string gender = "Unknowen";
+            string gender = "UNKNOWEN";
             if (result == true)
                 gender = "MALE";
             else if (result == false)
