@@ -5,12 +5,13 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{8B70366A-2AB6-4BCC-AC4F-03A4DF47FE3A}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <RootNamespace>WebMining</RootNamespace>
     <AssemblyName>WebMining</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -74,7 +75,6 @@
     <Compile Include="Clustering and Classification\SmithWatermanSimilarityAlgorithm.cs" />
     <Compile Include="Clustering and Classification\K-NNAlgorithm.cs" />
     <Compile Include="Clustering and Classification\Pair.cs" />
-    <Compile Include="Clustering and Classification\TestItem.cs" />
     <Compile Include="Core\Engine.cs" />
     <Compile Include="Core\PipedClient.cs" />
     <Compile Include="Core\RecommendationResult.cs" />
@@ -100,6 +100,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

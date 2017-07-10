@@ -6,8 +6,10 @@ namespace WebMining
     {
         public bool? Gender { get; set; }
 
-        public IEnumerable<string> Pages { get; set; }
+        public IEnumerable<string> SuggestedPages { get; set; }
 
         public Cluster Cluster { get; set; }
+
+        public Request OriginalRequest { get; set; }
     }
 }

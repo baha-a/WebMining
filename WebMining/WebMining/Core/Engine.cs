@@ -59,6 +59,12 @@ namespace WebMining
             return user;
         }
 
+        public Request ParseToRequest(string request)
+        {
+            return parser.ParseLine(request);
+        }
+
+
 
         int processedLine,totalLine,checkEvery = 1;
 

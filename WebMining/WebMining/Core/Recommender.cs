@@ -25,8 +25,10 @@ namespace WebMining
             return new RecommendationResult()
             {
                 Gender = predicateGender(user),
-                Pages = sugguestPageByUsingRules(t),
-                Cluster = getNearestCluster(user)
+                SuggestedPages = sugguestPageByUsingRules(t),
+                Cluster = getNearestCluster(user),
+
+                OriginalRequest = cacher.ParseToRequest(request)
             };
         }
 
@@ -35,9 +37,11 @@ namespace WebMining
             return knn.PredicateGender(K, user);
         }
 
+
+        SessionOutputParser sessionOutputParser = new SessionOutputParser(" - ");
         private IEnumerable<string> sugguestPageByUsingRules(string t)
         {
-            return Rules.Where(x => x.X == t).OrderBy(x => x.Confidence).Select(x => x.Y);
+            return sessionOutputParser.ParseAllToLines(Rules.Where(x => x.X == t).OrderBy(x => x.Confidence).Select(x => x.Y));
         }
 
         private Cluster getNearestCluster(User user)

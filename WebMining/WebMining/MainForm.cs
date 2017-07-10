@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.IO.Pipes;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using WebMining;
 
 namespace WebMining
 {
@@ -28,23 +24,25 @@ namespace WebMining
             OpenFileDialog d = new OpenFileDialog() { Multiselect = true, Filter = "Text File|*.txt|All Files|*.*" };
             if (d.ShowDialog() == DialogResult.OK)
                 logfiles = new List<string>(d.FileNames);
-            lblLogfiles.Text = logfiles.Count+ " logfiles selected";
+            Print(lblLogfiles.Text = logfiles.Count + " logfiles selected");
         }
 
         private void btnLoadAndCleanData_Click(object sender, EventArgs e)
         {
             if (logfiles == null || logfiles.Count() == 0)
             {
-                MessageBox.Show("no input files");
+                Print("no input files");
                 return;
             }
+            Print("loading and cleaing input data from files");
             btnLoadAndCleanData.Enabled = false;
-            callback(loadAndCleanData, x => { btnLoadAndCleanData.Enabled = true; Console.WriteLine("\t\tdone in " + (x / 1000) + " sec"); });
+            callback(loadAndCleanData, x => { btnLoadAndCleanData.Enabled = true; Print("\t\tdone in " + (x / 1000) + " sec"); });
         }
 
         List<User> extractedUsers;
         private void loadAndCleanData()
         {
+            Print();
             extractedUsers = new Engine()
                 .setNotifyer(Processbarhandler)
                 .ProcessAll(logfiles)
@@ -62,40 +60,44 @@ namespace WebMining
         {
             if (extractedUsers == null)
             {
-                MessageBox.Show("no input data");
+                Print("no input data");
                 return;
             }
+            Print("Clustring . . .");
             button1.Enabled = false;
-            callback(clustering, x => { button1.Enabled = true; Console.WriteLine("\t\tdone in " + (x / 1000) + " sec"); });
+            callback(clustering, x => { button1.Enabled = true; Print("\t\tdone in " + (x / 1000) + " sec"); });
         }
 
         IEnumerable<Cluster> clusters;
         private void clustering()
         {
+            Print("_______________________");
+            Print();
             clusters = new DbscanAlgorithm(double.Parse(txtboxEpsilon.Text), 1)
                 .setNotifyer(Processbarhandler)
                 .Clustering(extractedUsers);
 
-            Console.WriteLine("Count = " + clusters.Count());
-
-            Console.WriteLine();
+            Print("Count = " + clusters.Count());
+            Print();
             foreach (var c in clusters)
-                Console.WriteLine(c.Center.Distance(extractedUsers[0]) + "");
+                Print(c.Center.Distance(extractedUsers[0]) + "");
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             if (extractedUsers == null)
             {
-                MessageBox.Show("no input data");
+                Print("no input data");
                 return;
             }
+            Print("Assicuation Rules . . .");
             button2.Enabled = false;
-            callback(assicuationRuls, x => { button2.Enabled = true; Console.WriteLine("\t\tdone in " + (x / 1000) + " sec"); });
+            callback(assicuationRuls, x => { button2.Enabled = true; Print("\t\tdone in " + (x / 1000) + " sec"); });
         }
 
         private void assicuationRuls()
         {
+            Print("_______________________");
             double minsupport = double.Parse(txtboxMinSupp.Text); // 1.0000000000000001
             double minconfidence = double.Parse(txtboxMinConf.Text);
 
@@ -112,28 +114,26 @@ namespace WebMining
 
             SessionOutputParser outer = new SessionOutputParser();
 
-            Console.WriteLine("--------------------");
-            Console.WriteLine("session count: " + sessions.Count + "  -  ex: " + outer.Parse(sessions.First().GetTransaction()));
-            Console.WriteLine();
-            Console.WriteLine("FrequentItems: " + output.FrequentItems.Count);
-            Console.WriteLine("FrequentItems first: " + outer.Parse(output.FrequentItems.First().Name));
-            Console.WriteLine();
-            Console.WriteLine("ClosedItemSets: " + output.ClosedItemSets.Count);
-            Console.WriteLine("ClosedItemSets first: " + outer.Parse(output.ClosedItemSets.First().Key));
+            Print("session count: " + sessions.Count + "  -  ex: " + outer.Parse(sessions.First().GetTransaction()));
+            Print();
+            Print("FrequentItems: " + output.FrequentItems.Count);
+            Print("FrequentItems first: " + outer.Parse(output.FrequentItems.First().Name));
+            Print();
+            Print("ClosedItemSets: " + output.ClosedItemSets.Count);
+            Print("ClosedItemSets first: " + outer.Parse(output.ClosedItemSets.First().Key));
             if(output.ClosedItemSets.First().Value.Count > 0)
-            Console.WriteLine("ClosedItemSets first first: " + outer.Parse(output.ClosedItemSets.First().Value.First().Key));
-            Console.WriteLine();
-            Console.WriteLine("MaximalItemSets: " + output.MaximalItemSets.Count);
-            Console.WriteLine("MaximalItemSets first: " + outer.Parse(output.MaximalItemSets.First().ToString()));
-            Console.WriteLine();
-            Console.WriteLine("StrongRules: " + output.StrongRules.Count);
-            Console.WriteLine("StrongRules first: " + outer.Parse(output.StrongRules.First().X) + "  ===>  " + outer.Parse(output.StrongRules.First().Y));
-            Console.WriteLine("StrongRules midel: " + outer.Parse(output.StrongRules.ElementAt(output.StrongRules.Count / 2).X) 
+            Print("ClosedItemSets first first: " + outer.Parse(output.ClosedItemSets.First().Value.First().Key));
+            Print();
+            Print("MaximalItemSets: " + output.MaximalItemSets.Count);
+            Print("MaximalItemSets first: " + outer.Parse(output.MaximalItemSets.First().ToString()));
+            Print();
+            Print("StrongRules: " + output.StrongRules.Count);
+            Print("StrongRules first: " + outer.Parse(output.StrongRules.First().X) + "  ===>  " + outer.Parse(output.StrongRules.First().Y));
+            Print("StrongRules midel: " + outer.Parse(output.StrongRules.ElementAt(output.StrongRules.Count / 2).X) 
                 + "  ===>  " + outer.Parse(output.StrongRules.ElementAt(output.StrongRules.Count / 2).Y));
-            Console.WriteLine("StrongRules last: " + outer.Parse(output.StrongRules.Last().X) + "  ===>  " + outer.Parse(output.StrongRules.Last().Y));
-            Console.WriteLine();
-            Console.WriteLine("--------------------");
-            Console.WriteLine("ElapsedMilliseconds: " + st.ElapsedMilliseconds);
+            Print("StrongRules last: " + outer.Parse(output.StrongRules.Last().X) + "  ===>  " + outer.Parse(output.StrongRules.Last().Y));
+            Print();
+            Print("ElapsedMilliseconds: " + st.ElapsedMilliseconds);
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -143,17 +143,20 @@ namespace WebMining
                 MessageBox.Show("no input data");
                 return;
             }
+            Print("analysing dataset . . .");
             button3.Enabled = false;
-            callback(Statical, x => { button3.Enabled = true; Console.WriteLine("\t\tdone in " + (x / 1000) + " sec"); });
+            callback(analysisDataset, x => { button3.Enabled = true; Print("\t\tdone in " + (x / 1000) + " sec"); });
         }
-        private void Statical()
+        private void analysisDataset()
         {
+            Print("_______________________");
             double ava = 0;
             int count = 0;
             int totalcount = (extractedUsers.Count * (extractedUsers.Count + 1) / 2);
-            Console.WriteLine("user count = " + extractedUsers.Count);
-            Console.WriteLine("total count = " + totalcount);
-            Console.WriteLine();
+            Print("user count = " + extractedUsers.Count);
+            Print("total count = " + totalcount);
+            Print();
+            Print();
             MinMax m = new MinMax();
             double tmp = 0;
             for (int i = 0; i < extractedUsers.Count; i++)
@@ -170,34 +173,53 @@ namespace WebMining
 
             Processbarhandler(100, " finish ");
 
-            Console.WriteLine("min   = " + m.MinWeight);
-            Console.WriteLine("max   = " + m.MaxWeight);
-            Console.WriteLine("sum   = " + ava);
-            Console.WriteLine("avarg = " + (ava / totalcount));
-            Console.WriteLine();
+            Print("min   = " + m.MinWeight);
+            Print("max   = " + m.MaxWeight);
+            Print("sum   = " + ava);
+            Print("avarg = " + (ava / totalcount));
+            Print();
 
-            Console.WriteLine("----------------");
-            Console.WriteLine(extractedUsers[0].ToString());
-            Console.WriteLine("----------------");
-            Console.WriteLine(extractedUsers[1].ToString());
-            Console.WriteLine("----------------");
-            Console.WriteLine(extractedUsers[0].Distance(extractedUsers[1]));
+            Print("----------------");
+            Print(extractedUsers[0].ToString());
+            Print("----------------");
+            Print(extractedUsers[1].ToString());
+            Print("----------------");
+            Print(extractedUsers[0].Distance(extractedUsers[1]));
+        }
+
+        private void Print()
+        {
+            Print("");
+        }
+        private void Print(double v)
+        {
+            Print(v + "");
+        }
+        private void Print(string v)
+        {
+            listboxState.Items.Add(v);
+            listboxState.SelectedIndex = listboxState.Items.Count - 1;
+        }
+        private void PrintInSameLine(string v)
+        {
+            listboxState.Items[listboxState.Items.Count - 1] = v;
         }
 
         private void Processbarhandler(int x, string y)
         {
             lblNotifications.Text = (progressBarDataClean.Value = x) + " %  - " + y;
+            PrintInSameLine(lblNotifications.Text);
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
             if (clusters == null || associationRules == null)
             {
-                MessageBox.Show("do 'Clustering' and 'Association Rule' first");
+                Print("do 'Clustering' and 'Association Rule' first");
                 return;
             }
             button4.Enabled = false;
-            callback(classification, x => { button4.Enabled = true; Console.WriteLine("\t\tdone in " + x + " milisec"); });
+            callback(classification, x => { button4.Enabled = true; Print("\t\tdone in " + x + " milisec"); });
         }
 
         Recommender recommender;
@@ -205,6 +227,7 @@ namespace WebMining
 
         private void classification()
         {
+            Print("_______________________");
             if (recommender == null)
                 recommender = new Recommender(extractedUsers);
 
@@ -212,7 +235,6 @@ namespace WebMining
             recommender.Rules = associationRules;
             recommender.K = int.Parse(txtboxClassification.Text);
             var result = recommender.Recommend(txtboxClassificationRequest.Text);
-
 
             string gender = "UNKNOWEN";
             if (result.Gender == true)
@@ -222,16 +244,25 @@ namespace WebMining
 
 
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            ////////////////////////                                                                        ////////////////////////
-            ////////////////////////        continue here, extract RULEs from result and apply it           ////////////////////////
-            ////////////////////////                       and fix culster in the result                    ////////////////////////
+            ////////////////////////    to do later                                                         ////////////////////////
+            ////////////////////////                           fix culster in the result                    ////////////////////////
             ////////////////////////                                                                        ////////////////////////
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-            Console.Write("predicate gender is : ");
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine(gender);
-            Console.ResetColor();
+
+            Print("Predicated gender is : ");
+            Print(gender);
+
+            Print();
+            Print("Suggested Pages is: ");
+            foreach (var p in result.SuggestedPages)
+                Print("\t" + p);
+            Print();
+
+            Print("Clustered to Cluster: ");
+            Print(result.Cluster.ToString());
+            Print(result.Cluster.Center.ToString());
+            Print();
         }
 
         void callback(Action core, Action<long> after)
@@ -249,11 +280,11 @@ namespace WebMining
         private void button5_Click(object sender1, EventArgs e1)
         {
             PipedServer server = new PipedServer("webminner", receive);
-            Console.WriteLine("server is running . . . ");
+            Print("server is running . . . ");
         }
         string receive(string m)
         {
-            Console.WriteLine("client :" + m);
+            Print("client :" + m);
             return "ok";
         }
     }
