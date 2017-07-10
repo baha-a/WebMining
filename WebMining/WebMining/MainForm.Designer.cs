@@ -93,7 +93,7 @@
             this.btnLoadAndCleanData.Location = new System.Drawing.Point(18, 22);
             this.btnLoadAndCleanData.Name = "btnLoadAndCleanData";
             this.btnLoadAndCleanData.Size = new System.Drawing.Size(202, 23);
-            this.btnLoadAndCleanData.TabIndex = 3;
+            this.btnLoadAndCleanData.TabIndex = 1;
             this.btnLoadAndCleanData.Text = "1 - Data Clean";
             this.btnLoadAndCleanData.UseVisualStyleBackColor = true;
             this.btnLoadAndCleanData.Click += new System.EventHandler(this.btnLoadAndCleanData_Click);
@@ -119,7 +119,7 @@
             this.button1.Location = new System.Drawing.Point(18, 60);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(202, 23);
-            this.button1.TabIndex = 6;
+            this.button1.TabIndex = 3;
             this.button1.Text = "2 - Clustring (DBSCAN)";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -129,7 +129,7 @@
             this.button2.Location = new System.Drawing.Point(18, 92);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(202, 42);
-            this.button2.TabIndex = 7;
+            this.button2.TabIndex = 6;
             this.button2.Text = "2 - Association Rule (Apriori)";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
@@ -139,7 +139,7 @@
             this.txtboxMinSupp.Location = new System.Drawing.Point(291, 92);
             this.txtboxMinSupp.Name = "txtboxMinSupp";
             this.txtboxMinSupp.Size = new System.Drawing.Size(58, 20);
-            this.txtboxMinSupp.TabIndex = 8;
+            this.txtboxMinSupp.TabIndex = 4;
             this.txtboxMinSupp.Text = "0.04";
             // 
             // txtboxMinConf
@@ -147,7 +147,7 @@
             this.txtboxMinConf.Location = new System.Drawing.Point(291, 114);
             this.txtboxMinConf.Name = "txtboxMinConf";
             this.txtboxMinConf.Size = new System.Drawing.Size(58, 20);
-            this.txtboxMinConf.TabIndex = 9;
+            this.txtboxMinConf.TabIndex = 5;
             this.txtboxMinConf.Text = "0.04";
             // 
             // label1
@@ -173,7 +173,7 @@
             this.txtboxEpsilon.Location = new System.Drawing.Point(291, 60);
             this.txtboxEpsilon.Name = "txtboxEpsilon";
             this.txtboxEpsilon.Size = new System.Drawing.Size(58, 20);
-            this.txtboxEpsilon.TabIndex = 12;
+            this.txtboxEpsilon.TabIndex = 2;
             this.txtboxEpsilon.Text = "5.0";
             // 
             // label3
@@ -190,7 +190,7 @@
             this.button3.Location = new System.Drawing.Point(18, 146);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(202, 23);
-            this.button3.TabIndex = 14;
+            this.button3.TabIndex = 7;
             this.button3.Text = "Analysis Dateset";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
@@ -200,7 +200,7 @@
             this.button4.Location = new System.Drawing.Point(20, 24);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(202, 23);
-            this.button4.TabIndex = 15;
+            this.button4.TabIndex = 9;
             this.button4.Text = "3 - Classification (K-NN)";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
@@ -210,7 +210,7 @@
             this.txtboxClassification.Location = new System.Drawing.Point(291, 26);
             this.txtboxClassification.Name = "txtboxClassification";
             this.txtboxClassification.Size = new System.Drawing.Size(58, 20);
-            this.txtboxClassification.TabIndex = 16;
+            this.txtboxClassification.TabIndex = 8;
             this.txtboxClassification.Text = "10";
             // 
             // label4
@@ -228,7 +228,7 @@
             this.txtboxClassificationRequest.Multiline = true;
             this.txtboxClassificationRequest.Name = "txtboxClassificationRequest";
             this.txtboxClassificationRequest.Size = new System.Drawing.Size(329, 49);
-            this.txtboxClassificationRequest.TabIndex = 18;
+            this.txtboxClassificationRequest.TabIndex = 10;
             this.txtboxClassificationRequest.Text = "0000014602 ofssobxxxmpdu1sr NONE 72.3.217.228 BM \'Opera\' \'Mac\' 01:47:53 21-12-201" +
     "7 \'PAGE1\' \'PAGE2\'";
             // 
@@ -246,7 +246,7 @@
             this.button5.Location = new System.Drawing.Point(18, 130);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(328, 23);
-            this.button5.TabIndex = 20;
+            this.button5.TabIndex = 11;
             this.button5.Text = "Run as Server";
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
@@ -294,7 +294,8 @@
             this.listboxState.Location = new System.Drawing.Point(402, 34);
             this.listboxState.Name = "listboxState";
             this.listboxState.Size = new System.Drawing.Size(282, 433);
-            this.listboxState.TabIndex = 23;
+            this.listboxState.TabIndex = 1000;
+            this.listboxState.TabStop = false;
             // 
             // label6
             // 
