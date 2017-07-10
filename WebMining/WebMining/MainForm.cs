@@ -9,6 +9,8 @@ namespace WebMining
 {
     public partial class MainForm : Form
     {
+        private readonly bool DEBUGGING = 1==1;
+
         public List<string> logfiles { get; private set; }
 
         public MainForm()
@@ -75,12 +77,12 @@ namespace WebMining
             Print();
             clusters = new DbscanAlgorithm(double.Parse(txtboxEpsilon.Text), 1)
                 .setNotifyer(Processbarhandler)
-                .Clustering(extractedUsers);
+                .Clustering(extractedUsers,Cluster.AvarageUser);
 
             Print("Count = " + clusters.Count());
             Print();
             foreach (var c in clusters)
-                Print(c.Center.Distance(extractedUsers[0]) + "");
+                Print("ID: " + c.ID + "   -  center:" + c.Center.Distance(extractedUsers[0]));
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -197,8 +199,11 @@ namespace WebMining
         }
         private void Print(string v)
         {
-            listboxState.Items.Add(v);
-            listboxState.SelectedIndex = listboxState.Items.Count - 1;
+            if (DEBUGGING == false)
+            {
+                listboxState.Items.Add(v);
+                listboxState.SelectedIndex = listboxState.Items.Count - 1;
+            }
         }
         private void PrintInSameLine(string v)
         {
@@ -207,8 +212,11 @@ namespace WebMining
 
         private void Processbarhandler(int x, string y)
         {
-            lblNotifications.Text = (progressBarDataClean.Value = x) + " %  - " + y;
-            PrintInSameLine(lblNotifications.Text);
+            if (DEBUGGING == false)
+            {
+                lblNotifications.Text = (progressBarDataClean.Value = x) + " %  - " + y;
+                PrintInSameLine(lblNotifications.Text);
+            }
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -259,9 +267,8 @@ namespace WebMining
                 Print("\t" + p);
             Print();
 
-            Print("Clustered to Cluster: ");
-            Print(result.Cluster.ToString());
-            Print(result.Cluster.Center.ToString());
+            Print("Clustered to Cluster: " + result.Cluster.ID);
+            Print(((User)result.Cluster.Center).ToString());
             Print();
         }
 
@@ -272,6 +279,7 @@ namespace WebMining
                 Stopwatch st = Stopwatch.StartNew();
                 core();
                 st.Stop();
+                if (DEBUGGING == false)
                 after(st.ElapsedMilliseconds);
             })
             { IsBackground = true }.Start();

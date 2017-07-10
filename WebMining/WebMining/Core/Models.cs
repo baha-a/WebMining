@@ -91,6 +91,26 @@ namespace WebMining
             ID = ++counter;
         }
 
+        public Session(Session s) : this()
+        {
+            Browser = s.Browser;
+            OperatingSystem = s.OperatingSystem;
+            CountryCode = s.CountryCode;
+
+            StartTime = s.StartTime;
+            EndTime = s.EndTime;
+
+            Requests = s.Requests;
+        }
+
+        public static List<Session> Clone(IEnumerable<Session> values)
+        {
+            List<Session> res = new List<Session>();
+            foreach(var v in values)
+                res.Add(new Session(v));
+            return res;
+        }
+
         public void AddRequest(Request r)
         {
             if (Requests.Count == 0)
