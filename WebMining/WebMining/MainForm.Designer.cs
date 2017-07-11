@@ -53,6 +53,8 @@
             this.button4 = new System.Windows.Forms.Button();
             this.txtboxClassification = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.txtboxMinPTS = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -101,7 +103,7 @@
             // lblNotifications
             // 
             this.lblNotifications.AutoSize = true;
-            this.lblNotifications.Location = new System.Drawing.Point(27, 436);
+            this.lblNotifications.Location = new System.Drawing.Point(27, 460);
             this.lblNotifications.Name = "lblNotifications";
             this.lblNotifications.Size = new System.Drawing.Size(11, 13);
             this.lblNotifications.TabIndex = 4;
@@ -109,7 +111,7 @@
             // 
             // progressBarDataClean
             // 
-            this.progressBarDataClean.Location = new System.Drawing.Point(12, 452);
+            this.progressBarDataClean.Location = new System.Drawing.Point(12, 476);
             this.progressBarDataClean.Name = "progressBarDataClean";
             this.progressBarDataClean.Size = new System.Drawing.Size(372, 11);
             this.progressBarDataClean.TabIndex = 5;
@@ -118,7 +120,7 @@
             // 
             this.button1.Location = new System.Drawing.Point(18, 60);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(202, 23);
+            this.button1.Size = new System.Drawing.Size(202, 43);
             this.button1.TabIndex = 3;
             this.button1.Text = "2 - Clustring (DBSCAN)";
             this.button1.UseVisualStyleBackColor = true;
@@ -126,7 +128,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(18, 92);
+            this.button2.Location = new System.Drawing.Point(18, 113);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(202, 42);
             this.button2.TabIndex = 6;
@@ -136,7 +138,7 @@
             // 
             // txtboxMinSupp
             // 
-            this.txtboxMinSupp.Location = new System.Drawing.Point(291, 92);
+            this.txtboxMinSupp.Location = new System.Drawing.Point(291, 113);
             this.txtboxMinSupp.Name = "txtboxMinSupp";
             this.txtboxMinSupp.Size = new System.Drawing.Size(58, 20);
             this.txtboxMinSupp.TabIndex = 4;
@@ -144,7 +146,7 @@
             // 
             // txtboxMinConf
             // 
-            this.txtboxMinConf.Location = new System.Drawing.Point(291, 114);
+            this.txtboxMinConf.Location = new System.Drawing.Point(291, 135);
             this.txtboxMinConf.Name = "txtboxMinConf";
             this.txtboxMinConf.Size = new System.Drawing.Size(58, 20);
             this.txtboxMinConf.TabIndex = 5;
@@ -153,7 +155,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(238, 95);
+            this.label1.Location = new System.Drawing.Point(238, 116);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(47, 13);
             this.label1.TabIndex = 10;
@@ -162,7 +164,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(238, 117);
+            this.label2.Location = new System.Drawing.Point(238, 138);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(46, 13);
             this.label2.TabIndex = 11;
@@ -187,7 +189,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(18, 146);
+            this.button3.Location = new System.Drawing.Point(17, 168);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(202, 23);
             this.button3.TabIndex = 7;
@@ -226,6 +228,8 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.txtboxMinPTS);
+            this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.button2);
             this.groupBox2.Controls.Add(this.button1);
             this.groupBox2.Controls.Add(this.button3);
@@ -238,7 +242,7 @@
             this.groupBox2.Controls.Add(this.btnLoadAndCleanData);
             this.groupBox2.Location = new System.Drawing.Point(12, 81);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(372, 175);
+            this.groupBox2.Size = new System.Drawing.Size(372, 197);
             this.groupBox2.TabIndex = 21;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Offline Algorithms";
@@ -251,7 +255,7 @@
             this.groupBox3.Controls.Add(this.txtboxClassificationRequest);
             this.groupBox3.Controls.Add(this.button5);
             this.groupBox3.Controls.Add(this.label5);
-            this.groupBox3.Location = new System.Drawing.Point(12, 262);
+            this.groupBox3.Location = new System.Drawing.Point(12, 284);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(372, 163);
             this.groupBox3.TabIndex = 22;
@@ -266,7 +270,7 @@
             this.listboxState.FormattingEnabled = true;
             this.listboxState.Location = new System.Drawing.Point(402, 34);
             this.listboxState.Name = "listboxState";
-            this.listboxState.Size = new System.Drawing.Size(282, 433);
+            this.listboxState.Size = new System.Drawing.Size(282, 446);
             this.listboxState.TabIndex = 1000;
             this.listboxState.TabStop = false;
             // 
@@ -305,11 +309,28 @@
             this.label4.TabIndex = 22;
             this.label4.Text = "K";
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(244, 86);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(41, 13);
+            this.label7.TabIndex = 14;
+            this.label7.Text = "minPTS";
+            // 
+            // txtboxMinPTS
+            // 
+            this.txtboxMinPTS.Location = new System.Drawing.Point(291, 83);
+            this.txtboxMinPTS.Name = "txtboxMinPTS";
+            this.txtboxMinPTS.Size = new System.Drawing.Size(58, 20);
+            this.txtboxMinPTS.TabIndex = 15;
+            this.txtboxMinPTS.Text = "10";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(693, 475);
+            this.ClientSize = new System.Drawing.Size(693, 500);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.listboxState);
             this.Controls.Add(this.groupBox3);
@@ -357,6 +378,8 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.TextBox txtboxClassification;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox txtboxMinPTS;
+        private System.Windows.Forms.Label label7;
     }
 }
 

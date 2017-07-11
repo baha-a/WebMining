@@ -43,14 +43,14 @@ namespace WebMining
             return this;
         }
 
-        public void notify(int d,string s)
+        public void notify(int d, string s)
         {
             if (notifyer != null)
                 notifyer(d, s);
         }
 
 
-        IEnumerable<DbscanPoint> _dataset;
+        DbscanPoint[] _dataset;
         private int totalCountOfItem;
 
         public IEnumerable<Cluster> Clustering(IEnumerable<IDistancable> dataset)
@@ -65,17 +65,17 @@ namespace WebMining
 
             int clusterId = 0;
             totalCountOfItem = dataset.Count();
-            _dataset = dataset.Select(x => new DbscanPoint(x));
+            _dataset = dataset.Select(x => new DbscanPoint(x)).ToArray();
 
             foreach (var p in _dataset)
-            {                
+            {
                 if (p.IsVisited)
                     continue;
 
-                p.IsVisited = true;
                 increceCounterAndNotify();
+                p.IsVisited = true;
 
-                var neighbors = neighbor(p);
+                var neighbors = neighbor(p.ClusterPoint);
 
                 if (neighbors.Count() < MinPts)
                     p.ClusterId = NOISE;
@@ -107,11 +107,10 @@ namespace WebMining
                     continue;
 
                 point.IsVisited = true;
-
-                var neighbors = neighbor(point);
+                var neighbors = neighbor(point.ClusterPoint);
                 if (neighbors.Count() >= MinPts)
-                    foreach (var n in neighbors.Where(n => !n.IsVisited))
-                        queue.Enqueue(n);
+                    foreach (var neighbor in neighbors.Where(neighbor => !neighbor.IsVisited))
+                        queue.Enqueue(neighbor);
             }
         }
 
@@ -127,9 +126,9 @@ namespace WebMining
             return _dataset.Where(x => x.ClusterId > 0).GroupBy(x => x.ClusterId).Select(x => new Cluster(x.Select(y => y.ClusterPoint), marge));
         }
 
-        private IEnumerable<DbscanPoint> neighbor(DbscanPoint point)
+        private IEnumerable<DbscanPoint> neighbor(IDistancable point)
         {
-            return _dataset.Where(x => point.ClusterPoint.Distance(x.ClusterPoint) <= Epsilon);
+            return _dataset.Where(x => point.Distance(x.ClusterPoint) <= Epsilon);
         }
     }
 }

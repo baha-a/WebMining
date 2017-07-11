@@ -136,12 +136,15 @@ namespace WebMining
         }
 
 
+        string stringTransaction = null;
         public string GetTransaction()
         {
-            string res = "";
+            if (stringTransaction != null)
+                return stringTransaction;
+            stringTransaction = "";
             foreach (var r in Requests)
-                res += getChar(r.RequstedPage);
-            return res;
+                stringTransaction += getChar(r.RequstedPage);
+            return stringTransaction;
         }
 
         private char getChar(string page)

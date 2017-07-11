@@ -69,7 +69,6 @@ namespace WebMining
                 Print("no input data");
                 return;
             }
-            Print("Clustring . . .");
             button1.Enabled = false;
             callback(clustering, x => { button1.Enabled = true; Print("\t\tdone in " + (x / 1000) + " sec"); });
         }
@@ -78,10 +77,11 @@ namespace WebMining
         private void clustering()
         {
             Print("_______________________");
+            Print("Clustring . . .");
             Print();
-            clusters = new DbscanAlgorithm(double.Parse(txtboxEpsilon.Text), 1)
+            clusters = new DbscanAlgorithm(double.Parse(txtboxEpsilon.Text), int.Parse(txtboxMinPTS.Text))
                 .setNotifyer(Processbarhandler)
-                .Clustering(extractedUsers,Cluster.AvarageUser);
+                .Clustering(extractedUsers);
 
             Print("Count = " + clusters.Count());
             Print();
@@ -96,7 +96,6 @@ namespace WebMining
                 Print("no input data");
                 return;
             }
-            Print("Assicuation Rules . . .");
             button2.Enabled = false;
             callback(assicuationRuls, x => { button2.Enabled = true; Print("\t\tdone in " + (x / 1000) + " sec"); });
         }
@@ -104,6 +103,8 @@ namespace WebMining
         private void assicuationRuls()
         {
             Print("_______________________");
+            Print("Assicuation Rules . . .");
+            Print();
             double minsupport = double.Parse(txtboxMinSupp.Text); // 1.0000000000000001
             double minconfidence = double.Parse(txtboxMinConf.Text);
 
@@ -149,13 +150,14 @@ namespace WebMining
                 MessageBox.Show("no input data");
                 return;
             }
-            Print("analysing dataset . . .");
             button3.Enabled = false;
             callback(analysisDataset, x => { button3.Enabled = true; Print("\t\tdone in " + (x / 1000) + " sec"); });
         }
         private void analysisDataset()
         {
             Print("_______________________");
+            Print("Analyzing Dataset . . .");
+            Print();
             double ava = 0;
             int count = 0;
             int totalcount = (extractedUsers.Count * (extractedUsers.Count + 1) / 2);
@@ -258,14 +260,6 @@ namespace WebMining
                 gender = "MALE";
             else if (result.Gender == false)
                 gender = "FEMALE";
-
-
-            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            ////////////////////////    to do later                                                         ////////////////////////
-            ////////////////////////                           fix culster in the result                    ////////////////////////
-            ////////////////////////                                                                        ////////////////////////
-            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
             Print("Predicated gender is : ");
             Print(gender);

@@ -35,6 +35,11 @@ namespace WebMining
             return Marger(Dataset);
         }
 
+        public static IDistancable First(IEnumerable<IDistancable> arg)
+        {
+            return arg.First();
+        }
+
         public static IDistancable AvarageUser(IEnumerable<IDistancable> arg)
         {
             System.Windows.Forms.MessageBox.Show("Test");

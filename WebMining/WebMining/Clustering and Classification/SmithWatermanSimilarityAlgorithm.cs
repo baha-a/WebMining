@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace WebMining
 {
@@ -24,13 +25,33 @@ namespace WebMining
 
         public double GetDissimilarity(string firstWord, string secondWord)
         {
-            return 1 - GetSimilarity(firstWord, secondWord);
+            return 1 - getSimilarity(firstWord, secondWord);
         }
+
+        static Dictionary<string, double> cache = new Dictionary<string, double>();
+
         public double GetSimilarity(string firstWord, string secondWord)
+        {
+            string key = secondWord + firstWord;
+            if (cache.ContainsKey(key))
+                return cache[key];
+
+            key = firstWord + secondWord;
+            if (cache.ContainsKey(key))
+                return cache[key];
+
+            double v = getSimilarity(firstWord, secondWord);
+
+            cache.Add(key, v);
+
+            return v;
+        }
+
+        double getSimilarity(string firstWord, string secondWord)
         {
             if (firstWord == null || secondWord == null)
                 return DefaultMismatchScore;
-
+            
             double unnormalisedSimilarity = GetUnnormalisedSimilarity(firstWord, secondWord);
             double num2 = Math.Min(firstWord.Length, secondWord.Length);
 
@@ -45,7 +66,7 @@ namespace WebMining
             return unnormalisedSimilarity / num2;
         }
 
-        public double GetSimilarityTimingEstimated(string firstWord, string secondWord)
+        double GetSimilarityTimingEstimated(string firstWord, string secondWord)
         {
             if (firstWord != null && secondWord != null)
             {
@@ -56,7 +77,7 @@ namespace WebMining
             return DefaultMismatchScore;
         }
 
-        public double GetUnnormalisedSimilarity(string firstWord, string secondWord)
+        double GetUnnormalisedSimilarity(string firstWord, string secondWord)
         {
             if (firstWord == null || secondWord == null)
                 return DefaultMismatchScore;
@@ -66,9 +87,11 @@ namespace WebMining
                 return num2;
             if (num2 == 0)
                 return length;
+
             double[][] numArray = new double[length][];
             for (int i = 0; i < length; i++)
                 numArray[i] = new double[num2];
+
             double num4 = 0.0;
             for (int j = 0; j < length; j++)
             {
@@ -106,12 +129,21 @@ namespace WebMining
 
         static double MaxOf4(double firstNumber, double secondNumber, double thirdNumber, double fourthNumber)
         {
-            return Math.Max(Math.Max(firstNumber, secondNumber), Math.Max(thirdNumber, fourthNumber));
+            var m = MaxOf3(secondNumber, thirdNumber, fourthNumber);
+            if (firstNumber >= m)
+                return firstNumber;
+            return m;
         }
 
         static double MaxOf3(double firstNumber, double secondNumber, double thirdNumber)
         {
-            return Math.Max(firstNumber, Math.Max(secondNumber, thirdNumber));
+            if (firstNumber >= secondNumber && firstNumber >= thirdNumber)
+                return firstNumber;
+
+            if (secondNumber >= thirdNumber)
+                return secondNumber;
+
+            return thirdNumber;
         }
 
         class SubCostRange1ToMinus2X
