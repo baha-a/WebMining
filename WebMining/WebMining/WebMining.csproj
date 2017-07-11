@@ -67,6 +67,7 @@
     <Compile Include="AssociationRules\Output.cs" />
     <Compile Include="AssociationRules\Rule.cs" />
     <Compile Include="AssociationRules\SessionParser\OutputParser.cs" />
+    <Compile Include="Clustering and Classification\LevenshteinDistance.cs" />
     <Compile Include="Clustering and Classification\Cluster.cs" />
     <Compile Include="Clustering and Classification\DbscanAlgorithm.cs" />
     <Compile Include="Clustering and Classification\IMeasurable.cs" />
@@ -101,6 +102,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

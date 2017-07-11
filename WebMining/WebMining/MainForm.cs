@@ -120,25 +120,32 @@ namespace WebMining
             associationRules = output.StrongRules;
 
             SessionOutputParser outer = new SessionOutputParser();
+            try
+            {
+                Print("session count: " + sessions.Count + "  -  ex: " + outer.Parse(sessions.First().GetTransaction()));
+                Print();
+                Print("FrequentItems: " + output.FrequentItems.Count);
+                Print("FrequentItems first: " + outer.Parse(output.FrequentItems.First().Name));
+                Print();
+                Print("ClosedItemSets: " + output.ClosedItemSets.Count);
+                Print("ClosedItemSets first: " + outer.Parse(output.ClosedItemSets.First().Key));
+                if (output.ClosedItemSets.First().Value.Count > 0)
+                    Print("ClosedItemSets first first: " + outer.Parse(output.ClosedItemSets.First().Value.First().Key));
+                Print();
+                Print("MaximalItemSets: " + output.MaximalItemSets.Count);
+                Print("MaximalItemSets first: " + outer.Parse(output.MaximalItemSets.First().ToString()));
+                Print();
+                Print("StrongRules: " + output.StrongRules.Count);
+                Print("StrongRules first: " + outer.Parse(output.StrongRules.First().X) + "  ===>  " + outer.Parse(output.StrongRules.First().Y));
+                Print("StrongRules midel: " + outer.Parse(output.StrongRules.ElementAt(output.StrongRules.Count / 2).X)
+                    + "  ===>  " + outer.Parse(output.StrongRules.ElementAt(output.StrongRules.Count / 2).Y));
+                Print("StrongRules last: " + outer.Parse(output.StrongRules.Last().X) + "  ===>  " + outer.Parse(output.StrongRules.Last().Y));
+            }
+            catch
+            {
+                Print("erorr because output has null values");
+            }
 
-            Print("session count: " + sessions.Count + "  -  ex: " + outer.Parse(sessions.First().GetTransaction()));
-            Print();
-            Print("FrequentItems: " + output.FrequentItems.Count);
-            Print("FrequentItems first: " + outer.Parse(output.FrequentItems.First().Name));
-            Print();
-            Print("ClosedItemSets: " + output.ClosedItemSets.Count);
-            Print("ClosedItemSets first: " + outer.Parse(output.ClosedItemSets.First().Key));
-            if(output.ClosedItemSets.First().Value.Count > 0)
-            Print("ClosedItemSets first first: " + outer.Parse(output.ClosedItemSets.First().Value.First().Key));
-            Print();
-            Print("MaximalItemSets: " + output.MaximalItemSets.Count);
-            Print("MaximalItemSets first: " + outer.Parse(output.MaximalItemSets.First().ToString()));
-            Print();
-            Print("StrongRules: " + output.StrongRules.Count);
-            Print("StrongRules first: " + outer.Parse(output.StrongRules.First().X) + "  ===>  " + outer.Parse(output.StrongRules.First().Y));
-            Print("StrongRules midel: " + outer.Parse(output.StrongRules.ElementAt(output.StrongRules.Count / 2).X) 
-                + "  ===>  " + outer.Parse(output.StrongRules.ElementAt(output.StrongRules.Count / 2).Y));
-            Print("StrongRules last: " + outer.Parse(output.StrongRules.Last().X) + "  ===>  " + outer.Parse(output.StrongRules.Last().Y));
             Print();
             Print("ElapsedMilliseconds: " + st.ElapsedMilliseconds);
         }

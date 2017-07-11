@@ -212,20 +212,21 @@ namespace WebMining
                 Math.Abs(Duration.TotalMinutes - s.Duration.TotalMinutes) +
                 Math.Abs(Requests.Count() - s.Requests.Count()) +
                 distanceTime(StartTime, s.StartTime) +
-                similaritor.GetDissimilarity(GetTransaction(), s.GetTransaction()) * SCALE;
+                LevenshteinDistance.Compute(GetTransaction(), s.GetTransaction()) * SCALE; 
+            //similaritor.GetDissimilarity(GetTransaction(), s.GetTransaction()) * SCALE;
         }
 
         SmithWaterman similaritor = new SmithWaterman();
         static double SCALE = 10;
 
-        double distanceTime(DateTime t, DateTime p)
+        static double distanceTime(DateTime t, DateTime p)
         {
             return normalize(Math.Abs((t.Hour  - p.Hour ) % 24), 24) +
                    normalize(Math.Abs((t.Day   - p.Day  ) % 7 ),  7) +
                    normalize(Math.Abs((t.Month - p.Month) % 12), 12);
         }
 
-        double normalize(double value, double max, double min = 0)
+        static double normalize(double value, double max, double min = 0)
         {
             return (value - min) / (max - min);
         }
