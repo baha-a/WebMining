@@ -47,14 +47,14 @@
             this.label5 = new System.Windows.Forms.Label();
             this.button5 = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.txtboxMinPTS = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.listboxState = new System.Windows.Forms.ListBox();
-            this.label6 = new System.Windows.Forms.Label();
             this.button4 = new System.Windows.Forms.Button();
             this.txtboxClassification = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.txtboxMinPTS = new System.Windows.Forms.TextBox();
+            this.listboxState = new System.Windows.Forms.ListBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -142,7 +142,7 @@
             this.txtboxMinSupp.Name = "txtboxMinSupp";
             this.txtboxMinSupp.Size = new System.Drawing.Size(58, 20);
             this.txtboxMinSupp.TabIndex = 4;
-            this.txtboxMinSupp.Text = "0.04";
+            this.txtboxMinSupp.Text = "0.4";
             // 
             // txtboxMinConf
             // 
@@ -150,7 +150,7 @@
             this.txtboxMinConf.Name = "txtboxMinConf";
             this.txtboxMinConf.Size = new System.Drawing.Size(58, 20);
             this.txtboxMinConf.TabIndex = 5;
-            this.txtboxMinConf.Text = "0.04";
+            this.txtboxMinConf.Text = "0.4";
             // 
             // label1
             // 
@@ -247,6 +247,23 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Offline Algorithms";
             // 
+            // txtboxMinPTS
+            // 
+            this.txtboxMinPTS.Location = new System.Drawing.Point(291, 83);
+            this.txtboxMinPTS.Name = "txtboxMinPTS";
+            this.txtboxMinPTS.Size = new System.Drawing.Size(58, 20);
+            this.txtboxMinPTS.TabIndex = 15;
+            this.txtboxMinPTS.Text = "10";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(244, 86);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(41, 13);
+            this.label7.TabIndex = 14;
+            this.label7.Text = "minPTS";
+            // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.button4);
@@ -261,6 +278,33 @@
             this.groupBox3.TabIndex = 22;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Online Algorithms";
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(18, 94);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(202, 23);
+            this.button4.TabIndex = 21;
+            this.button4.Text = "3 - Classification (K-NN)";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // txtboxClassification
+            // 
+            this.txtboxClassification.Location = new System.Drawing.Point(289, 96);
+            this.txtboxClassification.Name = "txtboxClassification";
+            this.txtboxClassification.Size = new System.Drawing.Size(58, 20);
+            this.txtboxClassification.TabIndex = 20;
+            this.txtboxClassification.Text = "10";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(269, 99);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(13, 13);
+            this.label4.TabIndex = 22;
+            this.label4.Text = "K";
             // 
             // listboxState
             // 
@@ -282,49 +326,6 @@
             this.label6.Size = new System.Drawing.Size(33, 13);
             this.label6.TabIndex = 24;
             this.label6.Text = "State";
-            // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(18, 94);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(202, 23);
-            this.button4.TabIndex = 21;
-            this.button4.Text = "3 - Classification (K-NN)";
-            this.button4.UseVisualStyleBackColor = true;
-            // 
-            // txtboxClassification
-            // 
-            this.txtboxClassification.Location = new System.Drawing.Point(289, 96);
-            this.txtboxClassification.Name = "txtboxClassification";
-            this.txtboxClassification.Size = new System.Drawing.Size(58, 20);
-            this.txtboxClassification.TabIndex = 20;
-            this.txtboxClassification.Text = "10";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(269, 99);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(13, 13);
-            this.label4.TabIndex = 22;
-            this.label4.Text = "K";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(244, 86);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(41, 13);
-            this.label7.TabIndex = 14;
-            this.label7.Text = "minPTS";
-            // 
-            // txtboxMinPTS
-            // 
-            this.txtboxMinPTS.Location = new System.Drawing.Point(291, 83);
-            this.txtboxMinPTS.Name = "txtboxMinPTS";
-            this.txtboxMinPTS.Size = new System.Drawing.Size(58, 20);
-            this.txtboxMinPTS.TabIndex = 15;
-            this.txtboxMinPTS.Text = "10";
             // 
             // MainForm
             // 

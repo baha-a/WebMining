@@ -247,13 +247,7 @@ namespace WebMining
         private void classification()
         {
             Print("_______________________");
-            if (recommender == null)
-                recommender = new Recommender(extractedUsers);
-
-            recommender.Clusters = clusters;
-            recommender.Rules = associationRules;
-            recommender.K = int.Parse(txtboxClassification.Text);
-            var result = recommender.Recommend(txtboxClassificationRequest.Text);
+            var result = predicate();
 
             string gender = "UNKNOWEN";
             if (result.Gender == true)
@@ -273,6 +267,17 @@ namespace WebMining
             Print("Clustered to Cluster: " + result.Cluster.ID);
             Print(((User)result.Cluster.Center).ToString());
             Print();
+        }
+
+        private RecommendationResult predicate()
+        {
+            if (recommender == null)
+                recommender = new Recommender(extractedUsers);
+
+            recommender.Clusters = clusters;
+            recommender.Rules = associationRules;
+            recommender.K = int.Parse(txtboxClassification.Text);
+            return recommender.Recommend(txtboxClassificationRequest.Text);
         }
 
         void callback(Action core, Action<long> after)
@@ -296,6 +301,8 @@ namespace WebMining
         string receive(string m)
         {
             Print("client :" + m);
+            txtboxClassificationRequest.Text = m;
+            var result = predicate();
             return "ok";
         }
     }
