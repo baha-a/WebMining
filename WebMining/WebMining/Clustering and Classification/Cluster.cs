@@ -42,7 +42,6 @@ namespace WebMining
 
         public static IDistancable AvarageUser(IEnumerable<IDistancable> arg)
         {
-            System.Windows.Forms.MessageBox.Show("Test");
             Dictionary<string, int> countrycode = new Dictionary<string, int>();
             Dictionary<string, int> browser = new Dictionary<string, int>();
             Dictionary<string, int> OS = new Dictionary<string, int>();
