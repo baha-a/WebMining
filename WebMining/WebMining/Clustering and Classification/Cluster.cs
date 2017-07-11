@@ -7,10 +7,10 @@ namespace WebMining
     public class Cluster
     {
         public int ID { get; set; }
-        public IEnumerable<IMeasurable> Dataset { get; set; }
+        public IEnumerable<IDistancable> Dataset { get; set; }
 
-        IMeasurable center = null;
-        public IMeasurable Center
+        IDistancable center = null;
+        public IDistancable Center
         {
             get
             {
@@ -20,22 +20,22 @@ namespace WebMining
             }
         }
 
-        public Func<IEnumerable<IMeasurable>, IMeasurable> Marger { get; set; }
+        public Func<IEnumerable<IDistancable>, IDistancable> Marger { get; set; }
 
         static int IDer = 0;
-        public Cluster(IEnumerable<IMeasurable> e, Func<IEnumerable<IMeasurable>, IMeasurable> marge)
+        public Cluster(IEnumerable<IDistancable> e, Func<IEnumerable<IDistancable>, IDistancable> marge)
         {
             ID = IDer++;
             Dataset = e;
             Marger = marge;
         }
 
-        private IMeasurable CalculateCenter()
+        private IDistancable CalculateCenter()
         {
             return Marger(Dataset);
         }
 
-        public static IMeasurable AvarageUser(IEnumerable<IMeasurable> arg)
+        public static IDistancable AvarageUser(IEnumerable<IDistancable> arg)
         {
             System.Windows.Forms.MessageBox.Show("Test");
             Dictionary<string, int> countrycode = new Dictionary<string, int>();

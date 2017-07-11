@@ -9,7 +9,7 @@ namespace WebMining
 {
     public partial class MainForm : Form
     {
-        private readonly bool DEBUGGING = 1==1;
+        private readonly bool DEBUGGING = 1==0;
 
         public List<string> logfiles { get; private set; }
 
@@ -26,7 +26,7 @@ namespace WebMining
             OpenFileDialog d = new OpenFileDialog() { Multiselect = true, Filter = "Text File|*.txt|All Files|*.*" };
             if (d.ShowDialog() == DialogResult.OK)
                 logfiles = new List<string>(d.FileNames);
-            Print(lblLogfiles.Text = logfiles.Count + " logfiles selected");
+            Print(lblLogfiles.Text = logfiles.Count + " files selected");
         }
 
         private void btnLoadAndCleanData_Click(object sender, EventArgs e)
@@ -38,7 +38,11 @@ namespace WebMining
             }
             Print("loading and cleaing input data from files");
             btnLoadAndCleanData.Enabled = false;
-            callback(loadAndCleanData, x => { btnLoadAndCleanData.Enabled = true; Print("\t\tdone in " + (x / 1000) + " sec"); });
+            callback(loadAndCleanData, x => {
+                btnLoadAndCleanData.Enabled = true;
+                Print("Extracted Users count = " + extractedUsers.Count);
+                Print("\t\tdone in " + (x / 1000) + " sec");
+            });
         }
 
         List<User> extractedUsers;
@@ -161,17 +165,22 @@ namespace WebMining
             Print();
             MinMax m = new MinMax();
             double tmp = 0;
+            List<double> dics = new List<double>();
             for (int i = 0; i < extractedUsers.Count; i++)
             {
                 for (int j = extractedUsers.Count - 1; j > i; j--)
                 {
                     tmp = extractedUsers[i].Distance(extractedUsers[j]);
+                    //dics.Add(tmp);
                     m.SetMinMaxValues(tmp);
                     ava += tmp;
                     count++;
                 }
                 Processbarhandler((int)((count * 1.0) / totalcount * 100), " wait ");
             }
+
+            //dics.Sort();
+            //System.IO.File.WriteAllLines("c:\\dics.txt", dics.Select(x => x + ""));
 
             Processbarhandler(100, " finish ");
 

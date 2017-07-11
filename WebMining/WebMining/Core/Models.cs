@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace WebMining
 {
 
-    public class User : IMeasurable
+    public class User : IDistancable
     {
         public int ID { get; private set; }
         public List<Session> Sessions { get; set; }
@@ -35,7 +35,7 @@ namespace WebMining
             return str;
         }
 
-        public double Distance(IMeasurable t)
+        public double Distance(IDistancable t)
         {
             User u = t as User;
             if (u == null)
@@ -61,7 +61,7 @@ namespace WebMining
     }
 
 
-    public class Session : IMeasurable
+    public class Session : IDistancable
     {
         public int ID { get; private set; }
         public User User { get; set; }
@@ -188,7 +188,7 @@ namespace WebMining
             return c;
         }
 
-        public double Distance(IMeasurable t)
+        public double Distance(IDistancable t)
         {
             Session s = t as Session;
             if (s == null)
@@ -205,14 +205,11 @@ namespace WebMining
             if (s.OperatingSystem != OperatingSystem)
                 dis += 1;
 
-
-            dis += Math.Abs(Duration.TotalMinutes - s.Duration.TotalMinutes);
-            dis += Math.Abs(Requests.Count() - s.Requests.Count());
-            dis += distanceTime(StartTime, s.StartTime);
-
-            dis += similaritor.GetDissimilarity(GetTransaction(), s.GetTransaction()) * SCALE;
-
-            return dis;
+            return dis +
+                Math.Abs(Duration.TotalMinutes - s.Duration.TotalMinutes) +
+                Math.Abs(Requests.Count() - s.Requests.Count()) +
+                distanceTime(StartTime, s.StartTime) +
+                similaritor.GetDissimilarity(GetTransaction(), s.GetTransaction()) * SCALE;
         }
 
         SmithWaterman similaritor = new SmithWaterman();

@@ -1,8 +1,8 @@
 ﻿namespace WebMining
 {
-    public interface IMeasurable
+    public interface IDistancable
     {
-        double Distance(IMeasurable t);
+        double Distance(IDistancable t);
         string ToString();
     }
 }

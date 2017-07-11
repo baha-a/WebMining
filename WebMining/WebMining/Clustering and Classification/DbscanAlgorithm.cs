@@ -14,9 +14,9 @@ namespace WebMining
         {
             public bool IsVisited;
             public int ClusterId;
-            public IMeasurable ClusterPoint;
+            public IDistancable ClusterPoint;
 
-            public DbscanPoint(IMeasurable x)
+            public DbscanPoint(IDistancable x)
             {
                 ClusterPoint = x;
                 IsVisited = false;
@@ -50,32 +50,32 @@ namespace WebMining
         }
 
 
-        DbscanPoint[] _dataset;
+        IEnumerable<DbscanPoint> _dataset;
         private int totalCountOfItem;
 
-        public IEnumerable<Cluster> Clustering(IEnumerable<IMeasurable> dataset)
+        public IEnumerable<Cluster> Clustering(IEnumerable<IDistancable> dataset)
         {
             return Clustering(dataset, x => x.First());
         }
 
-        public IEnumerable<Cluster> Clustering(IEnumerable<IMeasurable> dataset, Func<IEnumerable<IMeasurable>, IMeasurable> marge)
+        public IEnumerable<Cluster> Clustering(IEnumerable<IDistancable> dataset, Func<IEnumerable<IDistancable>, IDistancable> marge)
         {
             counter = 0;
             notify(0, "start clustering");
 
             int clusterId = 0;
             totalCountOfItem = dataset.Count();
-            _dataset = dataset.Select(x => new DbscanPoint(x)).ToArray();
+            _dataset = dataset.Select(x => new DbscanPoint(x));
 
             foreach (var p in _dataset)
             {                
                 if (p.IsVisited)
                     continue;
 
-                increceCounterAndNotify();
                 p.IsVisited = true;
+                increceCounterAndNotify();
 
-                var neighbors = neighbor(p.ClusterPoint);
+                var neighbors = neighbor(p);
 
                 if (neighbors.Count() < MinPts)
                     p.ClusterId = NOISE;
@@ -107,10 +107,11 @@ namespace WebMining
                     continue;
 
                 point.IsVisited = true;
-                var neighbors = neighbor(point.ClusterPoint);
+
+                var neighbors = neighbor(point);
                 if (neighbors.Count() >= MinPts)
-                    foreach (var neighbor in neighbors.Where(neighbor => !neighbor.IsVisited))
-                        queue.Enqueue(neighbor);
+                    foreach (var n in neighbors.Where(n => !n.IsVisited))
+                        queue.Enqueue(n);
             }
         }
 
@@ -121,14 +122,14 @@ namespace WebMining
                 notify((int)((counter * 90.0 / totalCountOfItem) % 100), "clustering");
         }
 
-        private IEnumerable<Cluster> fillResultInClusters(Func<IEnumerable<IMeasurable>, IMeasurable> marge)
+        private IEnumerable<Cluster> fillResultInClusters(Func<IEnumerable<IDistancable>, IDistancable> marge)
         {
             return _dataset.Where(x => x.ClusterId > 0).GroupBy(x => x.ClusterId).Select(x => new Cluster(x.Select(y => y.ClusterPoint), marge));
         }
 
-        private IEnumerable<DbscanPoint> neighbor(IMeasurable point)
+        private IEnumerable<DbscanPoint> neighbor(DbscanPoint point)
         {
-            return _dataset.Where(x => point.Distance(x.ClusterPoint) <= Epsilon);
+            return _dataset.Where(x => point.ClusterPoint.Distance(x.ClusterPoint) <= Epsilon);
         }
     }
 }
