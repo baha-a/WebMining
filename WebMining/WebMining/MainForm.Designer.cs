@@ -143,6 +143,8 @@
             this.txtboxMinSupp.Size = new System.Drawing.Size(58, 20);
             this.txtboxMinSupp.TabIndex = 4;
             this.txtboxMinSupp.Text = "0.4";
+            this.txtboxMinSupp.TextChanged += new System.EventHandler(this.numberOnlyTextBox_TextChanged);
+            this.txtboxMinSupp.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.numberOnlyTextBox_KeyPress);
             // 
             // txtboxMinConf
             // 
@@ -151,6 +153,8 @@
             this.txtboxMinConf.Size = new System.Drawing.Size(58, 20);
             this.txtboxMinConf.TabIndex = 5;
             this.txtboxMinConf.Text = "0.4";
+            this.txtboxMinConf.TextChanged += new System.EventHandler(this.numberOnlyTextBox_TextChanged);
+            this.txtboxMinConf.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.numberOnlyTextBox_KeyPress);
             // 
             // label1
             // 
@@ -176,7 +180,9 @@
             this.txtboxEpsilon.Name = "txtboxEpsilon";
             this.txtboxEpsilon.Size = new System.Drawing.Size(58, 20);
             this.txtboxEpsilon.TabIndex = 2;
-            this.txtboxEpsilon.Text = "5.0";
+            this.txtboxEpsilon.Text = "1.0000";
+            this.txtboxEpsilon.TextChanged += new System.EventHandler(this.numberOnlyTextBox_TextChanged);
+            this.txtboxEpsilon.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.numberOnlyTextBox_KeyPress);
             // 
             // label3
             // 
@@ -253,7 +259,9 @@
             this.txtboxMinPTS.Name = "txtboxMinPTS";
             this.txtboxMinPTS.Size = new System.Drawing.Size(58, 20);
             this.txtboxMinPTS.TabIndex = 15;
-            this.txtboxMinPTS.Text = "10";
+            this.txtboxMinPTS.Text = "6";
+            this.txtboxMinPTS.TextChanged += new System.EventHandler(this.numberOnlyTextBox_TextChanged);
+            this.txtboxMinPTS.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.numberOnlyTextBox_KeyPress);
             // 
             // label7
             // 
@@ -296,6 +304,8 @@
             this.txtboxClassification.Size = new System.Drawing.Size(58, 20);
             this.txtboxClassification.TabIndex = 20;
             this.txtboxClassification.Text = "10";
+            this.txtboxClassification.TextChanged += new System.EventHandler(this.numberOnlyTextBox_TextChanged);
+            this.txtboxClassification.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.numberOnlyTextBox_KeyPress);
             // 
             // label4
             // 
