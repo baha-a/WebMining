@@ -9,7 +9,7 @@ namespace WebMining
 {
     public partial class MainForm : Form
     {
-        private readonly bool DEBUGGING = 1==0;
+        private readonly bool DEBUGGING = 1 == 1;
 
         public List<string> logfiles { get; private set; }
 
@@ -81,7 +81,7 @@ namespace WebMining
             Print();
             clusters = new DbscanAlgorithm(double.Parse(txtboxEpsilon.Text), int.Parse(txtboxMinPTS.Text))
                 .setNotifyer(Processbarhandler)
-                .Clustering(extractedUsers,Cluster.AvarageUser);
+                .Clustering(extractedUsers, Cluster.AvarageUser);
 
             Print("Count = " + clusters.Count());
             Print();

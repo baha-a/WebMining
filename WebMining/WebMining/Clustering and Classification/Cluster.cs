@@ -10,6 +10,7 @@ namespace WebMining
         public IEnumerable<IDistancable> Dataset { get; set; }
 
         IDistancable center = null;
+
         public IDistancable Center
         {
             get
@@ -17,6 +18,10 @@ namespace WebMining
                 if (center == null)
                     center = CalculateCenter();
                 return center;
+            }
+            set
+            {
+                center = value;
             }
         }
 

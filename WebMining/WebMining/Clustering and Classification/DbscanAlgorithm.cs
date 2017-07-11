@@ -92,6 +92,12 @@ namespace WebMining
             return res;
         }
 
+        private IEnumerable<Cluster> fillResultInClusters(Func<IEnumerable<IDistancable>, IDistancable> marge)
+        {
+            return _dataset.Where(x => x.ClusterId > 0).GroupBy(x => x.ClusterId)
+                .Select(x => new Cluster(x.Select(y => y.ClusterPoint), marge) { ID = x.First().ClusterId});
+        }
+
         private void visit(DbscanPoint p)
         {
             p.IsVisited = true;
@@ -125,11 +131,6 @@ namespace WebMining
                     foreach (var neighbor in neighbors.Where(neighbor => !neighbor.IsVisited))
                         queue.Enqueue(neighbor);
             }
-        }
-
-        private IEnumerable<Cluster> fillResultInClusters(Func<IEnumerable<IDistancable>, IDistancable> marge)
-        {
-            return _dataset.Where(x => x.ClusterId > 0).GroupBy(x => x.ClusterId).Select(x => new Cluster(x.Select(y => y.ClusterPoint), marge));
         }
 
         private IEnumerable<DbscanPoint> neighbor(IDistancable point)

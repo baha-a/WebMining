@@ -41,7 +41,7 @@ namespace WebMining
         SessionOutputParser sessionOutputParser = new SessionOutputParser(" - ");
         private IEnumerable<string> sugguestPageByUsingRules(string t)
         {
-            return sessionOutputParser.ParseAllToLines(Rules.Where(x => x.X == t).OrderBy(x => x.Confidence).Select(x => x.Y));
+            return sessionOutputParser.ParseAllToLines(Rules.Where(x => x.X == t).Select(x => x.Y));
         }
 
         private Cluster getNearestCluster(User user)
