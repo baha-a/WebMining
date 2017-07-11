@@ -81,7 +81,7 @@ namespace WebMining
             Print();
             clusters = new DbscanAlgorithm(double.Parse(txtboxEpsilon.Text), int.Parse(txtboxMinPTS.Text))
                 .setNotifyer(Processbarhandler)
-                .Clustering(extractedUsers);
+                .Clustering(extractedUsers,Cluster.AvarageUser);
 
             Print("Count = " + clusters.Count());
             Print();
