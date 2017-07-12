@@ -9,7 +9,7 @@ namespace WebMining
 {
     public partial class MainForm : Form
     {
-        private readonly bool DEBUGGING = 1 == 1;
+        private readonly bool DEBUGGING = 1 == 0;
 
         public List<string> logfiles { get; private set; }
 
