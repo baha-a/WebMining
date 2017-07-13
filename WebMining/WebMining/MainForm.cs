@@ -272,7 +272,7 @@ namespace WebMining
             Print();
 
             Print("Clustered to Cluster: " + result.Cluster.ID);
-            Print(((User)result.Cluster.Center).ToString());
+            Print(result.User.Distance(result.Cluster.Center));
             Print();
         }
 

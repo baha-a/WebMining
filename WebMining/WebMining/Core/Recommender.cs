@@ -24,6 +24,8 @@ namespace WebMining
 
             return new RecommendationResult()
             {
+                User = user,
+
                 Gender = predicateGender(user),
                 SuggestedPages = sugguestPageByUsingRules(t),
                 Cluster = getNearestCluster(user),

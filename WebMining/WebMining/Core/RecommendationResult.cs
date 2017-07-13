@@ -11,5 +11,7 @@ namespace WebMining
         public Cluster Cluster { get; set; }
 
         public Request OriginalRequest { get; set; }
+
+        public User User { get; set; }
     }
 }
