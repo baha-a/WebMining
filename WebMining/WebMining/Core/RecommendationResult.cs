@@ -13,5 +13,6 @@ namespace WebMining
         public Request OriginalRequest { get; set; }
 
         public User User { get; set; }
+        public IEnumerable<string> SuggestedPagesByMarkov { get; internal set; }
     }
 }

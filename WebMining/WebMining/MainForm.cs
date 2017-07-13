@@ -12,6 +12,7 @@ namespace WebMining
         private readonly bool DEBUGGING = 1 == 0;
 
         public List<string> logfiles { get; private set; }
+        List<User> extractedUsers;
 
         public MainForm()
         {
@@ -45,7 +46,6 @@ namespace WebMining
             });
         }
 
-        List<User> extractedUsers;
         private void loadAndCleanData()
         {
             Print();
@@ -241,8 +241,7 @@ namespace WebMining
         {
             if (clusters == null || associationRules == null)
             {
-                Print("do 'Clustering' and 'Association Rule' first");
-                return;
+                Print("do 'Clustering' and 'Association Rule' first!!");
             }
             button4.Enabled = false;
             callback(classification, x => { button4.Enabled = true; Print("\t\tdone in " + x + " milisec"); });
@@ -266,14 +265,26 @@ namespace WebMining
             Print(gender);
 
             Print();
-            Print("Suggested Pages is: ");
+            Print("Suggested Pages: ");
             foreach (var p in result.SuggestedPages)
                 Print("\t" + p);
             Print();
 
-            Print("Clustered to Cluster: " + result.Cluster.ID);
-            Print(result.User.Distance(result.Cluster.Center));
+
             Print();
+            Print("Suggested Pages by Markov: ");
+            foreach (var p in result.SuggestedPagesByMarkov)
+                Print(" " + p);
+
+            Print();
+            Print();
+
+            if (result.Cluster != null)
+            {
+                Print("Clustered to Cluster: " + result.Cluster.ID);
+                Print(result.User.Distance(result.Cluster.Center));
+                Print();
+            }
         }
 
         private RecommendationResult predicate()
@@ -284,6 +295,7 @@ namespace WebMining
             recommender.Clusters = clusters;
             recommender.Rules = associationRules;
             recommender.K = int.Parse(txtboxClassification.Text);
+            recommender.MarkovChain = markover;
             return recommender.Recommend(txtboxClassificationRequest.Text);
         }
 
@@ -332,6 +344,28 @@ namespace WebMining
             }
             catch { }
             Print("only number (bigger than zero) in textbox");
+        }
+
+        private void btnMarkovBuild_Click(object sender, EventArgs e)
+        {
+            if (extractedUsers == null)
+            {
+                MessageBox.Show("no input data");
+                return;
+            }
+            btnMarkovBuild.Enabled = false;
+            callback(bulidMarkov, x => { btnMarkovBuild.Enabled = true; Print("\t\tdone in " + (x / 1000) + " sec"); });
+        }
+
+        MarkovChain<string> markover;
+        private void bulidMarkov()
+        {
+            Print("_______________________");
+            markover = new MarkovChain<string>();
+            foreach (var e in extractedUsers)
+                foreach (var s in e.Sessions)
+                    markover.AddTransaction(s.Requests.Select(x => x.RequstedPage).ToList());
+            Print("Markov model has been build");
         }
     }
 }

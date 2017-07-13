@@ -55,6 +55,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.listboxState = new System.Windows.Forms.ListBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.btnMarkovBuild = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -103,7 +104,7 @@
             // lblNotifications
             // 
             this.lblNotifications.AutoSize = true;
-            this.lblNotifications.Location = new System.Drawing.Point(27, 460);
+            this.lblNotifications.Location = new System.Drawing.Point(27, 473);
             this.lblNotifications.Name = "lblNotifications";
             this.lblNotifications.Size = new System.Drawing.Size(11, 13);
             this.lblNotifications.TabIndex = 4;
@@ -111,7 +112,7 @@
             // 
             // progressBarDataClean
             // 
-            this.progressBarDataClean.Location = new System.Drawing.Point(12, 476);
+            this.progressBarDataClean.Location = new System.Drawing.Point(12, 489);
             this.progressBarDataClean.Name = "progressBarDataClean";
             this.progressBarDataClean.Size = new System.Drawing.Size(372, 11);
             this.progressBarDataClean.TabIndex = 5;
@@ -195,9 +196,9 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(17, 168);
+            this.button3.Location = new System.Drawing.Point(17, 190);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(202, 23);
+            this.button3.Size = new System.Drawing.Size(203, 23);
             this.button3.TabIndex = 7;
             this.button3.Text = "Analyze Dateset";
             this.button3.UseVisualStyleBackColor = true;
@@ -234,6 +235,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.btnMarkovBuild);
             this.groupBox2.Controls.Add(this.txtboxMinPTS);
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.button2);
@@ -248,7 +250,7 @@
             this.groupBox2.Controls.Add(this.btnLoadAndCleanData);
             this.groupBox2.Location = new System.Drawing.Point(12, 81);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(372, 197);
+            this.groupBox2.Size = new System.Drawing.Size(372, 218);
             this.groupBox2.TabIndex = 21;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Offline Algorithms";
@@ -280,7 +282,7 @@
             this.groupBox3.Controls.Add(this.txtboxClassificationRequest);
             this.groupBox3.Controls.Add(this.button5);
             this.groupBox3.Controls.Add(this.label5);
-            this.groupBox3.Location = new System.Drawing.Point(12, 284);
+            this.groupBox3.Location = new System.Drawing.Point(12, 301);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(372, 163);
             this.groupBox3.TabIndex = 22;
@@ -337,11 +339,21 @@
             this.label6.TabIndex = 24;
             this.label6.Text = "State";
             // 
+            // btnMarkovBuild
+            // 
+            this.btnMarkovBuild.Location = new System.Drawing.Point(18, 161);
+            this.btnMarkovBuild.Name = "btnMarkovBuild";
+            this.btnMarkovBuild.Size = new System.Drawing.Size(202, 23);
+            this.btnMarkovBuild.TabIndex = 16;
+            this.btnMarkovBuild.Text = "2 - Build Markov Model";
+            this.btnMarkovBuild.UseVisualStyleBackColor = true;
+            this.btnMarkovBuild.Click += new System.EventHandler(this.btnMarkovBuild_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(693, 500);
+            this.ClientSize = new System.Drawing.Size(693, 506);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.listboxState);
             this.Controls.Add(this.groupBox3);
@@ -391,6 +403,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtboxMinPTS;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Button btnMarkovBuild;
     }
 }
 
