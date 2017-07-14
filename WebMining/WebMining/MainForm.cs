@@ -32,16 +32,19 @@ namespace WebMining
 
         private void btnLoadAndCleanData_Click(object sender, EventArgs e)
         {
+            Session.TimeOutSec = long.Parse(txtboxSessionTimeOut.Text);
             if (logfiles == null || logfiles.Count() == 0)
             {
                 Print("no input files");
                 return;
             }
+
             Print("loading and cleaing input data from files");
             btnLoadAndCleanData.Enabled = false;
             callback(loadAndCleanData, x => {
                 btnLoadAndCleanData.Enabled = true;
                 Print("Extracted Users count = " + extractedUsers.Count);
+                Print("Session Count = " + getAllSessions().Count);
                 Print("\t\tdone in " + (x / 1000) + " sec");
             });
         }
@@ -111,9 +114,7 @@ namespace WebMining
 
             Stopwatch st = Stopwatch.StartNew();
 
-            List<Session> sessions = new List<Session>();
-            foreach (var u in extractedUsers)
-                sessions.AddRange(u.Sessions);
+            List<Session> sessions = getAllSessions();
 
             Output output = new AssociationRules(new Apriori(new SessionInputParser(sessions))
                 .GenerateFrequentItemsets(minsupport)).GenerateRules(minconfidence);
@@ -124,6 +125,7 @@ namespace WebMining
             try
             {
                 Print("session count: " + sessions.Count + "  -  ex: " + outer.Parse(sessions.First().GetTransaction()));
+                Print("Distinct session count: " + sessions.Select(x => x.GetTransaction()).Distinct().Count() + "  -  ex: " + outer.Parse(sessions.Select(x => x.GetTransaction()).Distinct().First()));
                 Print();
                 Print("FrequentItems: " + output.FrequentItems.Count);
                 Print("FrequentItems first: " + outer.Parse(output.FrequentItems.First().Name));
@@ -149,6 +151,14 @@ namespace WebMining
 
             Print();
             Print("ElapsedMilliseconds: " + st.ElapsedMilliseconds);
+        }
+
+        private List<Session> getAllSessions()
+        {
+            List<Session> sessions = new List<Session>();
+            foreach (var u in extractedUsers)
+                sessions.AddRange(u.Sessions);
+            return sessions;
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -189,8 +199,6 @@ namespace WebMining
                 Processbarhandler((int)((count * 1.0) / totalcount * 100), " wait ");
             }
 
-            //dics.Sort();
-            //System.IO.File.WriteAllLines("c:\\dics.txt", dics.Select(x => x + ""));
 
             Processbarhandler(100, " finish ");
 

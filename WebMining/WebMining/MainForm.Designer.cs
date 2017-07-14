@@ -56,6 +56,8 @@
             this.label4 = new System.Windows.Forms.Label();
             this.listboxState = new System.Windows.Forms.ListBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.txtboxSessionTimeOut = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -235,6 +237,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.txtboxSessionTimeOut);
             this.groupBox2.Controls.Add(this.btnMarkovBuild);
             this.groupBox2.Controls.Add(this.txtboxMinPTS);
             this.groupBox2.Controls.Add(this.label7);
@@ -246,6 +249,7 @@
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Controls.Add(this.txtboxEpsilon);
+            this.groupBox2.Controls.Add(this.label8);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.btnLoadAndCleanData);
             this.groupBox2.Location = new System.Drawing.Point(12, 81);
@@ -349,6 +353,25 @@
             this.label6.TabIndex = 24;
             this.label6.Text = "State";
             // 
+            // txtboxSessionTimeOut
+            // 
+            this.txtboxSessionTimeOut.Location = new System.Drawing.Point(291, 22);
+            this.txtboxSessionTimeOut.Name = "txtboxSessionTimeOut";
+            this.txtboxSessionTimeOut.Size = new System.Drawing.Size(58, 20);
+            this.txtboxSessionTimeOut.TabIndex = 17;
+            this.txtboxSessionTimeOut.Text = "1800";
+            this.txtboxSessionTimeOut.TextChanged += new System.EventHandler(this.numberOnlyTextBox_TextChanged);
+            this.txtboxSessionTimeOut.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.numberOnlyTextBox_KeyPress);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(241, 16);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(43, 39);
+            this.label8.TabIndex = 13;
+            this.label8.Text = "Session\r\ntimeout\r\n(Sec)";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -404,6 +427,8 @@
         private System.Windows.Forms.TextBox txtboxMinPTS;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button btnMarkovBuild;
+        private System.Windows.Forms.TextBox txtboxSessionTimeOut;
+        private System.Windows.Forms.Label label8;
     }
 }
 

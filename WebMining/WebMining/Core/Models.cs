@@ -80,7 +80,7 @@ namespace WebMining
 
 
 
-        public static int TimeOutSec = 1000;
+        public static long TimeOutSec = 1800;
 
         #region other code
         private static int counter = 0;
