@@ -108,7 +108,6 @@ namespace WebMining
             double minsupport = double.Parse(txtboxMinSupp.Text);
             double minconfidence = double.Parse(txtboxMinConf.Text);
 
-            MessageBox.Show(minsupport + " - " + minconfidence);
 
             Stopwatch st = Stopwatch.StartNew();
 
@@ -116,8 +115,8 @@ namespace WebMining
             foreach (var u in extractedUsers)
                 sessions.AddRange(u.Sessions);
 
-            Output output = new AssociationRules(new Apriori(new SessionInputParser(sessions)).GenerateFrequentItemsets(minsupport))
-                .GenerateRules(minconfidence); //.parse(new SessionOutputParser());
+            Output output = new AssociationRules(new Apriori(new SessionInputParser(sessions))
+                .GenerateFrequentItemsets(minsupport)).GenerateRules(minconfidence);
 
             associationRules = output.StrongRules;
 
