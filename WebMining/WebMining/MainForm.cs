@@ -105,8 +105,10 @@ namespace WebMining
             Print("_______________________");
             Print("Assicuation Rules . . .");
             Print();
-            double minsupport = double.Parse(txtboxMinSupp.Text); // 1.0000000000000001
+            double minsupport = double.Parse(txtboxMinSupp.Text);
             double minconfidence = double.Parse(txtboxMinConf.Text);
+
+            MessageBox.Show(minsupport + " - " + minconfidence);
 
             Stopwatch st = Stopwatch.StartNew();
 

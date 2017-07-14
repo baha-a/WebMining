@@ -47,6 +47,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.button5 = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnMarkovBuild = new System.Windows.Forms.Button();
             this.txtboxMinPTS = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -55,7 +56,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.listboxState = new System.Windows.Forms.ListBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.btnMarkovBuild = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -143,7 +143,7 @@
             this.txtboxMinSupp.Name = "txtboxMinSupp";
             this.txtboxMinSupp.Size = new System.Drawing.Size(58, 20);
             this.txtboxMinSupp.TabIndex = 4;
-            this.txtboxMinSupp.Text = "0.4";
+            this.txtboxMinSupp.Text = "0.9800";
             this.txtboxMinSupp.TextChanged += new System.EventHandler(this.numberOnlyTextBox_TextChanged);
             this.txtboxMinSupp.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.numberOnlyTextBox_KeyPress);
             // 
@@ -153,7 +153,7 @@
             this.txtboxMinConf.Name = "txtboxMinConf";
             this.txtboxMinConf.Size = new System.Drawing.Size(58, 20);
             this.txtboxMinConf.TabIndex = 5;
-            this.txtboxMinConf.Text = "0.4";
+            this.txtboxMinConf.Text = "0.9999";
             this.txtboxMinConf.TextChanged += new System.EventHandler(this.numberOnlyTextBox_TextChanged);
             this.txtboxMinConf.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.numberOnlyTextBox_KeyPress);
             // 
@@ -255,6 +255,16 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Offline Algorithms";
             // 
+            // btnMarkovBuild
+            // 
+            this.btnMarkovBuild.Location = new System.Drawing.Point(18, 161);
+            this.btnMarkovBuild.Name = "btnMarkovBuild";
+            this.btnMarkovBuild.Size = new System.Drawing.Size(202, 23);
+            this.btnMarkovBuild.TabIndex = 16;
+            this.btnMarkovBuild.Text = "2 - Build Markov Model";
+            this.btnMarkovBuild.UseVisualStyleBackColor = true;
+            this.btnMarkovBuild.Click += new System.EventHandler(this.btnMarkovBuild_Click);
+            // 
             // txtboxMinPTS
             // 
             this.txtboxMinPTS.Location = new System.Drawing.Point(291, 83);
@@ -338,16 +348,6 @@
             this.label6.Size = new System.Drawing.Size(33, 13);
             this.label6.TabIndex = 24;
             this.label6.Text = "State";
-            // 
-            // btnMarkovBuild
-            // 
-            this.btnMarkovBuild.Location = new System.Drawing.Point(18, 161);
-            this.btnMarkovBuild.Name = "btnMarkovBuild";
-            this.btnMarkovBuild.Size = new System.Drawing.Size(202, 23);
-            this.btnMarkovBuild.TabIndex = 16;
-            this.btnMarkovBuild.Text = "2 - Build Markov Model";
-            this.btnMarkovBuild.UseVisualStyleBackColor = true;
-            this.btnMarkovBuild.Click += new System.EventHandler(this.btnMarkovBuild_Click);
             // 
             // MainForm
             // 
