@@ -21,39 +21,23 @@ namespace WebMining
 
         public RecommendationResult Recommend(string request)
         {
-            var user = cacher.ProcessLineWithoutAddAnything(request);
-            string t = user.Sessions.Last().GetTransaction();
-            string m = user.Sessions.Last().Requests.Last().RequstedPage;
+            var res = cacher.ProcessLineWithoutAddAnything(request);
+            var user = res.Key;
+
+            string transaction = res.Value.GetTransaction();
+            string requestedPage = res.Value.Requests.Last().RequstedPage;
 
             return new RecommendationResult()
             {
                 User = user,
 
                 Gender = predicateGender(user),
-                SuggestedPages = sugguestPageByUsingRules(t),
-                SuggestedPagesByMarkov = suggestPagesByMarkov(m),
+                SuggestedPages = sugguestPageByUsingRules(transaction),
+                SuggestedPagesByMarkov = suggestPagesByMarkov(requestedPage),
                 Cluster = getNearestCluster(user),
 
                 OriginalRequest = cacher.ParseToRequest(request)
             };
-        }
-
-        private IEnumerable<string> suggestPagesByMarkov(string t)
-        {
-            var pages = new List<string>();
-            foreach (var m in MarkovChain.PredicteNextWithhProbabilities(t))
-            {
-                if (m.Key.State == MarkovState.End)
-                    pages.Add("[END] - " + m.Value * 100 + " %");
-                else
-                    pages.Add(m.Key.Value + " - " + m.Value * 100 + " %");
-                foreach (var v in m.Key.GetNextsWithProbabilities())
-                    if (v.Key.State == MarkovState.End)
-                        pages.Add("\t[END] - " + v.Value * 100 + " %");
-                    else
-                        pages.Add("\t" + v.Key.Value + " - " + v.Value * 100 + " %");
-            }
-            return pages;
         }
 
         private bool? predicateGender(User user)
@@ -62,12 +46,16 @@ namespace WebMining
         }
 
 
+
         SessionOutputParser sessionOutputParser = new SessionOutputParser(" - ");
         private IEnumerable<string> sugguestPageByUsingRules(string t)
         {
             if (Rules == null)
                 return new List<string>();
-            return sessionOutputParser.ParseAllToLines(Rules.Where(x => x.X == t).Select(x => x.Y));
+            IEnumerable<string> res = sessionOutputParser.ParseAllToLines(Rules.Where(x => x.X == t).Select(x => x.Y));
+            if(res.Count() == 0)
+                res = sessionOutputParser.ParseAllToLines(Rules.Where(x => x.X.Contains(t)).Select(x => x.Y));
+            return res;
         }
 
         private Cluster getNearestCluster(User user)
@@ -75,6 +63,30 @@ namespace WebMining
             if (Clusters == null)
                 return null;
             return Clusters.OrderByDescending(y => user.Distance(y.Center)).First();
+        }
+
+
+        private IEnumerable<string> suggestPagesByMarkov(string t)
+        {
+            var pages = new List<string>();
+
+            if (MarkovChain == null)
+                return pages;
+
+            foreach (var m in MarkovChain.PredicteNextWithhProbabilities(t))
+            {
+                pages.Add(printPage(m));
+                foreach (var v in m.Key.GetNextsWithProbabilities())
+                    pages.Add(printPage(v, "\t"));
+            }
+            return pages;
+        }
+
+        private static string printPage(KeyValuePair<MarkovNode<string>, double> m, string prefix = "")
+        {
+            if (m.Key.State == MarkovState.End)
+                return prefix + "[END] - " + m.Value * 100 + " %";
+            return prefix + m.Key.Value + " - " + m.Value * 100 + " %";
         }
     }
 }

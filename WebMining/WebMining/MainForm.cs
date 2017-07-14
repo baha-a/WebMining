@@ -239,6 +239,12 @@ namespace WebMining
 
         private void button4_Click(object sender, EventArgs e)
         {
+            if (extractedUsers == null)
+            {
+                MessageBox.Show("no input data");
+                return;
+            }
+
             if (clusters == null || associationRules == null)
             {
                 Print("do 'Clustering' and 'Association Rule' first!!");

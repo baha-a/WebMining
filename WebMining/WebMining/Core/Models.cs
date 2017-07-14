@@ -113,6 +113,8 @@ namespace WebMining
 
         public void AddRequest(Request r)
         {
+            resetTransactionHelper();
+
             if (Requests.Count == 0)
                 StartTime = r.Time;
 
@@ -139,12 +141,18 @@ namespace WebMining
         string stringTransaction = null;
         public string GetTransaction()
         {
-            if (stringTransaction != null)
+            if (String.IsNullOrEmpty(stringTransaction) == false)
                 return stringTransaction;
-            stringTransaction = "";
+
+            resetTransactionHelper();
             foreach (var r in Requests)
                 stringTransaction += getChar(r.RequstedPage);
             return stringTransaction;
+        }
+
+        private void resetTransactionHelper()
+        {
+            stringTransaction = "";
         }
 
         private char getChar(string page)

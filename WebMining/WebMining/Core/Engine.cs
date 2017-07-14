@@ -46,7 +46,7 @@ namespace WebMining
 
 
         private static Dictionary<string, User> cache = new Dictionary<string, User>();
-        public User ProcessLineWithoutAddAnything(string logline)
+        public KeyValuePair<User, Session> ProcessLineWithoutAddAnything(string logline)
         {
             var request = parser.ParseLine(logline);
 
@@ -55,8 +55,7 @@ namespace WebMining
 
             var user = cache[request.CookieID];
 
-            Sessionization(request, user);
-            return user;
+            return new KeyValuePair<User,Session>(user,Sessionization(request, user));
         }
 
         public Request ParseToRequest(string request)
@@ -141,9 +140,11 @@ namespace WebMining
             return u;
         }
 
-        private void Sessionization(Request r, User u)
+        private Session Sessionization(Request r, User u)
         {
-            (findCurrectSession(r.Time, u.Sessions) ?? addNewSession(r, u)).AddRequest(r);
+            var s = (findCurrectSession(r.Time, u.Sessions) ?? addNewSession(u));
+            s.AddRequest(r);
+            return s;
         }
 
         private Session findCurrectSession(DateTime time, List<Session> sessions)
@@ -160,7 +161,7 @@ namespace WebMining
             return (s.StartTime - time).Duration().TotalSeconds <= Session.TimeOutSec;
         }
 
-        private Session addNewSession(Request r, User u)
+        private Session addNewSession(User u)
         {
             Session s = new Session();
             u.AddSession(s);
