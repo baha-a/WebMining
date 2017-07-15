@@ -382,5 +382,10 @@ namespace WebMining
                     markover.AddTransaction(s.Requests.Select(x => x.RequstedPage).ToList());
             Print("Markov model has been build");
         }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("this Demo for our graduation project\r\n\tat Damascus University (Syria)\r\n\tat year 2017/2016\r\nBy:\r\n\tBaha'a Alsharif (http://github.com/bhlshrf)\r\n\tZiad Hashem\r\n\tBasel Altoom \r\n\tBakr Damman");
+        }
     }
 }

@@ -47,17 +47,18 @@
             this.label5 = new System.Windows.Forms.Label();
             this.button5 = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.txtboxSessionTimeOut = new System.Windows.Forms.TextBox();
             this.btnMarkovBuild = new System.Windows.Forms.Button();
             this.txtboxMinPTS = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.button4 = new System.Windows.Forms.Button();
             this.txtboxClassification = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.listboxState = new System.Windows.Forms.ListBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.txtboxSessionTimeOut = new System.Windows.Forms.TextBox();
-            this.label8 = new System.Windows.Forms.Label();
+            this.button6 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -98,7 +99,7 @@
             this.btnLoadAndCleanData.Location = new System.Drawing.Point(18, 22);
             this.btnLoadAndCleanData.Name = "btnLoadAndCleanData";
             this.btnLoadAndCleanData.Size = new System.Drawing.Size(202, 23);
-            this.btnLoadAndCleanData.TabIndex = 1;
+            this.btnLoadAndCleanData.TabIndex = 2;
             this.btnLoadAndCleanData.Text = "1 - Data Clean";
             this.btnLoadAndCleanData.UseVisualStyleBackColor = true;
             this.btnLoadAndCleanData.Click += new System.EventHandler(this.btnLoadAndCleanData_Click);
@@ -124,7 +125,7 @@
             this.button1.Location = new System.Drawing.Point(18, 60);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(202, 43);
-            this.button1.TabIndex = 3;
+            this.button1.TabIndex = 5;
             this.button1.Text = "2 - Clustring (DBSCAN)";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -134,7 +135,7 @@
             this.button2.Location = new System.Drawing.Point(18, 113);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(202, 42);
-            this.button2.TabIndex = 6;
+            this.button2.TabIndex = 8;
             this.button2.Text = "2 - Association Rule (Apriori)";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
@@ -144,7 +145,7 @@
             this.txtboxMinSupp.Location = new System.Drawing.Point(291, 113);
             this.txtboxMinSupp.Name = "txtboxMinSupp";
             this.txtboxMinSupp.Size = new System.Drawing.Size(58, 20);
-            this.txtboxMinSupp.TabIndex = 4;
+            this.txtboxMinSupp.TabIndex = 6;
             this.txtboxMinSupp.Text = "0.9800";
             this.txtboxMinSupp.TextChanged += new System.EventHandler(this.numberOnlyTextBox_TextChanged);
             this.txtboxMinSupp.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.numberOnlyTextBox_KeyPress);
@@ -154,7 +155,7 @@
             this.txtboxMinConf.Location = new System.Drawing.Point(291, 135);
             this.txtboxMinConf.Name = "txtboxMinConf";
             this.txtboxMinConf.Size = new System.Drawing.Size(58, 20);
-            this.txtboxMinConf.TabIndex = 5;
+            this.txtboxMinConf.TabIndex = 7;
             this.txtboxMinConf.Text = "0.9999";
             this.txtboxMinConf.TextChanged += new System.EventHandler(this.numberOnlyTextBox_TextChanged);
             this.txtboxMinConf.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.numberOnlyTextBox_KeyPress);
@@ -182,7 +183,7 @@
             this.txtboxEpsilon.Location = new System.Drawing.Point(291, 60);
             this.txtboxEpsilon.Name = "txtboxEpsilon";
             this.txtboxEpsilon.Size = new System.Drawing.Size(58, 20);
-            this.txtboxEpsilon.TabIndex = 2;
+            this.txtboxEpsilon.TabIndex = 3;
             this.txtboxEpsilon.Text = "1.0000";
             this.txtboxEpsilon.TextChanged += new System.EventHandler(this.numberOnlyTextBox_TextChanged);
             this.txtboxEpsilon.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.numberOnlyTextBox_KeyPress);
@@ -201,7 +202,7 @@
             this.button3.Location = new System.Drawing.Point(17, 190);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(203, 23);
-            this.button3.TabIndex = 7;
+            this.button3.TabIndex = 10;
             this.button3.Text = "Analyze Dateset";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
@@ -212,7 +213,7 @@
             this.txtboxClassificationRequest.Multiline = true;
             this.txtboxClassificationRequest.Name = "txtboxClassificationRequest";
             this.txtboxClassificationRequest.Size = new System.Drawing.Size(329, 49);
-            this.txtboxClassificationRequest.TabIndex = 10;
+            this.txtboxClassificationRequest.TabIndex = 11;
             this.txtboxClassificationRequest.Text = "0000014602 ofssobxxxmpdu1sr NONE 72.3.217.228 BM \'Opera\' \'Mac\' 01:47:53 21-12-201" +
     "7 \'PAGE1\' \'PAGE2\'";
             // 
@@ -230,7 +231,7 @@
             this.button5.Location = new System.Drawing.Point(18, 130);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(328, 23);
-            this.button5.TabIndex = 11;
+            this.button5.TabIndex = 14;
             this.button5.Text = "Run as Server";
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
@@ -259,12 +260,22 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Offline Algorithms";
             // 
+            // txtboxSessionTimeOut
+            // 
+            this.txtboxSessionTimeOut.Location = new System.Drawing.Point(291, 22);
+            this.txtboxSessionTimeOut.Name = "txtboxSessionTimeOut";
+            this.txtboxSessionTimeOut.Size = new System.Drawing.Size(58, 20);
+            this.txtboxSessionTimeOut.TabIndex = 1;
+            this.txtboxSessionTimeOut.Text = "1800";
+            this.txtboxSessionTimeOut.TextChanged += new System.EventHandler(this.numberOnlyTextBox_TextChanged);
+            this.txtboxSessionTimeOut.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.numberOnlyTextBox_KeyPress);
+            // 
             // btnMarkovBuild
             // 
             this.btnMarkovBuild.Location = new System.Drawing.Point(18, 161);
             this.btnMarkovBuild.Name = "btnMarkovBuild";
             this.btnMarkovBuild.Size = new System.Drawing.Size(202, 23);
-            this.btnMarkovBuild.TabIndex = 16;
+            this.btnMarkovBuild.TabIndex = 9;
             this.btnMarkovBuild.Text = "2 - Build Markov Model";
             this.btnMarkovBuild.UseVisualStyleBackColor = true;
             this.btnMarkovBuild.Click += new System.EventHandler(this.btnMarkovBuild_Click);
@@ -274,7 +285,7 @@
             this.txtboxMinPTS.Location = new System.Drawing.Point(291, 83);
             this.txtboxMinPTS.Name = "txtboxMinPTS";
             this.txtboxMinPTS.Size = new System.Drawing.Size(58, 20);
-            this.txtboxMinPTS.TabIndex = 15;
+            this.txtboxMinPTS.TabIndex = 4;
             this.txtboxMinPTS.Text = "6";
             this.txtboxMinPTS.TextChanged += new System.EventHandler(this.numberOnlyTextBox_TextChanged);
             this.txtboxMinPTS.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.numberOnlyTextBox_KeyPress);
@@ -287,6 +298,15 @@
             this.label7.Size = new System.Drawing.Size(41, 13);
             this.label7.TabIndex = 14;
             this.label7.Text = "minPTS";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(241, 16);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(43, 39);
+            this.label8.TabIndex = 13;
+            this.label8.Text = "Session\r\ntimeout\r\n(Sec)";
             // 
             // groupBox3
             // 
@@ -308,7 +328,7 @@
             this.button4.Location = new System.Drawing.Point(18, 94);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(202, 23);
-            this.button4.TabIndex = 21;
+            this.button4.TabIndex = 13;
             this.button4.Text = "3 - Classification (K-NN)";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
@@ -318,7 +338,7 @@
             this.txtboxClassification.Location = new System.Drawing.Point(289, 96);
             this.txtboxClassification.Name = "txtboxClassification";
             this.txtboxClassification.Size = new System.Drawing.Size(58, 20);
-            this.txtboxClassification.TabIndex = 20;
+            this.txtboxClassification.TabIndex = 12;
             this.txtboxClassification.Text = "10";
             this.txtboxClassification.TextChanged += new System.EventHandler(this.numberOnlyTextBox_TextChanged);
             this.txtboxClassification.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.numberOnlyTextBox_KeyPress);
@@ -353,30 +373,25 @@
             this.label6.TabIndex = 24;
             this.label6.Text = "State";
             // 
-            // txtboxSessionTimeOut
+            // button6
             // 
-            this.txtboxSessionTimeOut.Location = new System.Drawing.Point(291, 22);
-            this.txtboxSessionTimeOut.Name = "txtboxSessionTimeOut";
-            this.txtboxSessionTimeOut.Size = new System.Drawing.Size(58, 20);
-            this.txtboxSessionTimeOut.TabIndex = 17;
-            this.txtboxSessionTimeOut.Text = "1800";
-            this.txtboxSessionTimeOut.TextChanged += new System.EventHandler(this.numberOnlyTextBox_TextChanged);
-            this.txtboxSessionTimeOut.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.numberOnlyTextBox_KeyPress);
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(241, 16);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(43, 39);
-            this.label8.TabIndex = 13;
-            this.label8.Text = "Session\r\ntimeout\r\n(Sec)";
+            this.button6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button6.Location = new System.Drawing.Point(622, 7);
+            this.button6.Name = "button6";
+            this.button6.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.button6.Size = new System.Drawing.Size(62, 20);
+            this.button6.TabIndex = 15;
+            this.button6.TabStop = false;
+            this.button6.Text = "about";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(693, 506);
+            this.Controls.Add(this.button6);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.listboxState);
             this.Controls.Add(this.groupBox3);
@@ -429,6 +444,7 @@
         private System.Windows.Forms.Button btnMarkovBuild;
         private System.Windows.Forms.TextBox txtboxSessionTimeOut;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Button button6;
     }
 }
 
