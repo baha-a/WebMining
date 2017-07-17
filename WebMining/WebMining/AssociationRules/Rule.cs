@@ -2,23 +2,25 @@
 
 namespace WebMining
 {
+    [Serializable]
     public class Rule : IComparable<Rule>
     {
-        string combination, remaining;
-        double confidence;
-
         public Rule(string combination, string remaining, double confidence)
         {
-            this.combination = combination;
-            this.remaining = remaining;
-            this.confidence = confidence;
+            X = combination;
+            Y = remaining;
+            Confidence = confidence;
+        }
+        public Rule()
+        {
+
         }
 
-        public string X { get { return combination; } }
+        public string X { get; set; }
 
-        public string Y { get { return remaining; } }
+        public string Y { get; set; }
 
-        public double Confidence { get { return confidence; } }
+        public double Confidence { get; set; }
 
 
         public int CompareTo(Rule other)

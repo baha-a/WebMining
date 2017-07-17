@@ -59,6 +59,8 @@
             this.listboxState = new System.Windows.Forms.ListBox();
             this.label6 = new System.Windows.Forms.Label();
             this.button6 = new System.Windows.Forms.Button();
+            this.button7 = new System.Windows.Forms.Button();
+            this.button8 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -107,7 +109,7 @@
             // lblNotifications
             // 
             this.lblNotifications.AutoSize = true;
-            this.lblNotifications.Location = new System.Drawing.Point(27, 473);
+            this.lblNotifications.Location = new System.Drawing.Point(27, 495);
             this.lblNotifications.Name = "lblNotifications";
             this.lblNotifications.Size = new System.Drawing.Size(11, 13);
             this.lblNotifications.TabIndex = 4;
@@ -115,7 +117,7 @@
             // 
             // progressBarDataClean
             // 
-            this.progressBarDataClean.Location = new System.Drawing.Point(12, 489);
+            this.progressBarDataClean.Location = new System.Drawing.Point(12, 511);
             this.progressBarDataClean.Name = "progressBarDataClean";
             this.progressBarDataClean.Size = new System.Drawing.Size(372, 11);
             this.progressBarDataClean.TabIndex = 5;
@@ -253,7 +255,7 @@
             this.groupBox2.Controls.Add(this.label8);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.btnLoadAndCleanData);
-            this.groupBox2.Location = new System.Drawing.Point(12, 81);
+            this.groupBox2.Location = new System.Drawing.Point(12, 72);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(372, 218);
             this.groupBox2.TabIndex = 21;
@@ -316,7 +318,7 @@
             this.groupBox3.Controls.Add(this.txtboxClassificationRequest);
             this.groupBox3.Controls.Add(this.button5);
             this.groupBox3.Controls.Add(this.label5);
-            this.groupBox3.Location = new System.Drawing.Point(12, 301);
+            this.groupBox3.Location = new System.Drawing.Point(12, 323);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(372, 163);
             this.groupBox3.TabIndex = 22;
@@ -360,7 +362,7 @@
             this.listboxState.FormattingEnabled = true;
             this.listboxState.Location = new System.Drawing.Point(402, 34);
             this.listboxState.Name = "listboxState";
-            this.listboxState.Size = new System.Drawing.Size(282, 446);
+            this.listboxState.Size = new System.Drawing.Size(282, 472);
             this.listboxState.TabIndex = 1000;
             this.listboxState.TabStop = false;
             // 
@@ -386,11 +388,33 @@
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(59, 296);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(137, 21);
+            this.button7.TabIndex = 1001;
+            this.button7.Text = "Save Results";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
+            // button8
+            // 
+            this.button8.Location = new System.Drawing.Point(202, 296);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(137, 21);
+            this.button8.TabIndex = 1002;
+            this.button8.Text = "Load Results";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(693, 506);
+            this.ClientSize = new System.Drawing.Size(693, 538);
+            this.Controls.Add(this.button8);
+            this.Controls.Add(this.button7);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.listboxState);
@@ -445,6 +469,8 @@
         private System.Windows.Forms.TextBox txtboxSessionTimeOut;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button button8;
     }
 }
 

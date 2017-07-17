@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
+
 
 namespace WebMining
 {
 
+    [Serializable]
     public class User : IDistancable
     {
+        [XmlIgnore]
         public int ID { get; private set; }
         public List<Session> Sessions { get; set; }
 
@@ -61,9 +65,12 @@ namespace WebMining
     }
 
 
+    [Serializable]
     public class Session : IDistancable
     {
+        [XmlIgnore]
         public int ID { get; private set; }
+        [XmlIgnore]
         public User User { get; set; }
 
         public string CountryCode { get; set; }
@@ -73,6 +80,7 @@ namespace WebMining
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
 
+        [XmlIgnore]
         public TimeSpan Duration { get { return (EndTime - StartTime); } }
 
 
@@ -163,7 +171,7 @@ namespace WebMining
         }
 
 
-        static Dictionary<string,char> _items = new Dictionary<string,char>();
+        public static Dictionary<string,char> _items = new Dictionary<string,char>();
         public static IEnumerable<char> GetItemsOfTransactions()
         {
             return _items.Values;
@@ -174,7 +182,7 @@ namespace WebMining
             return _items.Keys;
         }
 
-        static Dictionary<char, string> _itemsreversed;
+        public static Dictionary<char, string> _itemsreversed;
         public static void BuildReverseItemsOfTransactions()
         {
             _itemsreversed = new Dictionary<char, string>();
@@ -243,8 +251,10 @@ namespace WebMining
     }
 
 
+    [Serializable]
     public class Request
     {
+        [XmlIgnore]
         public Session Session { get; set; }
 
 
@@ -283,7 +293,10 @@ namespace WebMining
             return this;
         }
 
+        public Request()
+        {
 
+        }
         #endregion
     }
 

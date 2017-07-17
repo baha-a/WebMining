@@ -93,6 +93,7 @@
     <Compile Include="Core\Engine.cs" />
     <Compile Include="Core\PipedClient.cs" />
     <Compile Include="Core\RecommendationResult.cs" />
+    <Compile Include="IOHandler.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

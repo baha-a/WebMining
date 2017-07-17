@@ -1,16 +1,75 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Serialization;
 
 namespace WebMining
 {
+    [Serializable]
+    public class SerializableClusterOfUsers
+    {
+        public int ID { get; set; }
+        public List<User> Dataset { get; set; }
+
+        public User Center{ get; set; }
+
+        public SerializableClusterOfUsers()
+        {
+
+        }
+
+        public static List<Cluster> Convert(List<SerializableClusterOfUsers> list)
+        {
+            var r = new List<Cluster>();
+            foreach (var t in list)
+                r.Add(new Cluster() { ID = t.ID, Center = sessionization(t.Center), Dataset = sessionization(t.Dataset) });
+            return r;
+        }
+
+        private static IDistancable sessionization(User center)
+        {
+            foreach (var s in center.Sessions)
+            {
+                s.User = center;
+                foreach (var r in s.Requests)
+                    r.Session = s;
+            }
+            return center;
+        }
+
+        private static IEnumerable<IDistancable> sessionization(List<User> dataset)
+        {
+            foreach (var d in dataset)
+                foreach (var s in d.Sessions)
+                {
+                    s.User = d;
+                    foreach (var r in s.Requests)
+                        r.Session = s;
+                }
+            return dataset;
+        }
+
+        public static List<SerializableClusterOfUsers> Convert(IEnumerable<Cluster> list)
+        {
+            var r = new List<SerializableClusterOfUsers>();
+            List<User> a = null;
+            foreach (var t in list)
+            {
+                a = new List<User>();
+                foreach (var d in t.Dataset)
+                    a.Add((User)d);
+                r.Add(new SerializableClusterOfUsers() { ID = t.ID, Center = (User)t.Center, Dataset = a });
+            }
+            return r;
+        }
+    }
+
     public class Cluster
     {
         public int ID { get; set; }
         public IEnumerable<IDistancable> Dataset { get; set; }
 
-        IDistancable center = null;
-
+        private IDistancable center = null;
         public IDistancable Center
         {
             get
@@ -27,7 +86,7 @@ namespace WebMining
 
         public Func<IEnumerable<IDistancable>, IDistancable> Marger { get; set; }
 
-        static int IDer = 0;
+        private static int IDer = 0;
         public Cluster(IEnumerable<IDistancable> e, Func<IEnumerable<IDistancable>, IDistancable> marge)
         {
             ID = IDer++;
@@ -35,11 +94,13 @@ namespace WebMining
             Marger = marge;
         }
 
-        private IDistancable CalculateCenter()
+        public Cluster()
         {
-            return Marger(Dataset);
+            ID = IDer++;
+            Marger = AvarageUser;
         }
 
+        
         public static IDistancable First(IEnumerable<IDistancable> arg)
         {
             return arg.First();
@@ -119,6 +180,12 @@ namespace WebMining
             if (dic.ContainsKey(s) == false)
                 dic.Add(s, 0);
             dic[s]++;
+        }
+        private IDistancable CalculateCenter()
+        {
+            if (Marger == null)
+                return null;
+            return Marger(Dataset);
         }
     }
 }

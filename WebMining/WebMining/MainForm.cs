@@ -224,6 +224,11 @@ namespace WebMining
         {
             Print(v + "");
         }
+        private void PrintLines(string[] v)
+        {
+            foreach (var t in v)
+                Print(t);
+        }
         private void Print(string v)
         {
             if (DEBUGGING == false)
@@ -231,6 +236,8 @@ namespace WebMining
                 listboxState.Items.Add(v);
                 listboxState.SelectedIndex = listboxState.Items.Count - 1;
             }
+            else
+                MessageBox.Show(v);
         }
         private void PrintInSameLine(string v)
         {
@@ -385,7 +392,95 @@ namespace WebMining
 
         private void button6_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("this Demo for our graduation project\r\n\tat Damascus University (Syria)\r\n\tat year 2017/2016\r\nBy:\r\n\tBaha'a Alsharif (http://github.com/bhlshrf)\r\n\tZiad Hashem\r\n\tBasel Altoom \r\n\tBakr Damman");
+            string msg = "\r\n==============================\r\nthis Demo for our graduation project\r\n\t" +
+                "at Damascus University (Syria)\r\n\tat year 2017/2016\r\nBy:\r\n\tBaha'a Alsharif (http://github.com/bhlshrf)\r\n\t" +
+                "Ziad Hashem\r\n\tBasel Altoom \r\n\tBakr Damman\r\n==============================\r\n";
+            MessageBox.Show(msg);
+            PrintLines(msg.Split('\n'));
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog save = new SaveFileDialog();
+            save.Filter = "XML|*.xml|Any|*.*";
+            save.FileName = "data";
+            if (save.ShowDialog() == DialogResult.OK)
+            {
+                saveData(save.FileName);
+            }
+        }
+        private void saveData(string path)
+        {
+            Print("saving . . .");
+            try
+            {
+                IOHandler.WriteToXmlFile<IOData>(path,
+                                new IOData()
+                                {
+                                    Rules = associationRules == null ? new List<Rule>() : new List<Rule>(associationRules),
+                                    Clusters = clusters == null ? new List<SerializableClusterOfUsers>() : SerializableClusterOfUsers.Convert(clusters),
+                                    Users = extractedUsers == null ? new List<User>() : extractedUsers,
+                                    itemKeys = Session._items == null ? new List<string>() : Session._items.Keys.ToList(),
+                                    itemValues = Session._items == null ? new List<char>() : Session._items.Values.ToList(),
+                                });
+
+                Print("done");
+            }
+            catch (Exception ex)
+            {
+                Print("Error : ");
+                Print(ex.Message);
+            }
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog open = new OpenFileDialog();
+            open.Filter = "XML|*.xml|Any|*.*";
+            if (open.ShowDialog() == DialogResult.OK)
+            {
+                loadData(open.FileName);
+            }
+        }
+        private void loadData(string path)
+        {
+            try
+            {
+                Print("loading . . .");
+                var d = IOHandler.ReadFromXmlFile<IOData>(path);
+
+                associationRules = d.Rules;
+                clusters = SerializableClusterOfUsers.Convert(d.Clusters);
+                extractedUsers = d.Users;
+
+                foreach (var u in extractedUsers)
+                    foreach (var s in u.Sessions)
+                    {
+                        s.User = u;
+                        foreach (var r in s.Requests)
+                            r.Session = s;
+                    }
+
+                var v = new Dictionary<string, char>();
+                for (int i = 0; i < d.itemKeys.Count; i++)
+
+                    v.Add(d.itemKeys[i], d.itemValues[i]);
+                Session._items = v;
+                Session.BuildReverseItemsOfTransactions();
+                Print("done");
+
+                Print();
+                Print("users count = " + extractedUsers.Count);
+                Print("clusters count = " + clusters.Count());
+                Print("rules count = " + associationRules.Count());
+
+                bulidMarkov();
+            }
+            catch (Exception ex)
+            {
+                Print("Error : ");
+                Print(ex.Message);
+            }
         }
     }
 }

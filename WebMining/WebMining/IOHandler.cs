@@ -1,0 +1,56 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Xml;
+using System.Xml.Schema;
+using System.Xml.Serialization;
+
+namespace WebMining
+{
+    [Serializable]
+    public class IOData
+    {
+        public IOData() { }
+
+        public List<User> Users { get; set; }
+        public List<SerializableClusterOfUsers> Clusters { get; set; }
+        public List<Rule> Rules { get; set; }
+
+        public List<string> itemKeys { get; set; }
+        public List<char> itemValues { get; set; }
+    }
+
+    static class IOHandler
+    {
+        public static void WriteToXmlFile<T>(string filePath, T objectToWrite, bool append = false) where T : new()
+        {
+            TextWriter writer = null;
+            try
+            {
+                var serializer = new XmlSerializer(typeof(T));
+                writer = new StreamWriter(filePath, append);
+                serializer.Serialize(writer, objectToWrite);
+            }
+            finally
+            {
+                if (writer != null)
+                    writer.Close();
+            }
+        }
+
+        public static T ReadFromXmlFile<T>(string filePath) where T : new()
+        {
+            TextReader reader = null;
+            try
+            {
+                return (T)new XmlSerializer(typeof(T)).Deserialize(reader = new StreamReader(filePath));
+            }
+            finally
+            {
+                if (reader != null)
+                    reader.Close();
+            }
+        }
+    }
+}
