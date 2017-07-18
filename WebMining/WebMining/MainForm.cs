@@ -176,45 +176,105 @@ namespace WebMining
             Print("_______________________");
             Print("Analyzing Dataset . . .");
             Print();
-            double ava = 0;
-            int count = 0;
-            int totalcount = (extractedUsers.Count * (extractedUsers.Count + 1) / 2);
-            Print("user count = " + extractedUsers.Count);
-            Print("total count = " + totalcount);
-            Print();
-            Print();
-            MinMax m = new MinMax();
-            double tmp = 0;
-            List<double> dics = new List<double>();
-            for (int i = 0; i < extractedUsers.Count; i++)
+
+
+
+            Dictionary<string, int> countrycode = new Dictionary<string, int>();
+            Dictionary<string, int> browser = new Dictionary<string, int>();
+            Dictionary<string, int> OS = new Dictionary<string, int>();
+
+            Dictionary<string, Pair<IEnumerable<Session>>> session = new Dictionary<string, Pair<IEnumerable<Session>>>();
+
+            Dictionary<string, int> gender = new Dictionary<string, int>
             {
-                for (int j = extractedUsers.Count - 1; j > i; j--)
+                { true.ToString(), 0 },
+                { false.ToString(), 0 },
+                { "unkowen", 0 }
+            };
+
+            Session tmpS;
+            foreach (User u in extractedUsers)
+            {
+                if (u.Gender == null)
+                    gender["unkowen"]++;
+                else
+                    gender[u.Gender.ToString()]++;
+                if (u.Sessions != null && u.Sessions.Count > 0)
                 {
-                    tmp = extractedUsers[i].Distance(extractedUsers[j]);
-                    //dics.Add(tmp);
-                    m.SetMinMaxValues(tmp);
-                    ava += tmp;
-                    count++;
+                    tmpS = u.Sessions[0];
+
+                    searchInDic(countrycode, tmpS.CountryCode);
+                    searchInDic(browser, tmpS.Browser);
+                    searchInDic(OS, tmpS.OperatingSystem);
                 }
-                Processbarhandler((int)((count * 1.0) / totalcount * 100), " wait ");
             }
 
+            Print("Countries:");
+            foreach (var c in countrycode)
+                Print("\t" + c.Key + " = " + c.Value + " users (" + (int)(c.Value * 100.0 / extractedUsers.Count) + " %)");
 
-            Processbarhandler(100, " finish ");
-
-            Print("min   = " + m.MinWeight);
-            Print("max   = " + m.MaxWeight);
-            Print("sum   = " + ava);
-            Print("avarg = " + (ava / totalcount));
             Print();
+            Print("Browsers:");
+            foreach (var c in browser)
+                Print("\t" + c.Key + " = " + c.Value + " users (" + (int)(c.Value * 100.0 / extractedUsers.Count) + " %)");
+                                                                                     
+            Print();                                                                 
+            Print("OperatingSystems:");                                              
+            foreach (var c in OS)                                                    
+                Print("\t" + c.Key + " = " + c.Value + " users (" + (int)(c.Value * 100.0 / extractedUsers.Count) + " %)");
 
-            Print("----------------");
-            Print(extractedUsers[0].ToString());
-            Print("----------------");
-            Print(extractedUsers[1].ToString());
-            Print("----------------");
-            Print(extractedUsers[0].Distance(extractedUsers[1]));
+            Print();
+            Print("Gender:");
+            foreach (var c in gender)
+                Print("\t" + c.Key + " = " + c.Value + " users (" + (int)(c.Value * 100.0 / extractedUsers.Count) + " %)");
+
+            Print("---------------------");
+            //double ava = 0;
+            //int count = 0;
+            //int totalcount = (extractedUsers.Count * (extractedUsers.Count + 1) / 2);
+            //Print("user count = " + extractedUsers.Count);
+            //Print("total count = " + totalcount);
+            //Print();
+            //Print();
+            //MinMax m = new MinMax();
+            //double tmp = 0;
+            //List<double> dics = new List<double>();
+            //for (int i = 0; i < extractedUsers.Count; i++)
+            //{
+            //    for (int j = extractedUsers.Count - 1; j > i; j--)
+            //    {
+            //        tmp = extractedUsers[i].Distance(extractedUsers[j]);
+            //        //dics.Add(tmp);
+            //        m.SetMinMaxValues(tmp);
+            //        ava += tmp;
+            //        count++;
+            //    }
+            //    Processbarhandler((int)((count * 1.0) / totalcount * 100), " wait ");
+            //}
+
+
+            //Processbarhandler(100, " finish ");
+
+            //Print("min   = " + m.MinWeight);
+            //Print("max   = " + m.MaxWeight);
+            //Print("sum   = " + ava);
+            //Print("avarg = " + (ava / totalcount));
+            //Print();
+
+            //Print("----------------");
+            //Print(extractedUsers[0].ToString());
+            //Print("----------------");
+            //Print(extractedUsers[1].ToString());
+            //Print("----------------");
+            //Print(extractedUsers[0].Distance(extractedUsers[1]));
         }
+        private static void searchInDic(Dictionary<string, int> dic, string s)
+        {
+            if (dic.ContainsKey(s) == false)
+                dic.Add(s, 0);
+            dic[s]++;
+        }
+
 
         private void Print()
         {

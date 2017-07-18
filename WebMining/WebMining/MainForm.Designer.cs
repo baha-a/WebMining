@@ -205,7 +205,7 @@
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(203, 23);
             this.button3.TabIndex = 10;
-            this.button3.Text = "Analyze Dateset";
+            this.button3.Text = "Analyze Statistically";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
