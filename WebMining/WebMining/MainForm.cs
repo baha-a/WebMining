@@ -43,8 +43,8 @@ namespace WebMining
             btnLoadAndCleanData.Enabled = false;
             callback(loadAndCleanData, x => {
                 btnLoadAndCleanData.Enabled = true;
-                Print("Extracted Users count = " + extractedUsers.Count);
-                Print("Session Count = " + getAllSessions().Count);
+                Print("Extracted Users count = " + extractedUsers.Count.ToString("N0"));
+                Print("Session Count = " + getAllSessions().Count.ToString("N0"));
                 Print("\t\tdone in " + (x / 1000) + " sec");
             });
         }
@@ -100,7 +100,7 @@ namespace WebMining
                 return;
             }
             button2.Enabled = false;
-            callback(assicuationRuls, x => { button2.Enabled = true; Print("\t\tdone in " + (x / 1000) + " sec"); });
+            callback(assicuationRuls, x => { button2.Enabled = true; Print("\t\tdone in " + (x / 1000.0) + " sec"); });
         }
 
         private void assicuationRuls()
@@ -169,7 +169,7 @@ namespace WebMining
                 return;
             }
             button3.Enabled = false;
-            callback(analysisDataset, x => { button3.Enabled = true; Print("\t\tdone in " + (x / 1000) + " sec"); });
+            callback(analysisDataset, x => { button3.Enabled = true; Print("\t\tdone in " + (x / 1000.0) + " sec"); });
         }
         private void analysisDataset()
         {
@@ -326,7 +326,7 @@ namespace WebMining
                 Print("do 'Clustering' and 'Association Rule' first!!");
             }
             button4.Enabled = false;
-            callback(classification, x => { button4.Enabled = true; Print("\t\tdone in " + x + " milisec"); });
+            callback(classification, x => { button4.Enabled = true; Print("\t\tdone in " + (x / 1000.0) + " sec"); });
         }
 
         Recommender recommender;
@@ -381,6 +381,18 @@ namespace WebMining
             return recommender.Recommend(txtboxClassificationRequest.Text);
         }
 
+        void callback(Action<string> core,string param, Action<long> after)
+        {
+            new Thread(() =>
+            {
+                Stopwatch st = Stopwatch.StartNew();
+                core(param);
+                st.Stop();
+                if (DEBUGGING == false)
+                    after(st.ElapsedMilliseconds);
+            })
+            { IsBackground = true }.Start();
+        }
         void callback(Action core, Action<long> after)
         {
             new Thread(() =>
@@ -436,7 +448,7 @@ namespace WebMining
                 return;
             }
             btnMarkovBuild.Enabled = false;
-            callback(bulidMarkov, x => { btnMarkovBuild.Enabled = true; Print("\t\tdone in " + (x / 1000) + " sec"); });
+            callback(bulidMarkov, x => { btnMarkovBuild.Enabled = true; Print("\t\tdone in " + (x / 1000.0) + " sec"); });
         }
 
         MarkovChain<string> markover;
@@ -455,7 +467,7 @@ namespace WebMining
             string msg = "\r\n==============================\r\nthis Demo for our graduation project\r\n\t" +
                 "at Damascus University (Syria)\r\n\tat year 2017/2016\r\nBy:\r\n\tBaha'a Alsharif (http://github.com/bhlshrf)\r\n\t" +
                 "Ziad Hashem\r\n\tBasel Altoom \r\n\tBakr Damman\r\n==============================\r\n";
-            MessageBox.Show(msg);
+            
             PrintLines(msg.Split('\n'));
         }
 
@@ -466,7 +478,8 @@ namespace WebMining
             save.FileName = "data";
             if (save.ShowDialog() == DialogResult.OK)
             {
-                saveData(save.FileName);
+                button7.Enabled = false;
+                callback(saveData, save.FileName, x => { button7.Enabled = true; Print("\t\tdone in " + (x / 1000.0) + " sec"); });
             }
         }
         private void saveData(string path)
@@ -497,11 +510,13 @@ namespace WebMining
         {
             OpenFileDialog open = new OpenFileDialog();
             open.Filter = "XML|*.xml|Any|*.*";
-            if (open.ShowDialog() == DialogResult.OK)
+            if (open.ShowDialog(this) == DialogResult.OK)
             {
-                loadData(open.FileName);
+                button8.Enabled = false;
+                callback(loadData, open.FileName, x => { button8.Enabled = true; Print("\t\tdone in " + (x / 1000.0) + " sec"); });
             }
         }
+
         private void loadData(string path)
         {
             try
@@ -541,6 +556,11 @@ namespace WebMining
                 Print("Error : ");
                 Print(ex.Message);
             }
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            listboxState.Items.Clear();
         }
     }
 }
