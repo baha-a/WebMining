@@ -6,6 +6,7 @@ namespace WebMining
 {
     public class Recommender
     {
+        public int MarkovDepth { get; set; }
         public int K { get; set; }
         public IEnumerable<Rule> Rules { get; set; }
         public IEnumerable<Cluster> Clusters { get; set; }
@@ -33,7 +34,7 @@ namespace WebMining
 
                 Gender = predicateGender(user),
                 SuggestedPages = sugguestPageByUsingRules(transaction),
-                SuggestedPagesByMarkov = suggestPagesByMarkov(requestedPage),
+                SuggestedPagesByMarkov = suggestPagesByMarkov(requestedPage, MarkovDepth),
                 Cluster = getNearestCluster(user),
 
                 OriginalRequest = cacher.ParseToRequest(request)
@@ -48,6 +49,7 @@ namespace WebMining
 
 
         SessionOutputParser sessionOutputParser = new SessionOutputParser(" - ");
+
         private IEnumerable<string> sugguestPageByUsingRules(string t)
         {
             if (Rules == null)
@@ -66,7 +68,7 @@ namespace WebMining
         }
 
 
-        private IEnumerable<string> suggestPagesByMarkov(string t)
+        private IEnumerable<string> suggestPagesByMarkov(string t, int level = 3)
         {
             var pages = new List<string>();
 
@@ -74,11 +76,21 @@ namespace WebMining
                 return pages;
 
             foreach (var m in MarkovChain.PredicteNextWithhProbabilities(t))
-            {
-                pages.Add(printPage(m));
-                foreach (var v in m.Key.GetNextsWithProbabilities())
-                    pages.Add(printPage(v, "\t"));
-            }
+                pages.AddRange(nextLevel(m, level - 1, " . ", " . "));
+            return pages;
+        }
+
+        private static List<string> nextLevel(KeyValuePair<MarkovNode<string>, double> m, int level, string prefix, string prefixForNext)
+        {
+            var pages = new List<string>();
+            pages.Add(printPage(m, prefixForNext));
+
+            if (level == 0)
+                return pages;
+
+            foreach (var v in m.Key.GetNextsWithProbabilities())
+                pages.AddRange(nextLevel(v, level - 1, prefix, prefixForNext + prefix));
+
             return pages;
         }
 

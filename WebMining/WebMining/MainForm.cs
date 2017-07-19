@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Sockets;
 using System.Threading;
+using System.Diagnostics;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace WebMining
 {
@@ -14,8 +11,9 @@ namespace WebMining
     {
         private readonly bool DEBUGGING = 1 == 0;
 
-        public List<string> logfiles { get; private set; }
         List<User> extractedUsers;
+
+        public List<string> logfiles { get; private set; }
 
         public MainForm()
         {
@@ -75,8 +73,7 @@ namespace WebMining
                 Print("no input data");
                 return;
             }
-            button1.Enabled = false;
-            callback(clustering, x => { button1.Enabled = true; Print("\t\tdone in " + (x / 1000) + " sec"); });
+            callback(clustering, toggleButtonEnable(button1));
         }
 
         IEnumerable<Cluster> clusters;
@@ -102,8 +99,7 @@ namespace WebMining
                 Print("no input data");
                 return;
             }
-            button2.Enabled = false;
-            callback(assicuationRuls, x => { button2.Enabled = true; Print("\t\tdone in " + (x / 1000.0) + " sec"); });
+            callback(assicuationRuls, toggleButtonEnable(button2));
         }
 
         private void assicuationRuls()
@@ -168,11 +164,10 @@ namespace WebMining
         {
             if (extractedUsers == null)
             {
-                MessageBox.Show("no input data");
+                Print("no input data");
                 return;
             }
-            button3.Enabled = false;
-            callback(analysisDataset, x => { button3.Enabled = true; Print("\t\tdone in " + (x / 1000.0) + " sec"); });
+            callback(analysisDataset, toggleButtonEnable(button3));
         }
         private void analysisDataset()
         {
@@ -320,16 +315,14 @@ namespace WebMining
         {
             if (extractedUsers == null)
             {
-                MessageBox.Show("no input data");
+                Print("no input data");
                 return;
             }
 
-            if (clusters == null || associationRules == null)
-            {
-                Print("do 'Clustering' and 'Association Rule' first!!");
-            }
-            button4.Enabled = false;
-            callback(classification, x => { button4.Enabled = true; Print("\t\tdone in " + (x / 1000.0) + " sec"); });
+            if (clusters == null && associationRules == null && markover == null)
+                Print("do 'Clustering', 'Association Rule' or 'Markov' first!!");
+
+            callback(classification, toggleButtonEnable(button4));
         }
 
         Recommender recommender;
@@ -374,7 +367,12 @@ namespace WebMining
 
         private RecommendationResult predicate()
         {
-            return predicate(txtboxClassificationRequest.Text, getKforClassification());
+            return predicate(txtboxClassificationRequest.Text);
+        }
+
+        private int getMarkovDepthForClassification()
+        {
+            return int.Parse(txtboxMarkovDepth.Text);
         }
 
         private int getKforClassification()
@@ -382,7 +380,13 @@ namespace WebMining
             return int.Parse(txtboxClassification.Text);
         }
 
-        private RecommendationResult predicate(string request, int k)
+        private RecommendationResult predicate(string request)
+        {
+            return predicate(request, getKforClassification(), getMarkovDepthForClassification());
+
+        }
+
+        private RecommendationResult predicate(string request, int k, int markovdepth)
         {
             if (recommender == null)
                 recommender = new Recommender(extractedUsers);
@@ -390,21 +394,20 @@ namespace WebMining
             recommender.Clusters = clusters;
             recommender.Rules = associationRules;
             recommender.K = k;
+            recommender.MarkovDepth = markovdepth;
             recommender.MarkovChain = markover;
             return recommender.Recommend(request);
         }
 
-        void callback(Action<string> core,string param, Action<long> after)
+        void callback(Action<string> core, string param, Action<long> after)
         {
             new Thread(() =>
             {
                 Stopwatch st = Stopwatch.StartNew();
                 core(param);
                 st.Stop();
-                if (DEBUGGING == false)
-                    after(st.ElapsedMilliseconds);
-            })
-            { IsBackground = true }.Start();
+                after(st.ElapsedMilliseconds);
+            }) { IsBackground = true }.Start();
         }
         void callback(Action core, Action<long> after)
         {
@@ -413,7 +416,6 @@ namespace WebMining
                 Stopwatch st = Stopwatch.StartNew();
                 core();
                 st.Stop();
-                if (DEBUGGING == false)
                 after(st.ElapsedMilliseconds);
             })
             { IsBackground = true }.Start();
@@ -445,7 +447,7 @@ namespace WebMining
             Print("client :" + m);
             try
             {
-                return predicate(m, getKforClassification()).ToString();
+                return predicate(m).ToString();
             }
             catch { }
 
@@ -482,8 +484,13 @@ namespace WebMining
                 MessageBox.Show("no input data");
                 return;
             }
-            btnMarkovBuild.Enabled = false;
-            callback(bulidMarkov, x => { btnMarkovBuild.Enabled = true; Print("\t\tdone in " + (x / 1000.0) + " sec"); });
+            callback(bulidMarkov, toggleButtonEnable(btnMarkovBuild));
+        }
+
+        private Action<long> toggleButtonEnable(Button b)
+        {
+            b.Enabled = false;
+            return x => { b.Enabled = true; Print("\t\tdone in " + (x / 1000.0) + " sec"); };
         }
 
         MarkovChain<string> markover;
@@ -499,10 +506,11 @@ namespace WebMining
 
         private void button6_Click(object sender, EventArgs e)
         {
-            string msg = "\r\n==============================\r\nthis Demo for our graduation project\r\n\t" +
-                "at Damascus University (Syria)\r\n\tat year 2017/2016\r\nBy:\r\n\tBaha'a Alsharif (http://github.com/bhlshrf)\r\n\t" +
-                "Ziad Hashem\r\n\tBasel Altoom \r\n\tBakr Damman\r\n==============================\r\n";
-            
+            string msg = "\r\n=================================\r\n" +
+                "|  This Demo for our graduation project\r\n|\tat Damascus University (Syria)\r\n|\t" +
+                "at year 2017/2016\r\n|  By:\r\n|\tBaha'a Alsharif (http://github.com/bhlshrf)\r\n|\t" +
+                " Ziad Hashem\r\n|\tBasel Altoom \r\n|\tBakr Damman" +
+                "\r\n=================================\r\n";
             PrintLines(msg.Split('\n'));
         }
 
@@ -510,10 +518,7 @@ namespace WebMining
         {
             SaveFileDialog save = new SaveFileDialog() { Filter = "XML|*.xml|Compressed XML|*.gzip|Any|*.*", FileName = "data" };
             if (save.ShowDialog(this) == DialogResult.OK)
-            {
-                button7.Enabled = false;
-                callback(saveData, save.FileName, x => { button7.Enabled = true; Print("\t\tdone in " + (x / 1000.0) + " sec"); });
-            }
+                callback(saveData, save.FileName, toggleButtonEnable(button7));
         }
         private void saveData(string path)
         {
@@ -549,8 +554,7 @@ namespace WebMining
             open.Filter = "XML|*.xml|Compressed XML|*.gzip|Any|*.*";
             if (open.ShowDialog(this) == DialogResult.OK)
             {
-                button8.Enabled = false;
-                callback(loadData, open.FileName, x => { button8.Enabled = true; Print("\t\tdone in " + (x / 1000.0) + " sec"); });
+                callback(loadData, open.FileName, toggleButtonEnable(button8));
             }
         }
 
@@ -585,7 +589,7 @@ namespace WebMining
                 Print("done");
 
                 Print();
-                Print("users count = " + extractedUsers.Count);
+                Print("users count = " + extractedUsers.Count.ToString("N0"));
                 Print("clusters count = " + clusters.Count());
                 Print("rules count = " + associationRules.Count());
 

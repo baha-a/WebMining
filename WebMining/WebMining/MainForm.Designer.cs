@@ -62,6 +62,8 @@
             this.button7 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
             this.button9 = new System.Windows.Forms.Button();
+            this.txtboxMarkovDepth = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -110,7 +112,7 @@
             // lblNotifications
             // 
             this.lblNotifications.AutoSize = true;
-            this.lblNotifications.Location = new System.Drawing.Point(27, 495);
+            this.lblNotifications.Location = new System.Drawing.Point(27, 501);
             this.lblNotifications.Name = "lblNotifications";
             this.lblNotifications.Size = new System.Drawing.Size(11, 13);
             this.lblNotifications.TabIndex = 4;
@@ -118,7 +120,7 @@
             // 
             // progressBarDataClean
             // 
-            this.progressBarDataClean.Location = new System.Drawing.Point(12, 511);
+            this.progressBarDataClean.Location = new System.Drawing.Point(12, 517);
             this.progressBarDataClean.Name = "progressBarDataClean";
             this.progressBarDataClean.Size = new System.Drawing.Size(372, 11);
             this.progressBarDataClean.TabIndex = 5;
@@ -231,11 +233,11 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(18, 130);
+            this.button5.Location = new System.Drawing.Point(19, 149);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(328, 23);
+            this.button5.Size = new System.Drawing.Size(328, 20);
             this.button5.TabIndex = 14;
-            this.button5.Text = "Run as Server";
+            this.button5.Text = "Run the server";
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
@@ -313,6 +315,8 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.label9);
+            this.groupBox3.Controls.Add(this.txtboxMarkovDepth);
             this.groupBox3.Controls.Add(this.button4);
             this.groupBox3.Controls.Add(this.txtboxClassification);
             this.groupBox3.Controls.Add(this.label4);
@@ -321,7 +325,7 @@
             this.groupBox3.Controls.Add(this.label5);
             this.groupBox3.Location = new System.Drawing.Point(12, 323);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(372, 163);
+            this.groupBox3.Size = new System.Drawing.Size(372, 175);
             this.groupBox3.TabIndex = 22;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Online Algorithms";
@@ -330,17 +334,17 @@
             // 
             this.button4.Location = new System.Drawing.Point(18, 94);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(202, 23);
+            this.button4.Size = new System.Drawing.Size(202, 45);
             this.button4.TabIndex = 13;
-            this.button4.Text = "3 - Classification (K-NN)";
+            this.button4.Text = "3 - Classification (K-NN) & Predicate";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // txtboxClassification
             // 
-            this.txtboxClassification.Location = new System.Drawing.Point(289, 96);
+            this.txtboxClassification.Location = new System.Drawing.Point(303, 95);
             this.txtboxClassification.Name = "txtboxClassification";
-            this.txtboxClassification.Size = new System.Drawing.Size(58, 20);
+            this.txtboxClassification.Size = new System.Drawing.Size(44, 20);
             this.txtboxClassification.TabIndex = 12;
             this.txtboxClassification.Text = "10";
             this.txtboxClassification.TextChanged += new System.EventHandler(this.numberOnlyTextBox_TextChanged);
@@ -349,7 +353,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(269, 99);
+            this.label4.Location = new System.Drawing.Point(269, 98);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(13, 13);
             this.label4.TabIndex = 22;
@@ -420,6 +424,25 @@
             this.button9.UseVisualStyleBackColor = true;
             this.button9.Click += new System.EventHandler(this.button9_Click);
             // 
+            // txtboxMarkovDepth
+            // 
+            this.txtboxMarkovDepth.Location = new System.Drawing.Point(303, 119);
+            this.txtboxMarkovDepth.Name = "txtboxMarkovDepth";
+            this.txtboxMarkovDepth.Size = new System.Drawing.Size(43, 20);
+            this.txtboxMarkovDepth.TabIndex = 23;
+            this.txtboxMarkovDepth.Text = "3";
+            this.txtboxMarkovDepth.TextChanged += new System.EventHandler(this.numberOnlyTextBox_TextChanged);
+            this.txtboxMarkovDepth.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.numberOnlyTextBox_KeyPress);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(227, 121);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(71, 13);
+            this.label9.TabIndex = 24;
+            this.label9.Text = "MarkovDepth";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -486,6 +509,8 @@
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.Button button8;
         private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox txtboxMarkovDepth;
     }
 }
 
