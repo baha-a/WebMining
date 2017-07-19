@@ -22,8 +22,25 @@ namespace WebMining
 
         public override string ToString()
         {
-            string result = Gender + "";
-            return base.ToString();
+            return "|gender=" + Gender + "&" +
+                "cluster=" + Cluster.ID + "&" +
+                "arpages=[" + singleLine(SuggestedPages) + "]&" +
+                "markovpages=[" + singleLine(SuggestedPagesByMarkov) + "]|";
+        }
+
+        private string singleLine(IEnumerable<string> suggestedPages)
+        {
+            string line = "";
+            foreach (var t in suggestedPages)
+                line += t + ",";
+            return deletelastLetter(line);
+        }
+
+        private static string deletelastLetter(string line)
+        {
+            if (string.IsNullOrEmpty(line))
+                return line;
+            return line.Remove(line.Length - 1);
         }
     }
 }

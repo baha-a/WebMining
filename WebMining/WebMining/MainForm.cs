@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -371,14 +374,24 @@ namespace WebMining
 
         private RecommendationResult predicate()
         {
+            return predicate(txtboxClassificationRequest.Text, getKforClassification());
+        }
+
+        private int getKforClassification()
+        {
+            return int.Parse(txtboxClassification.Text);
+        }
+
+        private RecommendationResult predicate(string request, int k)
+        {
             if (recommender == null)
                 recommender = new Recommender(extractedUsers);
 
             recommender.Clusters = clusters;
             recommender.Rules = associationRules;
-            recommender.K = int.Parse(txtboxClassification.Text);
+            recommender.K = k;
             recommender.MarkovChain = markover;
-            return recommender.Recommend(txtboxClassificationRequest.Text);
+            return recommender.Recommend(request);
         }
 
         void callback(Action<string> core,string param, Action<long> after)
@@ -406,19 +419,39 @@ namespace WebMining
             { IsBackground = true }.Start();
         }
 
-        PipedServer server;
+        Server server;
         private void button5_Click(object sender1, EventArgs e1)
         {
             if (server == null)
-                server = new PipedServer("webminner", receive);
-            Print("server is running . . . ");
+            {
+                server = new Server(receive)
+                {
+                    OnClientConnected = () => { Print("client connected . . ."); },
+                    OnPauseOrResume = x => {
+                        Print("server is " + (x ? "paused" : "resumed") + " . . . ");
+                        button5.Text = (x ? "Resume" : "Pasue") + " Server";
+                    }
+                };
+
+                Print("server is running . . . ");
+                button5.Text = "Pasue Server";
+                return;
+            }
+
+            server.PauseOrResume();
         }
         string receive(string m)
         {
             Print("client :" + m);
-            txtboxClassificationRequest.Text = m;
-            var result = predicate();
-            return "ok";
+            try
+            {
+                return predicate(m, getKforClassification()).ToString();
+            }
+            catch { }
+
+            if (m != "exit")
+                return "unkowen command";
+            return m;
         }
 
         private void numberOnlyTextBox_KeyPress(object sender, KeyPressEventArgs e)
@@ -573,6 +606,12 @@ namespace WebMining
         private void button9_Click(object sender, EventArgs e)
         {
             listboxState.Items.Clear();
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (server != null)
+                server.Dispose();
         }
     }
 }
