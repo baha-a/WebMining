@@ -406,9 +406,11 @@ namespace WebMining
             { IsBackground = true }.Start();
         }
 
+        PipedServer server;
         private void button5_Click(object sender1, EventArgs e1)
         {
-            PipedServer server = new PipedServer("webminner", receive);
+            if (server == null)
+                server = new PipedServer("webminner", receive);
             Print("server is running . . . ");
         }
         string receive(string m)
@@ -473,10 +475,8 @@ namespace WebMining
 
         private void button7_Click(object sender, EventArgs e)
         {
-            SaveFileDialog save = new SaveFileDialog();
-            save.Filter = "XML|*.xml|Any|*.*";
-            save.FileName = "data";
-            if (save.ShowDialog() == DialogResult.OK)
+            SaveFileDialog save = new SaveFileDialog() { Filter = "XML|*.xml|Compressed XML|*.gzip|Any|*.*", FileName = "data" };
+            if (save.ShowDialog(this) == DialogResult.OK)
             {
                 button7.Enabled = false;
                 callback(saveData, save.FileName, x => { button7.Enabled = true; Print("\t\tdone in " + (x / 1000.0) + " sec"); });
@@ -487,15 +487,19 @@ namespace WebMining
             Print("saving . . .");
             try
             {
-                IOHandler.WriteToXmlFile<IOData>(path,
-                                new IOData()
-                                {
-                                    Rules = associationRules == null ? new List<Rule>() : new List<Rule>(associationRules),
-                                    Clusters = clusters == null ? new List<SerializableClusterOfUsers>() : SerializableClusterOfUsers.Convert(clusters),
-                                    Users = extractedUsers == null ? new List<User>() : extractedUsers,
-                                    itemKeys = Session._items == null ? new List<string>() : Session._items.Keys.ToList(),
-                                    itemValues = Session._items == null ? new List<char>() : Session._items.Values.ToList(),
-                                });
+                var data = new IOData()
+                {
+                    Rules = associationRules == null ? new List<Rule>() : new List<Rule>(associationRules),
+                    Clusters = clusters == null ? new List<SerializableClusterOfUsers>() : SerializableClusterOfUsers.Convert(clusters),
+                    Users = extractedUsers == null ? new List<User>() : extractedUsers,
+                    itemKeys = Session._items == null ? new List<string>() : Session._items.Keys.ToList(),
+                    itemValues = Session._items == null ? new List<char>() : Session._items.Values.ToList(),
+                };
+
+                if (IsCompressed(path))
+                    IOHandler.WriteToXmlGZIPFile<IOData>(path, data);
+                else
+                    IOHandler.WriteToXmlFile<IOData>(path, data);
 
                 Print("done");
             }
@@ -509,7 +513,7 @@ namespace WebMining
         private void button8_Click(object sender, EventArgs e)
         {
             OpenFileDialog open = new OpenFileDialog();
-            open.Filter = "XML|*.xml|Any|*.*";
+            open.Filter = "XML|*.xml|Compressed XML|*.gzip|Any|*.*";
             if (open.ShowDialog(this) == DialogResult.OK)
             {
                 button8.Enabled = false;
@@ -522,7 +526,10 @@ namespace WebMining
             try
             {
                 Print("loading . . .");
-                var d = IOHandler.ReadFromXmlFile<IOData>(path);
+                IOData d =
+                    IsCompressed(path) ?
+                    IOHandler.ReadFromXmlGZIPFile<IOData>(path) :
+                    IOHandler.ReadFromXmlFile<IOData>(path);
 
                 associationRules = d.Rules;
                 clusters = SerializableClusterOfUsers.Convert(d.Clusters);
@@ -556,6 +563,11 @@ namespace WebMining
                 Print("Error : ");
                 Print(ex.Message);
             }
+        }
+
+        private static bool IsCompressed(string path)
+        {
+            return path.ToLower().EndsWith(".gzip");
         }
 
         private void button9_Click(object sender, EventArgs e)
