@@ -4,6 +4,8 @@ using System.Threading;
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using System.Windows.Forms.DataVisualization.Charting;
+using System.Drawing;
 
 namespace WebMining
 {
@@ -236,32 +238,57 @@ namespace WebMining
                 }
             }
 
+            Series genderChart = new Series() { ChartType = SeriesChartType.Pie, IsValueShownAsLabel = true };
+            Series countryChart = new Series() { ChartType = SeriesChartType.Pie, IsValueShownAsLabel = true };
+            Series browsersChart = new Series() { ChartType = SeriesChartType.Pie, IsValueShownAsLabel = true };
+            Series osChart = new Series() { ChartType = SeriesChartType.Pie, IsValueShownAsLabel = true };
+
+            Series pagesChart = new Series() { ChartType = SeriesChartType.Column, Color = Color.Violet , Name = "Page Hits"};
+            Series pagesChart2 = new Series() { ChartType = SeriesChartType.Column, Color = Color.Purple, Name = "Spent Time" };
+
             Print("Countries:");
             foreach (var c in countrycode)
+            {
+                countryChart.Points.AddXY(c.Key, (int)(c.Value * 100.0 / extractedUsers.Count));
                 Print("\t" + c.Key + " = " + c.Value + " users (" + (int)(c.Value * 100.0 / extractedUsers.Count) + " %)");
+            }
 
             Print();
             Print("Browsers:");
             foreach (var c in browser)
+            {
+                browsersChart.Points.AddXY(c.Key, (int)(c.Value * 100.0 / extractedUsers.Count));
                 Print("\t" + c.Key + " = " + c.Value + " users (" + (int)(c.Value * 100.0 / extractedUsers.Count) + " %)");
+            }
 
             Print();
             Print("OperatingSystems:");
             foreach (var c in OS)
+            {
+                osChart.Points.AddXY(c.Key, (int)(c.Value * 100.0 / extractedUsers.Count));
                 Print("\t" + c.Key + " = " + c.Value + " users (" + (int)(c.Value * 100.0 / extractedUsers.Count) + " %)");
+            }
 
             Print();
             Print("Gender:");
             foreach (var c in gender)
+            {
+                genderChart.Points.AddXY(c.Key, (int)(c.Value * 100.0 / extractedUsers.Count));
                 Print("\t" + c.Key + " = " + c.Value + " users (" + (int)(c.Value * 100.0 / extractedUsers.Count) + " %)");
+            }
 
             Print();
             Print("Pages:");
             var orderPages = pages.OrderByDescending(x => ranking(totalSpentTime, totalPageHits, x));
             foreach (var c in orderPages)
+            {
                 Print("\t" + c.Key + "\t-\thits = " + c.Value.Weight.ToString("N0") + " (" + (int)(c.Value.Weight * 100.0 / totalPageHits) +
                     " %) ,\tspentTime = " + c.Value.Value.ToString("N0") + " (" + (int)(c.Value.Value * 100.0 / totalSpentTime) + " %)" +
                     "\tRank = " + ranking(totalSpentTime, totalPageHits, c) + " points");
+
+                pagesChart.Points.AddXY(c.Key, (int)(c.Value.Weight * 100.0 / totalPageHits));
+                pagesChart2.Points.AddXY(c.Key, (int)(c.Value.Value * 100.0 / totalSpentTime));
+            } 
             Print();
             Print("Total Spent time\t= " + totalSpentTime.ToString("N0") + " sec");
             Print("Total Pages Hits\t= " + totalPageHits.ToString("N0") + " hits");
@@ -270,7 +297,8 @@ namespace WebMining
             Print("Session per visitor\t= " + (sessionCount * 1.0 / extractedUsers.Count));
 
             Print("---------------------");
-
+            Invoke((Action)delegate { new ChartForm().SetChart(countryChart, browsersChart, osChart, genderChart, pagesChart, pagesChart2).Show(this); });
+            
             //MinMax m = new MinMax();
             //int count = 0, totalcount = (extractedUsers.Count * (extractedUsers.Count + 1) / 2);
             //double tmp = 0, ava = 0;
