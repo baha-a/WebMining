@@ -17,7 +17,7 @@ namespace WebMining
 
         public int Occurrence { get; private set; }
 
-        public T Value { get; private set; }
+        public T Value { get; set; }
 
         public MarkovState State { get; set; }
 

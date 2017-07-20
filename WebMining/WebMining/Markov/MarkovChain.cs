@@ -17,6 +17,18 @@ namespace WebMining
             endnode = new MarkovNode<T>() { State = MarkovState.End };
         }
 
+        public MarkovChain<T> setStartNodeName(T t)
+        {
+            startnode.Value = t;
+            return this;
+        }
+
+        public MarkovChain<T> setEndNodeName(T t)
+        {
+            endnode.Value = t;
+            return this;
+        }
+
         public MarkovChain<T> AddTransaction(IList<T> list)
         {
             list.GetEnumerator().MoveNext();
@@ -49,6 +61,39 @@ namespace WebMining
             return getItemAndAddIfNotFound(t).GetNextsWithProbabilities();
         }
 
+
+        public double Probability(T f,T t)
+        {
+            var x = new List<MarkovNode<T>>();
+            x.Add(getItemAndAddIfNotFound(f));
+            return searchForNode(getItemAndAddIfNotFound(f), getItemAndAddIfNotFound(t), x);
+        }
+
+        private double searchForNode(MarkovNode<T> start, MarkovNode<T> end, List<MarkovNode<T>> visited)
+        {
+            double pro = 0;
+            foreach (var f in start.GetNexts())
+            {
+                if (visited.Contains(f))
+                    continue;
+
+                visited.Add(f);
+
+                if (f == end)
+                {
+                    pro = 1;
+                    for (int i = 0; i < visited.Count - 1; i++)
+                        pro *= visited[i].ProbabilityOf(visited[i + 1]);
+                    return pro;
+                }
+                else
+                {
+                    pro += searchForNode(f, end, new List<MarkovNode<T>>(visited));
+                }
+                visited.Remove(f);
+            }
+            return pro;
+        }
 
         public MarkovNode<T> GetItem(T t)
         {
@@ -97,6 +142,8 @@ namespace WebMining
         public static string Test()
         {
             var r = new MarkovChain<string>();
+            r.setEndNodeName("END");
+            r.setStartNodeName("START");
             r.AddTransaction("A", "B");
             r.AddTransaction("A", "B");
             r.AddTransaction("A", "B", "C");
@@ -117,6 +164,8 @@ namespace WebMining
             string res = "";
             foreach (var t in r.GetAllItems())
                 res += bulidTestResult(r,t) + "--------------- \r\n";
+
+            res += "\r\n\r\n" + (r.Probability("START", "C"));
             return res;
         }
 

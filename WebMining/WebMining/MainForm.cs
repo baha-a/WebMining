@@ -187,8 +187,6 @@ namespace WebMining
             int sessionCount = 0;
             long totalSpentTime = 0;
             long totalPageHits = 0;
-            long highestHits;
-            long leastHits;
             Dictionary<string, Pair<long>> pages = new Dictionary<string, Pair<long>>();
 
             Dictionary<string, int> countrycode = new Dictionary<string, int>();
@@ -219,7 +217,7 @@ namespace WebMining
                     searchInDic(OS, tmpS.OperatingSystem);
 
                     sessionCount += u.Sessions.Count;
-                    totalSpentTime += (long) u.Sessions.Sum(x => x.Duration.TotalSeconds);
+                    totalSpentTime += (long)u.Sessions.Sum(x => x.Duration.TotalSeconds);
                     foreach (var s in u.Sessions)
                     {
                         //sessionCount++;
@@ -246,10 +244,10 @@ namespace WebMining
             Print("Browsers:");
             foreach (var c in browser)
                 Print("\t" + c.Key + " = " + c.Value + " users (" + (int)(c.Value * 100.0 / extractedUsers.Count) + " %)");
-                                                                                     
-            Print();                                                                 
-            Print("OperatingSystems:");                                              
-            foreach (var c in OS)                                                    
+
+            Print();
+            Print("OperatingSystems:");
+            foreach (var c in OS)
                 Print("\t" + c.Key + " = " + c.Value + " users (" + (int)(c.Value * 100.0 / extractedUsers.Count) + " %)");
 
             Print();
@@ -259,10 +257,11 @@ namespace WebMining
 
             Print();
             Print("Pages:");
-            var orderPages = pages.OrderByDescending(x => x.Value.Weight);
+            var orderPages = pages.OrderByDescending(x => ranking(totalSpentTime, totalPageHits, x));
             foreach (var c in orderPages)
                 Print("\t" + c.Key + "\t-\thits = " + c.Value.Weight.ToString("N0") + " (" + (int)(c.Value.Weight * 100.0 / totalPageHits) +
-                    " %) ,\tspentTime = " + c.Value.Value.ToString("N0") + " (" + (int)(c.Value.Value * 100.0 / totalSpentTime) + " %)");
+                    " %) ,\tspentTime = " + c.Value.Value.ToString("N0") + " (" + (int)(c.Value.Value * 100.0 / totalSpentTime) + " %)" +
+                    "\tRank = " + ranking(totalSpentTime, totalPageHits, c) + " points");
             Print();
             Print("Total Spent time\t= " + totalSpentTime.ToString("N0") + " sec");
             Print("Total Pages Hits\t= " + totalPageHits.ToString("N0") + " hits");
@@ -272,44 +271,24 @@ namespace WebMining
 
             Print("---------------------");
 
-            //double ava = 0;
-            //int count = 0;
-            //int totalcount = (extractedUsers.Count * (extractedUsers.Count + 1) / 2);
-            //Print("user count = " + extractedUsers.Count);
-            //Print("total count = " + totalcount);
-            //Print();
-            //Print();
             //MinMax m = new MinMax();
-            //double tmp = 0;
-            //List<double> dics = new List<double>();
+            //int count = 0, totalcount = (extractedUsers.Count * (extractedUsers.Count + 1) / 2);
+            //double tmp = 0, ava = 0;
             //for (int i = 0; i < extractedUsers.Count; i++)
             //{
             //    for (int j = extractedUsers.Count - 1; j > i; j--)
-            //    {
-            //        tmp = extractedUsers[i].Distance(extractedUsers[j]);
-            //        //dics.Add(tmp);
-            //        m.SetMinMaxValues(tmp);
-            //        ava += tmp;
-            //        count++;
-            //    }
+            //    { m.SetMinMaxValues(tmp = extractedUsers[i].Distance(extractedUsers[j])); ava += tmp; count++; }
             //    Processbarhandler((int)((count * 1.0) / totalcount * 100), " wait ");
             //}
-
-
-            //Processbarhandler(100, " finish ");
-
             //Print("min   = " + m.MinWeight);
             //Print("max   = " + m.MaxWeight);
             //Print("sum   = " + ava);
             //Print("avarg = " + (ava / totalcount));
-            //Print();
+        }
 
-            //Print("----------------");
-            //Print(extractedUsers[0].ToString());
-            //Print("----------------");
-            //Print(extractedUsers[1].ToString());
-            //Print("----------------");
-            //Print(extractedUsers[0].Distance(extractedUsers[1]));
+        private static double ranking(long totalSpentTime, long totalPageHits, KeyValuePair<string, Pair<long>> c)
+        {
+            return ((c.Value.Weight * 100.0 / totalPageHits) * (c.Value.Value * 100.0/ totalSpentTime)) /100;
         }
 
         private static void searchInDic(Dictionary<string, int> dic, string s)
