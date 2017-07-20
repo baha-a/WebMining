@@ -53,6 +53,8 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.txtboxMarkovDepth = new System.Windows.Forms.TextBox();
             this.button4 = new System.Windows.Forms.Button();
             this.txtboxClassification = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -62,8 +64,8 @@
             this.button7 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
             this.button9 = new System.Windows.Forms.Button();
-            this.txtboxMarkovDepth = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
+            this.btnZoomInListbox = new System.Windows.Forms.Button();
+            this.btnZoomOuListbox = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -330,6 +332,25 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Online Algorithms";
             // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(227, 121);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(71, 13);
+            this.label9.TabIndex = 24;
+            this.label9.Text = "MarkovDepth";
+            // 
+            // txtboxMarkovDepth
+            // 
+            this.txtboxMarkovDepth.Location = new System.Drawing.Point(303, 119);
+            this.txtboxMarkovDepth.Name = "txtboxMarkovDepth";
+            this.txtboxMarkovDepth.Size = new System.Drawing.Size(43, 20);
+            this.txtboxMarkovDepth.TabIndex = 23;
+            this.txtboxMarkovDepth.Text = "3";
+            this.txtboxMarkovDepth.TextChanged += new System.EventHandler(this.numberOnlyTextBox_TextChanged);
+            this.txtboxMarkovDepth.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.numberOnlyTextBox_KeyPress);
+            // 
             // button4
             // 
             this.button4.Location = new System.Drawing.Point(18, 94);
@@ -364,6 +385,7 @@
             this.listboxState.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.listboxState.Font = new System.Drawing.Font("Tahoma", 8F);
             this.listboxState.FormattingEnabled = true;
             this.listboxState.Location = new System.Drawing.Point(402, 34);
             this.listboxState.Name = "listboxState";
@@ -424,30 +446,35 @@
             this.button9.UseVisualStyleBackColor = true;
             this.button9.Click += new System.EventHandler(this.button9_Click);
             // 
-            // txtboxMarkovDepth
+            // btnZoomInListbox
             // 
-            this.txtboxMarkovDepth.Location = new System.Drawing.Point(303, 119);
-            this.txtboxMarkovDepth.Name = "txtboxMarkovDepth";
-            this.txtboxMarkovDepth.Size = new System.Drawing.Size(43, 20);
-            this.txtboxMarkovDepth.TabIndex = 23;
-            this.txtboxMarkovDepth.Text = "3";
-            this.txtboxMarkovDepth.TextChanged += new System.EventHandler(this.numberOnlyTextBox_TextChanged);
-            this.txtboxMarkovDepth.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.numberOnlyTextBox_KeyPress);
+            this.btnZoomInListbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnZoomInListbox.Location = new System.Drawing.Point(541, 512);
+            this.btnZoomInListbox.Name = "btnZoomInListbox";
+            this.btnZoomInListbox.Size = new System.Drawing.Size(38, 19);
+            this.btnZoomInListbox.TabIndex = 1004;
+            this.btnZoomInListbox.Text = "+";
+            this.btnZoomInListbox.UseVisualStyleBackColor = true;
+            this.btnZoomInListbox.Click += new System.EventHandler(this.btnZoomInListbox_Click);
             // 
-            // label9
+            // btnZoomOuListbox
             // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(227, 121);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(71, 13);
-            this.label9.TabIndex = 24;
-            this.label9.Text = "MarkovDepth";
+            this.btnZoomOuListbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnZoomOuListbox.Location = new System.Drawing.Point(497, 512);
+            this.btnZoomOuListbox.Name = "btnZoomOuListbox";
+            this.btnZoomOuListbox.Size = new System.Drawing.Size(38, 19);
+            this.btnZoomOuListbox.TabIndex = 1005;
+            this.btnZoomOuListbox.Text = "-";
+            this.btnZoomOuListbox.UseVisualStyleBackColor = true;
+            this.btnZoomOuListbox.Click += new System.EventHandler(this.btnZoomOuListbox_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(693, 538);
+            this.Controls.Add(this.btnZoomOuListbox);
+            this.Controls.Add(this.btnZoomInListbox);
             this.Controls.Add(this.button9);
             this.Controls.Add(this.button8);
             this.Controls.Add(this.button7);
@@ -511,6 +538,8 @@
         private System.Windows.Forms.Button button9;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox txtboxMarkovDepth;
+        private System.Windows.Forms.Button btnZoomInListbox;
+        private System.Windows.Forms.Button btnZoomOuListbox;
     }
 }
 

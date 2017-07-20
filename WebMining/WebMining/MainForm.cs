@@ -177,11 +177,16 @@ namespace WebMining
 
 
 
+            int sessionCount = 0;
+            long totalSpentTime = 0;
+            long totalPageHits = 0;
+            Dictionary<string, Pair<long>> pages = new Dictionary<string, Pair<long>>();
+
             Dictionary<string, int> countrycode = new Dictionary<string, int>();
             Dictionary<string, int> browser = new Dictionary<string, int>();
             Dictionary<string, int> OS = new Dictionary<string, int>();
 
-            Dictionary<string, Pair<IEnumerable<Session>>> session = new Dictionary<string, Pair<IEnumerable<Session>>>();
+            //Dictionary<string, Pair<IEnumerable<Session>>> session = new Dictionary<string, Pair<IEnumerable<Session>>>();
 
             Dictionary<string, int> gender = new Dictionary<string, int>
             {
@@ -204,6 +209,24 @@ namespace WebMining
                     searchInDic(countrycode, tmpS.CountryCode);
                     searchInDic(browser, tmpS.Browser);
                     searchInDic(OS, tmpS.OperatingSystem);
+
+                    sessionCount += u.Sessions.Count;
+                    totalSpentTime += (long) u.Sessions.Sum(x => x.Duration.TotalSeconds);
+                    foreach (var s in u.Sessions)
+                    {
+                        //sessionCount++;
+                        //totalSpentTime += (long) s.Duration.TotalSeconds;
+
+                        foreach (var r in s.Requests)
+                        {
+                            totalPageHits++;
+                            if (pages.ContainsKey(r.RequstedPage) == false)
+                                pages.Add(r.RequstedPage, new Pair<long>(0, 0));
+
+                            pages[r.RequstedPage].Weight++;
+                            pages[r.RequstedPage].Value += r.SpentTime;
+                        }
+                    }
                 }
             }
 
@@ -226,7 +249,20 @@ namespace WebMining
             foreach (var c in gender)
                 Print("\t" + c.Key + " = " + c.Value + " users (" + (int)(c.Value * 100.0 / extractedUsers.Count) + " %)");
 
+            Print();
+            Print("Pages:");
+            foreach (var c in pages.OrderByDescending(x => x.Value.Weight))
+                Print("\t" + c.Key + "\t-\thits = " + c.Value.Weight.ToString("N0") + " (" + (int)(c.Value.Weight * 100.0 / totalPageHits) +
+                    " %) ,\tspentTime = " + c.Value.Value.ToString("N0") + " (" + (int)(c.Value.Value * 100.0 / totalSpentTime) + " %)");
+            Print();
+            Print("Total Spent time\t= " + totalSpentTime.ToString("N0") + " sec");
+            Print("Total Pages Hits\t= " + totalPageHits.ToString("N0") + " hits");
+            Print("Unique Visitors\t= " + extractedUsers.Count.ToString("N0") + " visitors");
+            Print("Total Session count\t= " + sessionCount.ToString("N0") + " session");
+            Print("Session per visitor\t= " + (sessionCount * 1.0 / extractedUsers.Count));
+
             Print("---------------------");
+
             //double ava = 0;
             //int count = 0;
             //int totalcount = (extractedUsers.Count * (extractedUsers.Count + 1) / 2);
@@ -266,11 +302,18 @@ namespace WebMining
             //Print("----------------");
             //Print(extractedUsers[0].Distance(extractedUsers[1]));
         }
+
         private static void searchInDic(Dictionary<string, int> dic, string s)
         {
             if (dic.ContainsKey(s) == false)
                 dic.Add(s, 0);
             dic[s]++;
+        }
+        private static T searchInDic<T>(Dictionary<string, T> dic, string s,T NEW)
+        {
+            if (dic.ContainsKey(s) == false)
+                dic.Add(s, NEW);
+            return dic[s];
         }
 
 
@@ -616,6 +659,18 @@ namespace WebMining
         {
             if (server != null)
                 server.Dispose();
+        }
+
+        private void btnZoomInListbox_Click(object sender, EventArgs e)
+        {
+            if (listboxState.Font.Size + 2 < 60)
+                listboxState.Font = new System.Drawing.Font(listboxState.Font.FontFamily, listboxState.Font.Size + 2);
+        }
+
+        private void btnZoomOuListbox_Click(object sender, EventArgs e)
+        {
+            if (listboxState.Font.Size - 2 > 0)
+                listboxState.Font = new System.Drawing.Font(listboxState.Font.FontFamily, listboxState.Font.Size - 2);
         }
     }
 }

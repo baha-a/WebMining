@@ -280,6 +280,20 @@ namespace WebMining
         public string SourcePage { get; set; }
 
 
+
+        long spentTime = -1;
+        public long SpentTime
+        {
+            get
+            {
+                if (spentTime == -1)
+                    spentTime = calculatSpentTime();
+                return spentTime;
+            }
+        }
+
+
+
         #region other code
         public override string ToString()
         {
@@ -287,15 +301,19 @@ namespace WebMining
                 + " " + OperatingSystem + " " + Time + " "  + RequstedPage + " " + SourcePage;
         }
 
-        public Request CalcualetValues()
-        {
-            // I forget what I planned to do with this function
-            return this;
-        }
-
         public Request()
         {
 
+        }
+
+        public long calculatSpentTime()
+        {
+            if (Session == null)
+                return 0;
+            int nextIndex = Session.Requests.IndexOf(this) + 1;
+            if (nextIndex >= Session.Requests.Count)
+                return 0;
+            return (long)(Session.Requests[nextIndex].Time - Time).TotalSeconds;
         }
         #endregion
     }

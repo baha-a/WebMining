@@ -40,7 +40,7 @@ namespace WebMining
                 Time = parseData(cells[7], cells[8]),
                 RequstedPage = cells[9],
                 SourcePage = cells[10]
-            }.CalcualetValues();
+            };
         }
 
         private static bool isCommentOrEmpty(string line)
