@@ -123,25 +123,32 @@ namespace WebMining
             SessionOutputParser outer = new SessionOutputParser();
             try
             {
-                Print("session count: " + sessions.Count + "  -  ex: " + outer.Parse(sessions.First().GetTransaction()));
-                Print("Distinct session count: " + sessions.Select(x => x.GetTransaction()).Distinct().Count() + "  -  ex: " + outer.Parse(sessions.Select(x => x.GetTransaction()).Distinct().First()));
                 Print();
-                Print("FrequentItems: " + output.FrequentItems.Count);
-                Print("FrequentItems first: " + outer.Parse(output.FrequentItems.First().Name));
+                Print("FrequentItems count : " + output.FrequentItems.Count);
+                foreach (var f in output.FrequentItems)
+                    Print("\t" + outer.Parse(f.Name));
+
                 Print();
-                Print("ClosedItemSets: " + output.ClosedItemSets.Count);
-                Print("ClosedItemSets first: " + outer.Parse(output.ClosedItemSets.First().Key));
-                if (output.ClosedItemSets.First().Value.Count > 0)
-                    Print("ClosedItemSets first first: " + outer.Parse(output.ClosedItemSets.First().Value.First().Key));
+                Print("ClosedItemSets count: " + output.ClosedItemSets.Count);
+                Print("ClosedItemSets: ");
+                foreach (var c in output.ClosedItemSets)
+                {
+                    Print("\t" + outer.Parse(c.Key));
+                    foreach (var cc in c.Value)
+                        Print("\t\t" + outer.Parse(cc.Key));
+                }
+
                 Print();
-                Print("MaximalItemSets: " + output.MaximalItemSets.Count);
-                Print("MaximalItemSets first: " + outer.Parse(output.MaximalItemSets.First().ToString()));
+                Print("MaximalItemSets count: " + output.MaximalItemSets.Count);
+                Print("MaximalItemSets: ");
+                foreach (var f in output.MaximalItemSets)
+                    Print("\t" + outer.Parse(f));
+
                 Print();
-                Print("StrongRules: " + output.StrongRules.Count);
-                Print("StrongRules first: " + outer.Parse(output.StrongRules.First().X) + "  ===>  " + outer.Parse(output.StrongRules.First().Y));
-                Print("StrongRules midel: " + outer.Parse(output.StrongRules.ElementAt(output.StrongRules.Count / 2).X)
-                    + "  ===>  " + outer.Parse(output.StrongRules.ElementAt(output.StrongRules.Count / 2).Y));
-                Print("StrongRules last: " + outer.Parse(output.StrongRules.Last().X) + "  ===>  " + outer.Parse(output.StrongRules.Last().Y));
+                Print("StrongRules count: " + output.StrongRules.Count);
+                Print("StrongRules: ");
+                foreach (var s in output.StrongRules)
+                    Print("\t" + outer.Parse(s.X) + "   ===>   " + outer.Parse(s.Y));
             }
             catch
             {
@@ -180,13 +187,14 @@ namespace WebMining
             int sessionCount = 0;
             long totalSpentTime = 0;
             long totalPageHits = 0;
+            long highestHits;
+            long leastHits;
             Dictionary<string, Pair<long>> pages = new Dictionary<string, Pair<long>>();
 
             Dictionary<string, int> countrycode = new Dictionary<string, int>();
             Dictionary<string, int> browser = new Dictionary<string, int>();
             Dictionary<string, int> OS = new Dictionary<string, int>();
 
-            //Dictionary<string, Pair<IEnumerable<Session>>> session = new Dictionary<string, Pair<IEnumerable<Session>>>();
 
             Dictionary<string, int> gender = new Dictionary<string, int>
             {
@@ -251,7 +259,8 @@ namespace WebMining
 
             Print();
             Print("Pages:");
-            foreach (var c in pages.OrderByDescending(x => x.Value.Weight))
+            var orderPages = pages.OrderByDescending(x => x.Value.Weight);
+            foreach (var c in orderPages)
                 Print("\t" + c.Key + "\t-\thits = " + c.Value.Weight.ToString("N0") + " (" + (int)(c.Value.Weight * 100.0 / totalPageHits) +
                     " %) ,\tspentTime = " + c.Value.Value.ToString("N0") + " (" + (int)(c.Value.Value * 100.0 / totalSpentTime) + " %)");
             Print();
@@ -342,6 +351,8 @@ namespace WebMining
         }
         private void PrintInSameLine(string v)
         {
+            if (listboxState.Items.Count == 0)
+                listboxState.Items.Add("");
             listboxState.Items[listboxState.Items.Count - 1] = v;
         }
 

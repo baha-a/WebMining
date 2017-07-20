@@ -228,12 +228,12 @@ namespace WebMining
                 Math.Abs(Duration.TotalMinutes - s.Duration.TotalMinutes) +
                 Math.Abs(Requests.Count() - s.Requests.Count()) +
                 distanceTime(StartTime, s.StartTime) +
-                LevenshteinDistance.Compute(GetTransaction(), s.GetTransaction()) * SCALE; 
+                LevenshteinDistance.Compute(GetTransaction(), s.GetTransaction()) * SCALE ; 
             //similaritor.GetDissimilarity(GetTransaction(), s.GetTransaction()) * SCALE;
         }
 
         SmithWaterman similaritor = new SmithWaterman();
-        static double SCALE = 10;
+        static double SCALE = 5;
 
         static double distanceTime(DateTime t, DateTime p)
         {
@@ -290,20 +290,24 @@ namespace WebMining
                     spentTime = calculatSpentTime();
                 return spentTime;
             }
+            set
+            {
+                spentTime = value;
+            }
         }
 
 
 
         #region other code
+        public Request()
+        {
+
+        }
+
         public override string ToString()
         {
             return ID + " "  + CookieID + " " + Gender  + " " + IPaddress + " " + CountryCode + " " + Browser 
                 + " " + OperatingSystem + " " + Time + " "  + RequstedPage + " " + SourcePage;
-        }
-
-        public Request()
-        {
-
         }
 
         public long calculatSpentTime()
@@ -315,6 +319,7 @@ namespace WebMining
                 return 0;
             return (long)(Session.Requests[nextIndex].Time - Time).TotalSeconds;
         }
+
         #endregion
     }
 

@@ -1,10 +1,24 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace WebMining
 {
     public static class LevenshteinDistance
     {
+        static Dictionary<string, double> cacher = new Dictionary<string, double>();
+        static string tmpKey;
+        static double tmpValue;
         public static double Compute(string s, string t)
+        {
+            tmpKey = (s + "," + t);
+            if (cacher.ContainsKey(tmpKey))
+                return cacher[tmpKey];
+
+            cacher.Add(tmpKey, tmpValue = compute(s, t) * 1.0 / Math.Max(s.Length, t.Length));
+            return tmpValue;
+        }
+
+        public static double ComputeWithoutCache(string s, string t)
         {
             return compute(s, t) * 1.0 / Math.Max(s.Length, t.Length);
         }
@@ -32,9 +46,28 @@ namespace WebMining
 
         public static void Test()
         {
-            System.Windows.Forms.MessageBox.Show("" + LevenshteinDistance.Compute("aunt", "aunt"));
-            System.Windows.Forms.MessageBox.Show("" + LevenshteinDistance.Compute("Sam", "Samantha"));
-            System.Windows.Forms.MessageBox.Show("" + LevenshteinDistance.Compute("flomax", "volmax"));
+            System.Windows.Forms.MessageBox.Show(
+                Compute("aunt", "aunt") + "\r\n" +
+                Compute("Sam", "Samantha") + "\r\n" +
+                Compute("Samantha", "Sam") + "\r\n" +
+                Compute("flomax", "volmax") + "\r\n" +
+                Compute("volmax", "flomax"));
+
+
+            System.Diagnostics.Stopwatch st = System.Diagnostics.Stopwatch.StartNew();
+            for (int i = 0; i < 4000000; i++)
+                Compute("volmax", "flomax");
+            st.Stop();
+            long time1 = st.ElapsedMilliseconds;
+
+            st = System.Diagnostics.Stopwatch.StartNew();
+            for (int i = 0; i < 4000000; i++)
+                ComputeWithoutCache("volmax", "flomax");
+            st.Stop();
+            long time2 = st.ElapsedMilliseconds;
+
+
+            System.Windows.Forms.MessageBox.Show("with cache = " + time1 + "\r\nwithout cache = " + time2);
         }
     }
 }

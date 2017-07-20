@@ -106,7 +106,7 @@ namespace WebMining
 
         private void increceCounterAndNotify()
         {
-            if (++counter % 100 == 0)
+            if (++counter % 10 == 0)
                 notify((int)((counter * 90.0 / totalCountOfItem) % 100), "clustering");
         }
 
