@@ -71,7 +71,17 @@ namespace WebMiningClient
 
         private void tryhandleResponse(string text)
         {
-            
+            //|gender=True&cluster=2&arpages=['PAGE1' - ,'HOME' - ,'END' - ,'HOME' - 'PAGE1' - 'END' - ,'PAGE1' - 'END' - ,'HOME' - 'END' - ,'HOME' - 'PAGE1' - ]&markovpages=[ . 'PAGE1' - 99.9600798403194 %, .  . 'PAGE2' - 47.9002079002079 %, .  .  . 'PAGE1' - 99.9600798403194 %, .  .  . [END] - 0.0399201596806387 %, .  . 'PAGE3' - 47.9002079002079 %, .  .  . 'END' - 100 %, .  . 'END' - 4.17879417879418 %, .  .  . [END] - 99.8003992015968 %, .  .  . 'HOME' - 0.199600798403194 %, .  . 'PAGE1' - 0.0207900207900208 %, .  .  . 'PAGE2' - 47.9002079002079 %, .  .  . 'PAGE3' - 47.9002079002079 %, .  .  . 'END' - 4.17879417879418 %, .  .  . 'PAGE1' - 0.0207900207900208 %, . [END] - 0.0399201596806387 %]|   
+
+            lblPredicatedGender.Text = bool.Parse(text.Substring("|gender=".Length, 4)) == true? "MALE" : "FEMALE";
+            lblSlelectedCluster.Text = text.Substring("|gender=True&cluster=".Length, 2).Replace("&", "");
+            text = text.Substring((text.IndexOf("&markovpages=[") + "&markovpages=[".Length));
+            text = text.Substring(0, text.Length - 2);
+            var t = text.Split(',');
+
+            lstboxSuggestedPages.Items.Clear();
+            foreach (var l in t)
+                lstboxSuggestedPages.Items.Add(l);
         }
 
         private string gethttprequest()

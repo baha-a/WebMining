@@ -53,7 +53,7 @@
             this.label8 = new System.Windows.Forms.Label();
             this.lblPredicatedGender = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label9 = new System.Windows.Forms.Label();
+            this.lblSlelectedCluster = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -89,14 +89,15 @@
             this.groupBox1.Controls.Add(this.cboxCountry);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(448, 458);
+            this.groupBox1.Size = new System.Drawing.Size(429, 458);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Control Panel";
             // 
             // btnLoadMap
             // 
-            this.btnLoadMap.Location = new System.Drawing.Point(367, 18);
+            this.btnLoadMap.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnLoadMap.Location = new System.Drawing.Point(348, 18);
             this.btnLoadMap.Name = "btnLoadMap";
             this.btnLoadMap.Size = new System.Drawing.Size(75, 23);
             this.btnLoadMap.TabIndex = 21;
@@ -116,7 +117,7 @@
             // btnRequest
             // 
             this.btnRequest.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRequest.Location = new System.Drawing.Point(321, 428);
+            this.btnRequest.Location = new System.Drawing.Point(302, 428);
             this.btnRequest.Name = "btnRequest";
             this.btnRequest.Size = new System.Drawing.Size(121, 23);
             this.btnRequest.TabIndex = 19;
@@ -131,7 +132,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.treeSiteMap.Location = new System.Drawing.Point(228, 44);
             this.treeSiteMap.Name = "treeSiteMap";
-            this.treeSiteMap.Size = new System.Drawing.Size(214, 379);
+            this.treeSiteMap.Size = new System.Drawing.Size(195, 379);
             this.treeSiteMap.TabIndex = 18;
             // 
             // label10
@@ -301,7 +302,7 @@
             this.lstboxSuggestedPages.FormattingEnabled = true;
             this.lstboxSuggestedPages.Location = new System.Drawing.Point(15, 44);
             this.lstboxSuggestedPages.Name = "lstboxSuggestedPages";
-            this.lstboxSuggestedPages.Size = new System.Drawing.Size(168, 407);
+            this.lstboxSuggestedPages.Size = new System.Drawing.Size(215, 407);
             this.lstboxSuggestedPages.TabIndex = 16;
             // 
             // label7
@@ -316,7 +317,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(229, 31);
+            this.label8.Location = new System.Drawing.Point(247, 31);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(106, 13);
             this.label8.TabIndex = 17;
@@ -327,7 +328,7 @@
             this.lblPredicatedGender.AutoSize = true;
             this.lblPredicatedGender.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold);
             this.lblPredicatedGender.ForeColor = System.Drawing.Color.DarkOrange;
-            this.lblPredicatedGender.Location = new System.Drawing.Point(330, 28);
+            this.lblPredicatedGender.Location = new System.Drawing.Point(348, 28);
             this.lblPredicatedGender.Name = "lblPredicatedGender";
             this.lblPredicatedGender.Size = new System.Drawing.Size(50, 17);
             this.lblPredicatedGender.TabIndex = 18;
@@ -337,7 +338,7 @@
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.Controls.Add(this.label9);
+            this.groupBox2.Controls.Add(this.lblSlelectedCluster);
             this.groupBox2.Controls.Add(this.label11);
             this.groupBox2.Controls.Add(this.label12);
             this.groupBox2.Controls.Add(this.pictureBox1);
@@ -345,28 +346,28 @@
             this.groupBox2.Controls.Add(this.lstboxSuggestedPages);
             this.groupBox2.Controls.Add(this.label8);
             this.groupBox2.Controls.Add(this.label7);
-            this.groupBox2.Location = new System.Drawing.Point(466, 12);
+            this.groupBox2.Location = new System.Drawing.Point(447, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(495, 458);
+            this.groupBox2.Size = new System.Drawing.Size(514, 458);
             this.groupBox2.TabIndex = 19;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Result";
             // 
-            // label9
+            // lblSlelectedCluster
             // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold);
-            this.label9.ForeColor = System.Drawing.Color.DarkOrange;
-            this.label9.Location = new System.Drawing.Point(332, 50);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(17, 17);
-            this.label9.TabIndex = 24;
-            this.label9.Text = "0";
+            this.lblSlelectedCluster.AutoSize = true;
+            this.lblSlelectedCluster.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold);
+            this.lblSlelectedCluster.ForeColor = System.Drawing.Color.DarkOrange;
+            this.lblSlelectedCluster.Location = new System.Drawing.Point(350, 50);
+            this.lblSlelectedCluster.Name = "lblSlelectedCluster";
+            this.lblSlelectedCluster.Size = new System.Drawing.Size(17, 17);
+            this.lblSlelectedCluster.TabIndex = 24;
+            this.lblSlelectedCluster.Text = "0";
             // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(232, 51);
+            this.label11.Location = new System.Drawing.Point(250, 51);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(106, 13);
             this.label11.TabIndex = 23;
@@ -375,7 +376,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(189, 141);
+            this.label12.Location = new System.Drawing.Point(236, 141);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(125, 13);
             this.label12.TabIndex = 22;
@@ -386,9 +387,9 @@
             this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox1.Location = new System.Drawing.Point(189, 157);
+            this.pictureBox1.Location = new System.Drawing.Point(239, 157);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(300, 294);
+            this.pictureBox1.Size = new System.Drawing.Size(269, 294);
             this.pictureBox1.TabIndex = 19;
             this.pictureBox1.TabStop = false;
             // 
@@ -450,7 +451,7 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label lblPredicatedGender;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label lblSlelectedCluster;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.PictureBox pictureBox1;
