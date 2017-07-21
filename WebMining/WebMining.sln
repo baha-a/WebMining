@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebMining", "WebMining\WebMining.csproj", "{8B70366A-2AB6-4BCC-AC4F-03A4DF47FE3A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebMiningClient", "WebMiningClient\WebMiningClient.csproj", "{B69383B7-1684-41A2-85B2-DF1C091827BD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,6 +20,12 @@ Global
 		{8B70366A-2AB6-4BCC-AC4F-03A4DF47FE3A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8B70366A-2AB6-4BCC-AC4F-03A4DF47FE3A}.WithDebug|Any CPU.ActiveCfg = WithDebug|Any CPU
 		{8B70366A-2AB6-4BCC-AC4F-03A4DF47FE3A}.WithDebug|Any CPU.Deploy.0 = WithDebug|Any CPU
+		{B69383B7-1684-41A2-85B2-DF1C091827BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B69383B7-1684-41A2-85B2-DF1C091827BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B69383B7-1684-41A2-85B2-DF1C091827BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B69383B7-1684-41A2-85B2-DF1C091827BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B69383B7-1684-41A2-85B2-DF1C091827BD}.WithDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B69383B7-1684-41A2-85B2-DF1C091827BD}.WithDebug|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

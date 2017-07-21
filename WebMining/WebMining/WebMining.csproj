@@ -178,5 +178,11 @@
     <Content Include="lib\Microsoft.Msagl.Drawing.dll" />
     <Content Include="lib\Microsoft.Msagl.GraphViewerGdi.dll" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WebMiningClient\WebMiningClient.csproj">
+      <Project>{b69383b7-1684-41a2-85b2-df1c091827bd}</Project>
+      <Name>WebMiningClient</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

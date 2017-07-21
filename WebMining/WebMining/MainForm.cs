@@ -694,6 +694,7 @@ namespace WebMining
 
         private void button6_Click(object sender, EventArgs e)
         {
+            new WebMiningClient.ClientForm().Show();
             string msg = "\r\n=================================\r\n" +
                 "|  This Demo for our graduation project\r\n|\tat Damascus University (Syria)\r\n|\t" +
                 "at year 2017/2016\r\n|  By:\r\n|\tBaha'a Alsharif (http://github.com/bhlshrf)\r\n|\t" +
@@ -738,8 +739,7 @@ namespace WebMining
 
         private void button8_Click(object sender, EventArgs e)
         {
-            OpenFileDialog open = new OpenFileDialog();
-            open.Filter = "XML|*.xml|Compressed XML|*.gzip|Any|*.*";
+            OpenFileDialog open = new OpenFileDialog() { Filter = "XML|*.xml|Compressed XML|*.gzip|Any|*.*" };
             if (open.ShowDialog(this) == DialogResult.OK)
             {
                 callback(loadData, open.FileName, toggleButtonEnable(button8));
