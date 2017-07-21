@@ -94,7 +94,7 @@ namespace WebMining
 
         private IEnumerable<Cluster> fillResultInClusters(Func<IEnumerable<IDistancable>, IDistancable> marge)
         {
-            return _dataset.Where(x => x.ClusterId > 0).GroupBy(x => x.ClusterId)
+            return _dataset.Where(x => x.ClusterId > 0).GroupBy(x => x.ClusterId).Where(x=>x.Count() > MinPts)
                 .Select(x => new Cluster(x.Select(y => y.ClusterPoint), marge) { ID = x.First().ClusterId});
         }
 

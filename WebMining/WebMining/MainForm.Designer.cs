@@ -210,7 +210,7 @@
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(203, 23);
             this.button3.TabIndex = 10;
-            this.button3.Text = "Analyze Statistically";
+            this.button3.Text = "Analyze The Website";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
@@ -293,7 +293,7 @@
             this.txtboxMinPTS.Name = "txtboxMinPTS";
             this.txtboxMinPTS.Size = new System.Drawing.Size(58, 20);
             this.txtboxMinPTS.TabIndex = 4;
-            this.txtboxMinPTS.Text = "6";
+            this.txtboxMinPTS.Text = "10";
             this.txtboxMinPTS.TextChanged += new System.EventHandler(this.numberOnlyTextBox_TextChanged);
             this.txtboxMinPTS.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.numberOnlyTextBox_KeyPress);
             // 

@@ -107,6 +107,7 @@ namespace WebMining
 
         private void send(string line)
         {
+            if(line.ToLower() != "exit")
             if (isConnected == false || isPaused == true)
                 return;
 

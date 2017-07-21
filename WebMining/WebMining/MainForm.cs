@@ -91,7 +91,7 @@ namespace WebMining
             Print("Count = " + clusters.Count());
             Print();
             foreach (var c in clusters)
-                Print("ID: " + c.ID + "   -  center:" + c.Center.Distance(extractedUsers[0]));
+                Print("ID = " + c.ID + "   count = " + c.Dataset.Count() + "   -  center = " + c.Center.Distance(extractedUsers.First()));
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -243,8 +243,8 @@ namespace WebMining
             Series browsersChart = new Series() { ChartType = SeriesChartType.Pie, IsValueShownAsLabel = true };
             Series osChart = new Series() { ChartType = SeriesChartType.Pie, IsValueShownAsLabel = true };
 
-            Series pagesChart = new Series() { ChartType = SeriesChartType.Column, Color = Color.Violet , Name = "Page Hits"};
-            Series pagesChart2 = new Series() { ChartType = SeriesChartType.Column, Color = Color.Purple, Name = "Spent Time" };
+            Series pagesChart = new Series() { ChartType = SeriesChartType.Column, Color = Color.SeaGreen , Name = "Page Hits"};
+            Series pagesChart2 = new Series() { ChartType = SeriesChartType.Column, Color = Color.Tomato, Name = "Spent Time" };
 
             Print("Countries:");
             foreach (var c in countrycode)
@@ -273,8 +273,8 @@ namespace WebMining
             Print("Gender:");
             foreach (var c in gender)
             {
-                genderChart.Points.AddXY(c.Key, (int)(c.Value * 100.0 / extractedUsers.Count));
-                Print("\t" + c.Key + " = " + c.Value + " users (" + (int)(c.Value * 100.0 / extractedUsers.Count) + " %)");
+                genderChart.Points.AddXY(getGender(c.Key), (int)(c.Value * 100.0 / extractedUsers.Count));
+                Print("\t" + getGender(c.Key) + " = " + c.Value + " users (" + (int)(c.Value * 100.0 / extractedUsers.Count) + " %)");
             }
 
             Print();
@@ -289,29 +289,39 @@ namespace WebMining
                 pagesChart.Points.AddXY(c.Key, (int)(c.Value.Weight * 100.0 / totalPageHits));
                 pagesChart2.Points.AddXY(c.Key, (int)(c.Value.Value * 100.0 / totalSpentTime));
             } 
+
             Print();
             Print("Total Spent time\t= " + totalSpentTime.ToString("N0") + " sec");
             Print("Total Pages Hits\t= " + totalPageHits.ToString("N0") + " hits");
+
             Print("Unique Visitors\t= " + extractedUsers.Count.ToString("N0") + " visitors");
             Print("Total Session count\t= " + sessionCount.ToString("N0") + " session");
+
+            Print("Avarage Spent time = " + (totalSpentTime / extractedUsers.Count).ToString("N0") + "  sec/visitor");
+            Print("Avarage Pages Hits = " + (totalPageHits / extractedUsers.Count).ToString("N0") + "  hits/visitor");
+
             Print("Session per visitor\t= " + (sessionCount * 1.0 / extractedUsers.Count));
 
+
             Print("---------------------");
-            Invoke((Action)delegate { new ChartForm().SetChart(countryChart, browsersChart, osChart, genderChart, pagesChart, pagesChart2).Show(this); });
-            
-            //MinMax m = new MinMax();
-            //int count = 0, totalcount = (extractedUsers.Count * (extractedUsers.Count + 1) / 2);
-            //double tmp = 0, ava = 0;
-            //for (int i = 0; i < extractedUsers.Count; i++)
-            //{
-            //    for (int j = extractedUsers.Count - 1; j > i; j--)
-            //    { m.SetMinMaxValues(tmp = extractedUsers[i].Distance(extractedUsers[j])); ava += tmp; count++; }
-            //    Processbarhandler((int)((count * 1.0) / totalcount * 100), " wait ");
-            //}
-            //Print("min   = " + m.MinWeight);
-            //Print("max   = " + m.MaxWeight);
-            //Print("sum   = " + ava);
-            //Print("avarg = " + (ava / totalcount));
+            Invoke((Action)delegate {
+                new ChartForm().SetChart(countryChart, browsersChart, osChart, genderChart, pagesChart, pagesChart2).Show(this);
+            });
+
+
+            //to do 
+            //  draw new graph of site tobology
+            //
+            //
+            //
+
+
+            //MinMax m = new MinMax(); int count = 0, totalcount = (extractedUsers.Count * (extractedUsers.Count + 1) / 2); double tmp = 0, ava = 0; for (int i = 0; i < extractedUsers.Count; i++) { for (int j = extractedUsers.Count - 1; j > i; j--) { m.SetMinMaxValues(tmp = extractedUsers[i].Distance(extractedUsers[j])); ava += tmp; count++; } Processbarhandler((int)((count * 1.0) / totalcount * 100), " wait "); } Print("min   = " + m.MinWeight); Print("max   = " + m.MaxWeight); Print("sum   = " + ava); Print("avarg = " + (ava / totalcount));
+        }
+
+        private static string getGender(string c)
+        {
+            return c == true.ToString() ? "MALE" : c == false.ToString() ? "FEMALE" : "UNKOWEM";
         }
 
         private static double ranking(long totalSpentTime, long totalPageHits, KeyValuePair<string, Pair<long>> c)
