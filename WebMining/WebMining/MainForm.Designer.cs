@@ -70,6 +70,7 @@
             this.btnSuggestNewToopology = new System.Windows.Forms.Button();
             this.txtboxLevelOfProposedNewTopology = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
+            this.btnSpawnClient = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -241,7 +242,7 @@
             // 
             this.button5.Location = new System.Drawing.Point(19, 139);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(328, 20);
+            this.button5.Size = new System.Drawing.Size(239, 20);
             this.button5.TabIndex = 14;
             this.button5.Text = "Run the server";
             this.button5.UseVisualStyleBackColor = true;
@@ -325,6 +326,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.btnSpawnClient);
             this.groupBox3.Controls.Add(this.label9);
             this.groupBox3.Controls.Add(this.txtboxMarkovDepth);
             this.groupBox3.Controls.Add(this.button4);
@@ -518,6 +520,19 @@
             this.label10.TabIndex = 18;
             this.label10.Text = "menuSize";
             // 
+            // btnSpawnClient
+            // 
+            this.btnSpawnClient.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSpawnClient.Location = new System.Drawing.Point(264, 139);
+            this.btnSpawnClient.Name = "btnSpawnClient";
+            this.btnSpawnClient.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.btnSpawnClient.Size = new System.Drawing.Size(83, 20);
+            this.btnSpawnClient.TabIndex = 1006;
+            this.btnSpawnClient.TabStop = false;
+            this.btnSpawnClient.Text = "Spawn Client";
+            this.btnSpawnClient.UseVisualStyleBackColor = true;
+            this.btnSpawnClient.Click += new System.EventHandler(this.btnSpawnClient_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -594,6 +609,7 @@
         private System.Windows.Forms.Button btnSuggestNewToopology;
         private System.Windows.Forms.TextBox txtboxLevelOfProposedNewTopology;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Button btnSpawnClient;
     }
 }
 

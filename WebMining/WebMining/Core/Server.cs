@@ -107,7 +107,6 @@ namespace WebMining
 
         private void send(string line)
         {
-            if(line.ToLower() != "exit")
             if (isConnected == false || isPaused == true)
                 return;
 
@@ -122,7 +121,10 @@ namespace WebMining
 
             string line = reader.ReadLine();
             if (line.ToLower() == "exit")
+            {
+                send("exit");
                 isConnected = false;
+            }
             return line;
         }
 

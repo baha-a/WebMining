@@ -428,10 +428,7 @@ namespace WebMining
                         n.TargetNode.RemoveSelfEdge(d);
                 }
             }
-            catch (Exception ex)
-            {
-
-            }
+            catch { }
         }
 
         private static string getGender(string c)
@@ -694,7 +691,6 @@ namespace WebMining
 
         private void button6_Click(object sender, EventArgs e)
         {
-            new WebMiningClient.ClientForm().Show();
             string msg = "\r\n=================================\r\n" +
                 "|  This Demo for our graduation project\r\n|\tat Damascus University (Syria)\r\n|\t" +
                 "at year 2017/2016\r\n|  By:\r\n|\tBaha'a Alsharif (http://github.com/bhlshrf)\r\n|\t" +
@@ -816,6 +812,11 @@ namespace WebMining
         {
             if (listboxState.Font.Size - 2 > 0)
                 listboxState.Font = new System.Drawing.Font(listboxState.Font.FontFamily, listboxState.Font.Size - 2);
+        }
+
+        private void btnSpawnClient_Click(object sender, EventArgs e)
+        {
+            new WebMiningClient.ClientForm().Show();
         }
     }
 }
