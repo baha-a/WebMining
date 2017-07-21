@@ -53,8 +53,10 @@ namespace WebMiningClient
                 {
                     using (Client client = new Client())
                     {
-                        MessageBox.Show(gethttprequest());
                         lblState.Text = client.command(gethttprequest());
+                        lstboxRequestedPages.Items.Add(lastone);
+
+                        tryhandleResponse(lblState.Text);
                     }
                 }
                 catch (Exception ex)
@@ -67,15 +69,21 @@ namespace WebMiningClient
             }.Start();
         }
 
+        private void tryhandleResponse(string text)
+        {
+            
+        }
+
         private string gethttprequest()
         {
             //0000014602 ofssobxxxmpdu1sr NONE 72.3.217.228 BM 'Opera' 'Mac' 01:47:53 21-12-2017 'PAGE1' 'PAGE2'
-            return General.getID() + " " +
+            return
+                General.getID() + " " +
                 cookie + " " +
-                General.getGender(cboxProfile.SelectedText) + " " +
-                General.getIPAndCountryCode(cboxCountry.SelectedText) + " '" +
-                cboxBrowser.SelectedText + "' '" +
-                cboxOS.SelectedText + "' " +
+                General.getGender(cboxProfile.SelectedItem + "") + " " +
+                General.getIPAndCountryCode(cboxCountry.SelectedItem + "") + " '" +
+                cboxBrowser.SelectedItem + "' '" +
+                cboxOS.SelectedItem + "' " +
                 txtboxTime.Text + " " +
                 txtboxDate.Text +
                 getRequstedPage();
@@ -131,7 +139,7 @@ namespace WebMiningClient
         {
             lstboxRequestedPages.Items.Add("__________________________");
             txtboxDate.Text = DateTime.ParseExact(txtboxDate.Text, "dd-MM-yyyy", CultureInfo.InvariantCulture).AddDays(1).ToString("dd-MM-yyyy");
-            lastone = "Start";
+            lastone = "'START'";
         }
     }
 }

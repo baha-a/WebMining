@@ -629,16 +629,19 @@ namespace WebMining
         }
         string receive(string m)
         {
+            if (m == "exit")
+                return "";
+
             Print("client :" + m);
             try
             {
                 return predicate(m).ToString();
             }
-            catch { }
-
-            if (m != "exit")
-                return "unkowen command";
-            return m;
+            catch (Exception ex)
+            {
+                Print(ex.Message);
+            }
+            return "unkowen command";
         }
 
         private void numberOnlyTextBox_KeyPress(object sender, KeyPressEventArgs e)
