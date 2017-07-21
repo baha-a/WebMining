@@ -341,7 +341,7 @@ namespace WebMining
             else
                 Invoke((Action)delegate
                 {
-                    chartForm.CloneMe().Show(this);
+                    chartForm.CloneMe().Show();
                 });
         }
         GraphForm graphForm = null;
@@ -352,7 +352,7 @@ namespace WebMining
             else
                 Invoke((Action)delegate
                 {
-                    graphForm.CloneMe().Show(this);
+                    graphForm.CloneMe().Show();
                 });
         }
 

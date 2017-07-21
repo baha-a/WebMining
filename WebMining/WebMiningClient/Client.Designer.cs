@@ -65,6 +65,9 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.btnLoadMap);
             this.groupBox1.Controls.Add(this.label13);
             this.groupBox1.Controls.Add(this.btnRequest);
@@ -112,9 +115,10 @@
             // 
             // btnRequest
             // 
-            this.btnRequest.Location = new System.Drawing.Point(321, 407);
+            this.btnRequest.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRequest.Location = new System.Drawing.Point(321, 428);
             this.btnRequest.Name = "btnRequest";
-            this.btnRequest.Size = new System.Drawing.Size(121, 44);
+            this.btnRequest.Size = new System.Drawing.Size(121, 23);
             this.btnRequest.TabIndex = 19;
             this.btnRequest.Text = "Make Request";
             this.btnRequest.UseVisualStyleBackColor = true;
@@ -122,9 +126,12 @@
             // 
             // treeSiteMap
             // 
+            this.treeSiteMap.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.treeSiteMap.Location = new System.Drawing.Point(228, 44);
             this.treeSiteMap.Name = "treeSiteMap";
-            this.treeSiteMap.Size = new System.Drawing.Size(214, 341);
+            this.treeSiteMap.Size = new System.Drawing.Size(214, 379);
             this.treeSiteMap.TabIndex = 18;
             // 
             // label10
@@ -138,6 +145,8 @@
             // 
             // lstboxRequestedPages
             // 
+            this.lstboxRequestedPages.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.lstboxRequestedPages.FormattingEnabled = true;
             this.lstboxRequestedPages.Location = new System.Drawing.Point(20, 250);
             this.lstboxRequestedPages.Name = "lstboxRequestedPages";
@@ -182,12 +191,14 @@
             // 
             // btnNewSession
             // 
+            this.btnNewSession.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnNewSession.Location = new System.Drawing.Point(78, 428);
             this.btnNewSession.Name = "btnNewSession";
             this.btnNewSession.Size = new System.Drawing.Size(121, 23);
             this.btnNewSession.TabIndex = 1;
             this.btnNewSession.Text = "New Session";
             this.btnNewSession.UseVisualStyleBackColor = true;
+            this.btnNewSession.Click += new System.EventHandler(this.btnNewSession_Click);
             // 
             // label4
             // 
@@ -284,6 +295,9 @@
             // 
             // lstboxSuggestedPages
             // 
+            this.lstboxSuggestedPages.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lstboxSuggestedPages.FormattingEnabled = true;
             this.lstboxSuggestedPages.Location = new System.Drawing.Point(15, 44);
             this.lstboxSuggestedPages.Name = "lstboxSuggestedPages";
@@ -321,6 +335,8 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.label9);
             this.groupBox2.Controls.Add(this.label11);
             this.groupBox2.Controls.Add(this.label12);
@@ -367,6 +383,8 @@
             // 
             // pictureBox1
             // 
+            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox1.Location = new System.Drawing.Point(189, 157);
             this.pictureBox1.Name = "pictureBox1";
@@ -376,6 +394,7 @@
             // 
             // lblState
             // 
+            this.lblState.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblState.AutoSize = true;
             this.lblState.Font = new System.Drawing.Font("Tahoma", 9F);
             this.lblState.Location = new System.Drawing.Point(20, 478);

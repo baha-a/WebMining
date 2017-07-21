@@ -26,7 +26,7 @@ namespace WebMining
             return new ChartForm().SetChart(c, b, o, g, p, p2);
         }
 
-        Series c, b, o, g, p, p2;
+        static Series c, b, o, g, p, p2;
         public ChartForm SetChart(Series country, Series browser, Series os, Series gender, Series pages, Series pages2)
         {
             c = country;

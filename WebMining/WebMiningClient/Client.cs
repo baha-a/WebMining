@@ -18,7 +18,10 @@ namespace WebMiningClient
             timer1 = new Timer() { Interval = 1000 };
             timer1.Tick += timer1_Tick;
             timer1.Start();
+            cookie = General.getCookie();
         }
+
+        string cookie;
 
         bool flag = false;
         private void TxtboxTime_LostFocus(object sender, EventArgs e)
@@ -50,6 +53,7 @@ namespace WebMiningClient
                 {
                     using (Client client = new Client())
                     {
+                        MessageBox.Show(gethttprequest());
                         lblState.Text = client.command(gethttprequest());
                     }
                 }
@@ -65,7 +69,25 @@ namespace WebMiningClient
 
         private string gethttprequest()
         {
-            return "no thing";
+            //0000014602 ofssobxxxmpdu1sr NONE 72.3.217.228 BM 'Opera' 'Mac' 01:47:53 21-12-2017 'PAGE1' 'PAGE2'
+            return General.getID() + " " +
+                cookie + " " +
+                General.getGender(cboxProfile.SelectedText) + " " +
+                General.getIPAndCountryCode(cboxCountry.SelectedText) + " '" +
+                cboxBrowser.SelectedText + "' '" +
+                cboxOS.SelectedText + "' " +
+                txtboxTime.Text + " " +
+                txtboxDate.Text +
+                getRequstedPage();
+        }
+
+        string lastone = "'START'";
+        private string getRequstedPage()
+        {
+            string r = treeSiteMap.SelectedNode.Text;
+            string tmp = " " + r + " " + lastone + "";
+            lastone = r;
+            return tmp;
         }
 
         private void btnLoadMap_Click(object sender, EventArgs e)
@@ -80,6 +102,11 @@ namespace WebMiningClient
         int index = 0;
         private void buildTree(string[] v, int lvl = 0, TreeNode node = null)
         {
+            if (lvl == 0)
+            {
+                index = 0;
+                treeSiteMap.Nodes.Clear();
+            }
             TreeNode n;
             for (; index < v.Length && lvl < v[index].Length; index++)
             {
@@ -99,41 +126,12 @@ namespace WebMiningClient
             }
             treeSiteMap.ExpandAll();
         }
-    }
 
-    public static class General
-    {
-        //0000014602 ofssobxxxmpdu1sr NONE 72.3.217.228 BM 'Opera' 'Mac' 01:47:53 21-12-2017 'PAGE1' 'PAGE2'
-
-        static Random rand = new Random();
-        static string leters = "qwertyuiopasdfghjklzxcvbnm1234567890";
-        public static string getCookie(int length = 16)
+        private void btnNewSession_Click(object sender, EventArgs e)
         {
-            string res = "";
-            while (length-- > 0)
-                res += leters[rand.Next(0, leters.Length)].ToString();
-            return res;
-        }
-
-        public static string getID()
-        {
-            return "0000000000";
-        }
-        public static string getIPAndCountryCode(string country)
-        {
-            country = country.ToLower();
-            if (country == "syria")
-                return "0.0.0.0 SY";
-            return "0.0.0.0 SY";
-        }
-
-        public static string getGender(string g)
-        {
-            if (g.ToLower() == "male")
-                return "MALE";
-            if (g.ToLower() == "female")
-                return "FMLE";
-            return "NONE";
+            lstboxRequestedPages.Items.Add("__________________________");
+            txtboxDate.Text = DateTime.ParseExact(txtboxDate.Text, "dd-MM-yyyy", CultureInfo.InvariantCulture).AddDays(1).ToString("dd-MM-yyyy");
+            lastone = "Start";
         }
     }
 }
