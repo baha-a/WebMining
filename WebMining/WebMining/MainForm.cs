@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Drawing;
+using Microsoft.Msagl.Drawing;
 
 namespace WebMining
 {
@@ -243,8 +244,8 @@ namespace WebMining
             Series browsersChart = new Series() { ChartType = SeriesChartType.Pie, IsValueShownAsLabel = true };
             Series osChart = new Series() { ChartType = SeriesChartType.Pie, IsValueShownAsLabel = true };
 
-            Series pagesChart = new Series() { ChartType = SeriesChartType.Column, Color = Color.SeaGreen , Name = "Page Hits"};
-            Series pagesChart2 = new Series() { ChartType = SeriesChartType.Column, Color = Color.Tomato, Name = "Spent Time" };
+            Series pagesChart = new Series() { ChartType = SeriesChartType.Column, Color = System.Drawing.Color.SeaGreen, Name = "Page Hits" };
+            Series pagesChart2 = new Series() { ChartType = SeriesChartType.Column, Color = System.Drawing.Color.Tomato, Name = "Spent Time" };
 
             Print("Countries:");
             foreach (var c in countrycode)
@@ -288,35 +289,149 @@ namespace WebMining
 
                 pagesChart.Points.AddXY(c.Key, (int)(c.Value.Weight * 100.0 / totalPageHits));
                 pagesChart2.Points.AddXY(c.Key, (int)(c.Value.Value * 100.0 / totalSpentTime));
-            } 
+            }
+
+            Print("---------------------");
 
             Print();
             Print("Total Spent time\t= " + totalSpentTime.ToString("N0") + " sec");
             Print("Total Pages Hits\t= " + totalPageHits.ToString("N0") + " hits");
+            Print("Total Session count\t= " + sessionCount.ToString("N0") + " session");
 
             Print("Unique Visitors\t= " + extractedUsers.Count.ToString("N0") + " visitors");
-            Print("Total Session count\t= " + sessionCount.ToString("N0") + " session");
 
             Print("Avarage Spent time = " + (totalSpentTime / extractedUsers.Count).ToString("N0") + "  sec/visitor");
             Print("Avarage Pages Hits = " + (totalPageHits / extractedUsers.Count).ToString("N0") + "  hits/visitor");
 
-            Print("Session per visitor\t= " + (sessionCount * 1.0 / extractedUsers.Count));
+            Print("Avarage Session count\t= " + (sessionCount * 1.0 / extractedUsers.Count));
 
 
             Print("---------------------");
-            Invoke((Action)delegate {
-                new ChartForm().SetChart(countryChart, browsersChart, osChart, genderChart, pagesChart, pagesChart2).Show(this);
-            });
+            chartForm = new ChartForm().SetChart(countryChart, browsersChart, osChart, genderChart, pagesChart, pagesChart2);
 
 
-            //to do 
-            //  draw new graph of site tobology
-            //
-            //
-            //
 
+
+
+            Print();
+            Print("orginal Topology:");
+            Graph graphOrginal = new Graph();
+            foreach (var p in buildOrginalTopology(graphOrginal))
+                Print(p);
+
+
+            Print();
+            Graph suggestedOrginal = new Graph();
+            List<string> suggestedWebsiteTopology = new List<string>(new string[] { "NEW HOME" });
+            suggestedWebsiteTopology.AddRange(buildSuggestedTopology(suggestedOrginal, "NEW HOME", orderPages.Select(x => x.Key), 3 , "", int.Parse(txtboxLevelOfProposedNewTopology.Text)));
+            Print("Suggested Topology:");
+            foreach (var p in suggestedWebsiteTopology)
+                Print(p);
+
+            graphForm = new GraphForm().AddGraphs(suggestedOrginal, graphOrginal);
 
             //MinMax m = new MinMax(); int count = 0, totalcount = (extractedUsers.Count * (extractedUsers.Count + 1) / 2); double tmp = 0, ava = 0; for (int i = 0; i < extractedUsers.Count; i++) { for (int j = extractedUsers.Count - 1; j > i; j--) { m.SetMinMaxValues(tmp = extractedUsers[i].Distance(extractedUsers[j])); ava += tmp; count++; } Processbarhandler((int)((count * 1.0) / totalcount * 100), " wait "); } Print("min   = " + m.MinWeight); Print("max   = " + m.MaxWeight); Print("sum   = " + ava); Print("avarg = " + (ava / totalcount));
+        }
+
+        ChartForm chartForm = null;
+        private void btnGraphReport_Click(object sender, EventArgs e)
+        {
+            if (chartForm == null)
+                Print("no data");
+            else
+                Invoke((Action)delegate
+                {
+                    chartForm.CloneMe().Show(this);
+                });
+        }
+        GraphForm graphForm = null;
+        private void btnSuggestNewToopology_Click(object sender, EventArgs e)
+        {
+            if (graphForm == null)
+                Print("no data");
+            else
+                Invoke((Action)delegate
+                {
+                    graphForm.CloneMe().Show(this);
+                });
+        }
+
+        private IList<string> buildOrginalTopology(Graph g)
+        {
+            var r = new List<MarkovNode<string>>();
+            if (markover == null)
+                return new List<string>();
+            markover.setStartNodeName("[Start]");
+            markover.setEndNodeName("[END]");
+            r.Add(markover.getStartNode());
+            return searchForNode(g, markover.getStartNode(), r, " . ");
+        }
+        private List<string> searchForNode(Graph g,MarkovNode<string> start, List<MarkovNode<string>> visited, string prefix2 = "", string prefix = "")
+        {
+            List<string> res = new List<string>();
+            foreach (var f in start.GetNexts())
+            {
+                if (string.IsNullOrEmpty(f.Value))
+                    continue;
+                if (visited.Contains(f))
+                    continue;
+
+                if(start.State != MarkovState.Start)
+                AddToGraph(g, start.Value, f.Value);
+
+                res.Add(prefix + f.Value);
+
+                visited.Add(f);
+                res.AddRange(searchForNode(g, f, new List<MarkovNode<string>>(visited), prefix2, prefix + prefix2));
+                visited.Remove(f);
+            }
+            return res;
+        }
+
+        private IList<string> buildSuggestedTopology(Graph g,string last, IEnumerable<string> orderPages , int level = 3, string prefix = "", int linkCountEachLevel = 3)
+        {
+            var res = new List<string>();
+            int order = 1;
+            int locallinkCountEachLevel = linkCountEachLevel;
+            if (level > 0)
+                foreach (var p in orderPages)
+                {
+                    if (string.IsNullOrEmpty(p))
+                        continue;
+                    if (locallinkCountEachLevel-- == 0)
+                        break;
+                    res.Add(prefix + order + " - " + p);
+
+                    AddToGraph(g, last, p);
+
+                    if (markover != null)
+                        res.AddRange(buildSuggestedTopology(g, p, markover.PredicteNextValues(p), level - 1, prefix + order + " - ", linkCountEachLevel));
+                    order++;
+                }
+            return res;
+        }
+
+        private void AddToGraph(Graph g, string start, string end)
+        {
+            try
+            {
+                if (g.Edges.SingleOrDefault(x => x.Source == start && x.Target == end) == null)
+                {
+                    var n = g.AddEdge(start, end);
+
+                    n.SourceNode.Attr.FillColor = Microsoft.Msagl.Drawing.Color.Tomato;
+                    n.SourceNode.Attr.FillColor = Microsoft.Msagl.Drawing.Color.Tomato;
+
+                    foreach (var d in n.SourceNode.SelfEdges)
+                        n.SourceNode.RemoveSelfEdge(d);
+                    foreach (var d in n.TargetNode.SelfEdges)
+                        n.TargetNode.RemoveSelfEdge(d);
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         private static string getGender(string c)
@@ -363,8 +478,8 @@ namespace WebMining
                 listboxState.Items.Add(v);
                 listboxState.SelectedIndex = listboxState.Items.Count - 1;
             }
-            else
-                MessageBox.Show(v);
+            //else
+            //    MessageBox.Show(v);
         }
         private void PrintInSameLine(string v)
         {
@@ -477,7 +592,8 @@ namespace WebMining
                 Stopwatch st = Stopwatch.StartNew();
                 core(param);
                 st.Stop();
-                after(st.ElapsedMilliseconds);
+                if (DEBUGGING == false)
+                    after(st.ElapsedMilliseconds);
             }) { IsBackground = true }.Start();
         }
         void callback(Action core, Action<long> after)
@@ -487,7 +603,8 @@ namespace WebMining
                 Stopwatch st = Stopwatch.StartNew();
                 core();
                 st.Stop();
-                after(st.ElapsedMilliseconds);
+                if(DEBUGGING == false)
+                    after(st.ElapsedMilliseconds);
             })
             { IsBackground = true }.Start();
         }

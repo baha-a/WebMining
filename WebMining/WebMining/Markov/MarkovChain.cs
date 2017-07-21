@@ -22,6 +22,10 @@ namespace WebMining
             startnode.Value = t;
             return this;
         }
+        public MarkovNode<T> getStartNode()
+        {
+            return startnode;
+        }
 
         public MarkovChain<T> setEndNodeName(T t)
         {
@@ -71,6 +75,11 @@ namespace WebMining
 
         private double searchForNode(MarkovNode<T> start, MarkovNode<T> end, List<MarkovNode<T>> visited)
         {
+            //
+            // this method gave incorrect result
+            // check it later
+            //
+
             double pro = 0;
             foreach (var f in start.GetNexts())
             {
