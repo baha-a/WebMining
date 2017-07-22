@@ -682,7 +682,8 @@ namespace WebMining
 
         private Action<long> toggleButtonEnable(Button b)
         {
-            b.Enabled = false;
+            if (DEBUGGING == false)
+                b.Enabled = false;
             return x => { b.Enabled = true; Print("\t\tdone in " + (x / 1000.0) + " sec"); };
         }
 

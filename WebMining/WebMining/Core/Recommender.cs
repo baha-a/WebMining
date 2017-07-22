@@ -49,7 +49,7 @@ namespace WebMining
 
 
 
-        SessionOutputParser sessionOutputParser = new SessionOutputParser(" - ");
+        SessionOutputParser sessionOutputParser = new SessionOutputParser();
 
         private IEnumerable<string> sugguestPageByUsingRules(string t)
         {
