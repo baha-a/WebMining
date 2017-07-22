@@ -28,10 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend5 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title3 = new System.Windows.Forms.DataVisualization.Charting.Title();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -46,9 +42,11 @@
             System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.Title title2 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend5 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title3 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label5 = new System.Windows.Forms.Label();
-            this.pagesChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -57,12 +55,14 @@
             this.osChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.genderChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.countryChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.label5 = new System.Windows.Forms.Label();
+            this.pagesChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pagesChart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.browserChart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.osChart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.genderChart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.countryChart)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pagesChart)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -83,35 +83,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(804, 558);
             this.panel1.TabIndex = 2;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Tahoma", 12F);
-            this.label5.Location = new System.Drawing.Point(8, 9);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(50, 19);
-            this.label5.TabIndex = 9;
-            this.label5.Text = "Pages";
-            // 
-            // pagesChart
-            // 
-            this.pagesChart.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea5.Name = "ChartArea1";
-            this.pagesChart.ChartAreas.Add(chartArea5);
-            legend5.Name = "Legend1";
-            this.pagesChart.Legends.Add(legend5);
-            this.pagesChart.Location = new System.Drawing.Point(12, 12);
-            this.pagesChart.Name = "pagesChart";
-            series5.ChartArea = "ChartArea1";
-            series5.Legend = "Legend1";
-            series5.Name = "Series1";
-            this.pagesChart.Series.Add(series5);
-            this.pagesChart.Size = new System.Drawing.Size(762, 377);
-            this.pagesChart.TabIndex = 4;
-            title3.Name = "Title1";
-            this.pagesChart.Titles.Add(title3);
             // 
             // label4
             // 
@@ -219,6 +190,35 @@
             title2.Name = "Title1";
             this.countryChart.Titles.Add(title2);
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.label5.Location = new System.Drawing.Point(8, 9);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(50, 19);
+            this.label5.TabIndex = 9;
+            this.label5.Text = "Pages";
+            // 
+            // pagesChart
+            // 
+            this.pagesChart.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            chartArea5.Name = "ChartArea1";
+            this.pagesChart.ChartAreas.Add(chartArea5);
+            legend5.Name = "Legend1";
+            this.pagesChart.Legends.Add(legend5);
+            this.pagesChart.Location = new System.Drawing.Point(12, 12);
+            this.pagesChart.Name = "pagesChart";
+            series5.ChartArea = "ChartArea1";
+            series5.Legend = "Legend1";
+            series5.Name = "Series1";
+            this.pagesChart.Series.Add(series5);
+            this.pagesChart.Size = new System.Drawing.Size(762, 377);
+            this.pagesChart.TabIndex = 4;
+            title3.Name = "Title1";
+            this.pagesChart.Titles.Add(title3);
+            // 
             // ChartForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -227,13 +227,14 @@
             this.Controls.Add(this.panel1);
             this.Name = "ChartForm";
             this.Text = "ChartForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ChartForm_FormClosing);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pagesChart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.browserChart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.osChart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.genderChart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.countryChart)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pagesChart)).EndInit();
             this.ResumeLayout(false);
 
         }

@@ -47,12 +47,19 @@
             this.label5 = new System.Windows.Forms.Label();
             this.button5 = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.txtboxRemovingThreshold = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.txtboxLevelOfProposedNewTopology = new System.Windows.Forms.TextBox();
+            this.btnSuggestNewToopology = new System.Windows.Forms.Button();
+            this.btnGraphReport = new System.Windows.Forms.Button();
             this.txtboxSessionTimeOut = new System.Windows.Forms.TextBox();
             this.btnMarkovBuild = new System.Windows.Forms.Button();
             this.txtboxMinPTS = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btnSpawnClient = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
             this.txtboxMarkovDepth = new System.Windows.Forms.TextBox();
             this.button4 = new System.Windows.Forms.Button();
@@ -66,11 +73,6 @@
             this.button9 = new System.Windows.Forms.Button();
             this.btnZoomInListbox = new System.Windows.Forms.Button();
             this.btnZoomOuListbox = new System.Windows.Forms.Button();
-            this.btnGraphReport = new System.Windows.Forms.Button();
-            this.btnSuggestNewToopology = new System.Windows.Forms.Button();
-            this.txtboxLevelOfProposedNewTopology = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.btnSpawnClient = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -78,7 +80,7 @@
             // 
             // btnLoadLogFile
             // 
-            this.btnLoadLogFile.Location = new System.Drawing.Point(18, 26);
+            this.btnLoadLogFile.Location = new System.Drawing.Point(18, 19);
             this.btnLoadLogFile.Name = "btnLoadLogFile";
             this.btnLoadLogFile.Size = new System.Drawing.Size(115, 23);
             this.btnLoadLogFile.TabIndex = 0;
@@ -89,7 +91,7 @@
             // lblLogfiles
             // 
             this.lblLogfiles.AutoSize = true;
-            this.lblLogfiles.Location = new System.Drawing.Point(158, 31);
+            this.lblLogfiles.Location = new System.Drawing.Point(158, 24);
             this.lblLogfiles.Name = "lblLogfiles";
             this.lblLogfiles.Size = new System.Drawing.Size(83, 13);
             this.lblLogfiles.TabIndex = 1;
@@ -99,7 +101,7 @@
             // 
             this.groupBox1.Controls.Add(this.btnLoadLogFile);
             this.groupBox1.Controls.Add(this.lblLogfiles);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Location = new System.Drawing.Point(12, 5);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(372, 63);
             this.groupBox1.TabIndex = 2;
@@ -108,7 +110,7 @@
             // 
             // btnLoadAndCleanData
             // 
-            this.btnLoadAndCleanData.Location = new System.Drawing.Point(18, 22);
+            this.btnLoadAndCleanData.Location = new System.Drawing.Point(18, 15);
             this.btnLoadAndCleanData.Name = "btnLoadAndCleanData";
             this.btnLoadAndCleanData.Size = new System.Drawing.Size(202, 23);
             this.btnLoadAndCleanData.TabIndex = 2;
@@ -119,7 +121,7 @@
             // lblNotifications
             // 
             this.lblNotifications.AutoSize = true;
-            this.lblNotifications.Location = new System.Drawing.Point(27, 512);
+            this.lblNotifications.Location = new System.Drawing.Point(27, 515);
             this.lblNotifications.Name = "lblNotifications";
             this.lblNotifications.Size = new System.Drawing.Size(11, 13);
             this.lblNotifications.TabIndex = 4;
@@ -127,14 +129,14 @@
             // 
             // progressBarDataClean
             // 
-            this.progressBarDataClean.Location = new System.Drawing.Point(12, 528);
+            this.progressBarDataClean.Location = new System.Drawing.Point(12, 530);
             this.progressBarDataClean.Name = "progressBarDataClean";
             this.progressBarDataClean.Size = new System.Drawing.Size(372, 11);
             this.progressBarDataClean.TabIndex = 5;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(18, 60);
+            this.button1.Location = new System.Drawing.Point(18, 53);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(202, 43);
             this.button1.TabIndex = 5;
@@ -144,7 +146,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(18, 113);
+            this.button2.Location = new System.Drawing.Point(18, 106);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(202, 42);
             this.button2.TabIndex = 8;
@@ -154,7 +156,7 @@
             // 
             // txtboxMinSupp
             // 
-            this.txtboxMinSupp.Location = new System.Drawing.Point(291, 111);
+            this.txtboxMinSupp.Location = new System.Drawing.Point(291, 104);
             this.txtboxMinSupp.Name = "txtboxMinSupp";
             this.txtboxMinSupp.Size = new System.Drawing.Size(58, 20);
             this.txtboxMinSupp.TabIndex = 6;
@@ -164,7 +166,7 @@
             // 
             // txtboxMinConf
             // 
-            this.txtboxMinConf.Location = new System.Drawing.Point(291, 133);
+            this.txtboxMinConf.Location = new System.Drawing.Point(291, 126);
             this.txtboxMinConf.Name = "txtboxMinConf";
             this.txtboxMinConf.Size = new System.Drawing.Size(58, 20);
             this.txtboxMinConf.TabIndex = 7;
@@ -175,7 +177,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(238, 114);
+            this.label1.Location = new System.Drawing.Point(238, 107);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(47, 13);
             this.label1.TabIndex = 10;
@@ -184,7 +186,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(238, 136);
+            this.label2.Location = new System.Drawing.Point(238, 129);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(46, 13);
             this.label2.TabIndex = 11;
@@ -192,7 +194,7 @@
             // 
             // txtboxEpsilon
             // 
-            this.txtboxEpsilon.Location = new System.Drawing.Point(291, 58);
+            this.txtboxEpsilon.Location = new System.Drawing.Point(291, 51);
             this.txtboxEpsilon.Name = "txtboxEpsilon";
             this.txtboxEpsilon.Size = new System.Drawing.Size(58, 20);
             this.txtboxEpsilon.TabIndex = 3;
@@ -203,7 +205,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(244, 63);
+            this.label3.Location = new System.Drawing.Point(244, 56);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(40, 13);
             this.label3.TabIndex = 13;
@@ -211,9 +213,9 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(18, 202);
+            this.button3.Location = new System.Drawing.Point(18, 183);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(203, 34);
+            this.button3.Size = new System.Drawing.Size(203, 62);
             this.button3.TabIndex = 10;
             this.button3.Text = "Analyze The Website";
             this.button3.UseVisualStyleBackColor = true;
@@ -221,7 +223,7 @@
             // 
             // txtboxClassificationRequest
             // 
-            this.txtboxClassificationRequest.Location = new System.Drawing.Point(17, 29);
+            this.txtboxClassificationRequest.Location = new System.Drawing.Point(17, 27);
             this.txtboxClassificationRequest.Multiline = true;
             this.txtboxClassificationRequest.Name = "txtboxClassificationRequest";
             this.txtboxClassificationRequest.Size = new System.Drawing.Size(329, 49);
@@ -232,7 +234,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(22, 14);
+            this.label5.Location = new System.Drawing.Point(21, 15);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(51, 13);
             this.label5.TabIndex = 19;
@@ -240,7 +242,7 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(19, 139);
+            this.button5.Location = new System.Drawing.Point(19, 132);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(239, 20);
             this.button5.TabIndex = 14;
@@ -250,6 +252,8 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.label11);
+            this.groupBox2.Controls.Add(this.txtboxRemovingThreshold);
             this.groupBox2.Controls.Add(this.label10);
             this.groupBox2.Controls.Add(this.txtboxLevelOfProposedNewTopology);
             this.groupBox2.Controls.Add(this.btnSuggestNewToopology);
@@ -269,16 +273,77 @@
             this.groupBox2.Controls.Add(this.label8);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.btnLoadAndCleanData);
-            this.groupBox2.Location = new System.Drawing.Point(12, 75);
+            this.groupBox2.Location = new System.Drawing.Point(12, 68);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(372, 242);
+            this.groupBox2.Size = new System.Drawing.Size(372, 252);
             this.groupBox2.TabIndex = 21;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Offline Algorithms";
             // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(253, 159);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(54, 26);
+            this.label11.TabIndex = 20;
+            this.label11.Text = "Removing\r\nThreshold";
+            // 
+            // txtboxRemovingThreshold
+            // 
+            this.txtboxRemovingThreshold.Location = new System.Drawing.Point(314, 162);
+            this.txtboxRemovingThreshold.Name = "txtboxRemovingThreshold";
+            this.txtboxRemovingThreshold.Size = new System.Drawing.Size(47, 20);
+            this.txtboxRemovingThreshold.TabIndex = 19;
+            this.txtboxRemovingThreshold.Text = "5";
+            this.txtboxRemovingThreshold.TextChanged += new System.EventHandler(this.numberOnlyTextBox_TextChanged);
+            this.txtboxRemovingThreshold.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.numberOnlyTextBox_KeyPress);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(256, 191);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(52, 13);
+            this.label10.TabIndex = 18;
+            this.label10.Text = "menuSize";
+            // 
+            // txtboxLevelOfProposedNewTopology
+            // 
+            this.txtboxLevelOfProposedNewTopology.Location = new System.Drawing.Point(314, 188);
+            this.txtboxLevelOfProposedNewTopology.Name = "txtboxLevelOfProposedNewTopology";
+            this.txtboxLevelOfProposedNewTopology.Size = new System.Drawing.Size(47, 20);
+            this.txtboxLevelOfProposedNewTopology.TabIndex = 17;
+            this.txtboxLevelOfProposedNewTopology.Text = "3";
+            this.txtboxLevelOfProposedNewTopology.TextChanged += new System.EventHandler(this.numberOnlyTextBox_TextChanged);
+            this.txtboxLevelOfProposedNewTopology.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.numberOnlyTextBox_KeyPress);
+            // 
+            // btnSuggestNewToopology
+            // 
+            this.btnSuggestNewToopology.Location = new System.Drawing.Point(280, 211);
+            this.btnSuggestNewToopology.Margin = new System.Windows.Forms.Padding(0);
+            this.btnSuggestNewToopology.Name = "btnSuggestNewToopology";
+            this.btnSuggestNewToopology.Size = new System.Drawing.Size(81, 34);
+            this.btnSuggestNewToopology.TabIndex = 16;
+            this.btnSuggestNewToopology.Text = "propose new topology";
+            this.btnSuggestNewToopology.UseVisualStyleBackColor = true;
+            this.btnSuggestNewToopology.Click += new System.EventHandler(this.btnSuggestNewToopology_Click);
+            // 
+            // btnGraphReport
+            // 
+            this.btnGraphReport.Font = new System.Drawing.Font("Tahoma", 8F);
+            this.btnGraphReport.Location = new System.Drawing.Point(224, 211);
+            this.btnGraphReport.Margin = new System.Windows.Forms.Padding(0);
+            this.btnGraphReport.Name = "btnGraphReport";
+            this.btnGraphReport.Size = new System.Drawing.Size(56, 34);
+            this.btnGraphReport.TabIndex = 15;
+            this.btnGraphReport.Text = "graph report";
+            this.btnGraphReport.UseVisualStyleBackColor = true;
+            this.btnGraphReport.Click += new System.EventHandler(this.btnGraphReport_Click);
+            // 
             // txtboxSessionTimeOut
             // 
-            this.txtboxSessionTimeOut.Location = new System.Drawing.Point(291, 20);
+            this.txtboxSessionTimeOut.Location = new System.Drawing.Point(291, 13);
             this.txtboxSessionTimeOut.Name = "txtboxSessionTimeOut";
             this.txtboxSessionTimeOut.Size = new System.Drawing.Size(58, 20);
             this.txtboxSessionTimeOut.TabIndex = 1;
@@ -288,7 +353,7 @@
             // 
             // btnMarkovBuild
             // 
-            this.btnMarkovBuild.Location = new System.Drawing.Point(18, 161);
+            this.btnMarkovBuild.Location = new System.Drawing.Point(18, 154);
             this.btnMarkovBuild.Name = "btnMarkovBuild";
             this.btnMarkovBuild.Size = new System.Drawing.Size(202, 23);
             this.btnMarkovBuild.TabIndex = 9;
@@ -298,7 +363,7 @@
             // 
             // txtboxMinPTS
             // 
-            this.txtboxMinPTS.Location = new System.Drawing.Point(291, 81);
+            this.txtboxMinPTS.Location = new System.Drawing.Point(291, 74);
             this.txtboxMinPTS.Name = "txtboxMinPTS";
             this.txtboxMinPTS.Size = new System.Drawing.Size(58, 20);
             this.txtboxMinPTS.TabIndex = 4;
@@ -309,7 +374,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(244, 84);
+            this.label7.Location = new System.Drawing.Point(244, 77);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(41, 13);
             this.label7.TabIndex = 14;
@@ -318,7 +383,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(241, 14);
+            this.label8.Location = new System.Drawing.Point(241, 8);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(43, 39);
             this.label8.TabIndex = 13;
@@ -335,17 +400,30 @@
             this.groupBox3.Controls.Add(this.txtboxClassificationRequest);
             this.groupBox3.Controls.Add(this.button5);
             this.groupBox3.Controls.Add(this.label5);
-            this.groupBox3.Location = new System.Drawing.Point(11, 344);
+            this.groupBox3.Location = new System.Drawing.Point(11, 348);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(372, 167);
             this.groupBox3.TabIndex = 22;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Online Algorithms";
             // 
+            // btnSpawnClient
+            // 
+            this.btnSpawnClient.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSpawnClient.Location = new System.Drawing.Point(264, 132);
+            this.btnSpawnClient.Name = "btnSpawnClient";
+            this.btnSpawnClient.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.btnSpawnClient.Size = new System.Drawing.Size(83, 20);
+            this.btnSpawnClient.TabIndex = 1006;
+            this.btnSpawnClient.TabStop = false;
+            this.btnSpawnClient.Text = "Spawn Client";
+            this.btnSpawnClient.UseVisualStyleBackColor = true;
+            this.btnSpawnClient.Click += new System.EventHandler(this.btnSpawnClient_Click);
+            // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(227, 111);
+            this.label9.Location = new System.Drawing.Point(227, 107);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(71, 13);
             this.label9.TabIndex = 24;
@@ -353,7 +431,7 @@
             // 
             // txtboxMarkovDepth
             // 
-            this.txtboxMarkovDepth.Location = new System.Drawing.Point(303, 109);
+            this.txtboxMarkovDepth.Location = new System.Drawing.Point(303, 105);
             this.txtboxMarkovDepth.Name = "txtboxMarkovDepth";
             this.txtboxMarkovDepth.Size = new System.Drawing.Size(43, 20);
             this.txtboxMarkovDepth.TabIndex = 23;
@@ -363,7 +441,7 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(18, 84);
+            this.button4.Location = new System.Drawing.Point(18, 80);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(202, 45);
             this.button4.TabIndex = 13;
@@ -373,7 +451,7 @@
             // 
             // txtboxClassification
             // 
-            this.txtboxClassification.Location = new System.Drawing.Point(303, 85);
+            this.txtboxClassification.Location = new System.Drawing.Point(303, 81);
             this.txtboxClassification.Name = "txtboxClassification";
             this.txtboxClassification.Size = new System.Drawing.Size(44, 20);
             this.txtboxClassification.TabIndex = 12;
@@ -384,7 +462,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(269, 88);
+            this.label4.Location = new System.Drawing.Point(269, 84);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(13, 13);
             this.label4.TabIndex = 22;
@@ -397,7 +475,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.listboxState.Font = new System.Drawing.Font("Tahoma", 8F);
             this.listboxState.FormattingEnabled = true;
-            this.listboxState.Location = new System.Drawing.Point(402, 34);
+            this.listboxState.Location = new System.Drawing.Point(402, 27);
             this.listboxState.Name = "listboxState";
             this.listboxState.Size = new System.Drawing.Size(282, 472);
             this.listboxState.TabIndex = 1000;
@@ -406,7 +484,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(399, 18);
+            this.label6.Location = new System.Drawing.Point(399, 11);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(33, 13);
             this.label6.TabIndex = 24;
@@ -415,7 +493,7 @@
             // button6
             // 
             this.button6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button6.Location = new System.Drawing.Point(622, 7);
+            this.button6.Location = new System.Drawing.Point(622, 3);
             this.button6.Name = "button6";
             this.button6.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.button6.Size = new System.Drawing.Size(62, 20);
@@ -427,7 +505,7 @@
             // 
             // button7
             // 
-            this.button7.Location = new System.Drawing.Point(63, 323);
+            this.button7.Location = new System.Drawing.Point(63, 326);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(137, 21);
             this.button7.TabIndex = 1001;
@@ -437,7 +515,7 @@
             // 
             // button8
             // 
-            this.button8.Location = new System.Drawing.Point(206, 323);
+            this.button8.Location = new System.Drawing.Point(206, 326);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(137, 21);
             this.button8.TabIndex = 1002;
@@ -448,7 +526,7 @@
             // button9
             // 
             this.button9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button9.Location = new System.Drawing.Point(622, 518);
+            this.button9.Location = new System.Drawing.Point(622, 511);
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(62, 19);
             this.button9.TabIndex = 1003;
@@ -459,7 +537,7 @@
             // btnZoomInListbox
             // 
             this.btnZoomInListbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnZoomInListbox.Location = new System.Drawing.Point(541, 519);
+            this.btnZoomInListbox.Location = new System.Drawing.Point(541, 512);
             this.btnZoomInListbox.Name = "btnZoomInListbox";
             this.btnZoomInListbox.Size = new System.Drawing.Size(38, 19);
             this.btnZoomInListbox.TabIndex = 1004;
@@ -470,68 +548,13 @@
             // btnZoomOuListbox
             // 
             this.btnZoomOuListbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnZoomOuListbox.Location = new System.Drawing.Point(497, 519);
+            this.btnZoomOuListbox.Location = new System.Drawing.Point(497, 512);
             this.btnZoomOuListbox.Name = "btnZoomOuListbox";
             this.btnZoomOuListbox.Size = new System.Drawing.Size(38, 19);
             this.btnZoomOuListbox.TabIndex = 1005;
             this.btnZoomOuListbox.Text = "-";
             this.btnZoomOuListbox.UseVisualStyleBackColor = true;
             this.btnZoomOuListbox.Click += new System.EventHandler(this.btnZoomOuListbox_Click);
-            // 
-            // btnGraphReport
-            // 
-            this.btnGraphReport.Font = new System.Drawing.Font("Tahoma", 8F);
-            this.btnGraphReport.Location = new System.Drawing.Point(224, 202);
-            this.btnGraphReport.Margin = new System.Windows.Forms.Padding(0);
-            this.btnGraphReport.Name = "btnGraphReport";
-            this.btnGraphReport.Size = new System.Drawing.Size(56, 34);
-            this.btnGraphReport.TabIndex = 15;
-            this.btnGraphReport.Text = "graph report";
-            this.btnGraphReport.UseVisualStyleBackColor = true;
-            this.btnGraphReport.Click += new System.EventHandler(this.btnGraphReport_Click);
-            // 
-            // btnSuggestNewToopology
-            // 
-            this.btnSuggestNewToopology.Location = new System.Drawing.Point(280, 202);
-            this.btnSuggestNewToopology.Margin = new System.Windows.Forms.Padding(0);
-            this.btnSuggestNewToopology.Name = "btnSuggestNewToopology";
-            this.btnSuggestNewToopology.Size = new System.Drawing.Size(81, 34);
-            this.btnSuggestNewToopology.TabIndex = 16;
-            this.btnSuggestNewToopology.Text = "propose new topology";
-            this.btnSuggestNewToopology.UseVisualStyleBackColor = true;
-            this.btnSuggestNewToopology.Click += new System.EventHandler(this.btnSuggestNewToopology_Click);
-            // 
-            // txtboxLevelOfProposedNewTopology
-            // 
-            this.txtboxLevelOfProposedNewTopology.Location = new System.Drawing.Point(314, 179);
-            this.txtboxLevelOfProposedNewTopology.Name = "txtboxLevelOfProposedNewTopology";
-            this.txtboxLevelOfProposedNewTopology.Size = new System.Drawing.Size(47, 20);
-            this.txtboxLevelOfProposedNewTopology.TabIndex = 17;
-            this.txtboxLevelOfProposedNewTopology.Text = "3";
-            this.txtboxLevelOfProposedNewTopology.TextChanged += new System.EventHandler(this.numberOnlyTextBox_TextChanged);
-            this.txtboxLevelOfProposedNewTopology.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.numberOnlyTextBox_KeyPress);
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(260, 182);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(52, 13);
-            this.label10.TabIndex = 18;
-            this.label10.Text = "menuSize";
-            // 
-            // btnSpawnClient
-            // 
-            this.btnSpawnClient.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSpawnClient.Location = new System.Drawing.Point(264, 139);
-            this.btnSpawnClient.Name = "btnSpawnClient";
-            this.btnSpawnClient.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.btnSpawnClient.Size = new System.Drawing.Size(83, 20);
-            this.btnSpawnClient.TabIndex = 1006;
-            this.btnSpawnClient.TabStop = false;
-            this.btnSpawnClient.Text = "Spawn Client";
-            this.btnSpawnClient.UseVisualStyleBackColor = true;
-            this.btnSpawnClient.Click += new System.EventHandler(this.btnSpawnClient_Click);
             // 
             // MainForm
             // 
@@ -610,6 +633,8 @@
         private System.Windows.Forms.TextBox txtboxLevelOfProposedNewTopology;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Button btnSpawnClient;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TextBox txtboxRemovingThreshold;
     }
 }
 

@@ -23,10 +23,17 @@ namespace WebMining
 
         public ChartForm CloneMe()
         {
-            return new ChartForm().SetChart(c, b, o, g, p, p2);
+            var t = new ChartForm().SetChart(c, b, o, g, p, p2);
+            return t;
         }
 
-        static Series c, b, o, g, p, p2;
+        Series c, b, o, g, p, p2;
+
+        private void ChartForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Hide();
+        }
+
         public ChartForm SetChart(Series country, Series browser, Series os, Series gender, Series pages, Series pages2)
         {
             c = country;

@@ -376,8 +376,8 @@ namespace WebMining
                 if (visited.Contains(f))
                     continue;
 
-                if(start.State != MarkovState.Start)
-                AddToGraph(g, start.Value, f.Value);
+                if (start.State != MarkovState.Start)
+                    AddToGraph(g, start.Value, f.Value);
 
                 res.Add(prefix + f.Value);
 
@@ -388,7 +388,7 @@ namespace WebMining
             return res;
         }
 
-        private IList<string> buildSuggestedTopology(Graph g,string last, IEnumerable<string> orderPages , int level = 3, string prefix = "", int linkCountEachLevel = 3)
+        private IList<string> buildSuggestedTopology(Graph g, string last, IEnumerable<string> orderPages, int level = 3, string prefix = "", int linkCountEachLevel = 3)
         {
             var res = new List<string>();
             int order = 1;
@@ -405,10 +405,15 @@ namespace WebMining
                     AddToGraph(g, last, p);
 
                     if (markover != null)
-                        res.AddRange(buildSuggestedTopology(g, p, markover.PredicteNextValues(p), level - 1, prefix + order + " - ", linkCountEachLevel));
+                        res.AddRange(buildSuggestedTopology(g, p, getNextPages(p) , level - 1, prefix + order + " - ", linkCountEachLevel));
                     order++;
                 }
             return res;
+        }
+
+        private IEnumerable<string> getNextPages(string p)
+        {
+            return markover.PredicteNextWithProbabilities(p).Where(x => x.Value > (double.Parse(txtboxRemovingThreshold.Text) / 100)).Select(x => x.Key.Value);
         }
 
         private void AddToGraph(Graph g, string start, string end)
@@ -566,7 +571,6 @@ namespace WebMining
         private RecommendationResult predicate(string request)
         {
             return predicate(request, getKforClassification(), getMarkovDepthForClassification());
-
         }
 
         private RecommendationResult predicate(string request, int k, int markovdepth)
@@ -579,6 +583,7 @@ namespace WebMining
             recommender.K = k;
             recommender.MarkovDepth = markovdepth;
             recommender.MarkovChain = markover;
+            recommender.ThresholdForMarkovPercent = double.Parse(txtboxRemovingThreshold.Text);
             return recommender.Recommend(request);
         }
 
@@ -697,7 +702,7 @@ namespace WebMining
             string msg = "\r\n=================================\r\n" +
                 "|  This Demo for our graduation project\r\n|\tat Damascus University (Syria)\r\n|\t" +
                 "at year 2017/2016\r\n|  By:\r\n|\tBaha'a Alsharif (http://github.com/bhlshrf)\r\n|\t" +
-                " Ziad Hashem\r\n|\tBasel Altoom \r\n|\tBakr Damman" +
+                "Ziad Hashem\r\n|\tBasel Altoom \r\n|\tBakr Damman" +
                 "\r\n=================================\r\n";
             PrintLines(msg.Split('\n'));
         }

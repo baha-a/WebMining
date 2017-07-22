@@ -41,6 +41,7 @@ namespace WebMining
             };
         }
 
+
         private bool? predicateGender(User user)
         {
             return knn.PredicateGender(K, user);
@@ -57,7 +58,7 @@ namespace WebMining
             IEnumerable<string> res = sessionOutputParser.ParseAllToLines(Rules.Where(x => x.X == t).Select(x => x.Y));
             if(res.Count() == 0)
                 res = sessionOutputParser.ParseAllToLines(Rules.Where(x => x.X.Contains(t)).Select(x => x.Y));
-            return res;
+            return res.Distinct();
         }
 
         private Cluster getNearestCluster(User user)
@@ -75,14 +76,16 @@ namespace WebMining
             if (MarkovChain == null)
                 return pages;
 
-            foreach (var m in MarkovChain.PredicteNextWithhProbabilities(t))
+            foreach (var m in MarkovChain.PredicteNextWithProbabilities(t))
                 pages.AddRange(nextLevel(m, level - 1, " . ", " . "));
             return pages;
         }
 
-        private static List<string> nextLevel(KeyValuePair<MarkovNode<string>, double> m, int level, string prefix, string prefixForNext)
+        private List<string> nextLevel(KeyValuePair<MarkovNode<string>, double> m, int level, string prefix, string prefixForNext)
         {
             var pages = new List<string>();
+            if (satisfy(m.Value) == false)
+                return pages;
             pages.Add(printPage(m, prefixForNext));
 
             if (level == 0)
@@ -94,11 +97,17 @@ namespace WebMining
             return pages;
         }
 
+        public double ThresholdForMarkovPercent { get; set; }
+        private bool satisfy(double value)
+        {
+            return value * 100 >= ThresholdForMarkovPercent;
+        }
+
         private static string printPage(KeyValuePair<MarkovNode<string>, double> m, string prefix = "")
         {
             if (m.Key.State == MarkovState.End)
-                return prefix + "[END] - " + m.Value * 100 + " %";
-            return prefix + m.Key.Value + " - " + m.Value * 100 + " %";
+                return prefix + "[END] - " + (int)(m.Value * 100) + " %";
+            return prefix + m.Key.Value + " - " + (int)(m.Value * 100) + " %";
         }
     }
 }

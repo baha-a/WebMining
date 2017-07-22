@@ -60,7 +60,7 @@ namespace WebMining
         {
             return getItemAndAddIfNotFound(t).GetNexts();
         }
-        public IEnumerable<KeyValuePair<MarkovNode<T>,double>> PredicteNextWithhProbabilities(T t)
+        public IEnumerable<KeyValuePair<MarkovNode<T>,double>> PredicteNextWithProbabilities(T t)
         {
             return getItemAndAddIfNotFound(t).GetNextsWithProbabilities();
         }
