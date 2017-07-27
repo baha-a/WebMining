@@ -11,5 +11,6 @@ Alogrithm used in this project:
   - Statistic
 
 
-note 0: you may need to use LogGen to generate input files for this project
-note 1: For LogGen go to : https://github.com/bhlshrf/LogGen
+Note:
+  you may need to use LogGen to generate input files for this project,
+  For LogGen go to : https://github.com/bhlshrf/LogGen
