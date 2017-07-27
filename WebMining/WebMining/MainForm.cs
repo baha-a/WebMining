@@ -92,7 +92,10 @@ namespace WebMining
             Print("Count = " + clusters.Count());
             Print();
             foreach (var c in clusters)
+            {
                 Print("ID = " + c.ID + "   count = " + c.Dataset.Count() + "   -  center = " + c.Center.Distance(extractedUsers.First()));
+                Print("\t" + c.Center.ToString());
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -283,12 +286,12 @@ namespace WebMining
             var orderPages = pages.OrderByDescending(x => ranking(totalSpentTime, totalPageHits, x));
             foreach (var c in orderPages)
             {
-                Print("\t" + c.Key + "\t-\thits = " + c.Value.Weight.ToString("N0") + " (" + (int)(c.Value.Weight * 100.0 / totalPageHits) +
+                Print(c.Key + "\t\t\t- hits = " + c.Value.Weight.ToString("N0") + " (" + (int)(c.Value.Weight * 100.0 / totalPageHits) +
                     " %) ,\tspentTime = " + c.Value.Value.ToString("N0") + " (" + (int)(c.Value.Value * 100.0 / totalSpentTime) + " %)" +
                     "\tRank = " + ranking(totalSpentTime, totalPageHits, c) + " points");
 
-                pagesChart.Points.AddXY(c.Key, (int)(c.Value.Weight * 100.0 / totalPageHits));
-                pagesChart2.Points.AddXY(c.Key, (int)(c.Value.Value * 100.0 / totalSpentTime));
+                pagesChart.Points.AddXY(fixName(c.Key), (int)(c.Value.Weight * 100.0 / totalPageHits));
+                pagesChart2.Points.AddXY(fixName(c.Key), (int)(c.Value.Value * 100.0 / totalSpentTime));
             }
 
             Print("---------------------");
@@ -331,6 +334,18 @@ namespace WebMining
             graphForm = new GraphForm().AddGraphs(suggestedOrginal, graphOrginal);
 
             //MinMax m = new MinMax(); int count = 0, totalcount = (extractedUsers.Count * (extractedUsers.Count + 1) / 2); double tmp = 0, ava = 0; for (int i = 0; i < extractedUsers.Count; i++) { for (int j = extractedUsers.Count - 1; j > i; j--) { m.SetMinMaxValues(tmp = extractedUsers[i].Distance(extractedUsers[j])); ava += tmp; count++; } Processbarhandler((int)((count * 1.0) / totalcount * 100), " wait "); } Print("min   = " + m.MinWeight); Print("max   = " + m.MaxWeight); Print("sum   = " + ava); Print("avarg = " + (ava / totalcount));
+        }
+
+        private string fixName(string key)
+        {
+            try
+            {
+                key = key.Substring(1, key.Length - 2);
+                if (key.Length > 6)
+                    return key.Substring(0, 2) + "~" + key.Substring(key.Length - 2);
+            }
+            catch { }
+            return key;
         }
 
         ChartForm chartForm = null;
@@ -443,7 +458,7 @@ namespace WebMining
 
         private static double ranking(long totalSpentTime, long totalPageHits, KeyValuePair<string, Pair<long>> c)
         {
-            return ((c.Value.Weight * 100.0 / totalPageHits) * (c.Value.Value * 100.0/ totalSpentTime)) /100;
+            return ((c.Value.Weight * 100.0 / totalPageHits) * (c.Value.Value * 200.0 / totalSpentTime)) / 100;
         }
 
         private static void searchInDic(Dictionary<string, int> dic, string s)
@@ -674,7 +689,7 @@ namespace WebMining
         {
             if (extractedUsers == null)
             {
-                MessageBox.Show("no input data");
+                Print("no input data");
                 return;
             }
             callback(bulidMarkov, toggleButtonEnable(btnMarkovBuild));

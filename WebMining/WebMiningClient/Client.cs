@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
@@ -73,15 +75,43 @@ namespace WebMiningClient
         {
             //|gender=True&cluster=2&arpages=['PAGE1' - ,'HOME' - ,'END' - ,'HOME' - 'PAGE1' - 'END' - ,'PAGE1' - 'END' - ,'HOME' - 'END' - ,'HOME' - 'PAGE1' - ]&markovpages=[ . 'PAGE1' - 99.9600798403194 %, .  . 'PAGE2' - 47.9002079002079 %, .  .  . 'PAGE1' - 99.9600798403194 %, .  .  . [END] - 0.0399201596806387 %, .  . 'PAGE3' - 47.9002079002079 %, .  .  . 'END' - 100 %, .  . 'END' - 4.17879417879418 %, .  .  . [END] - 99.8003992015968 %, .  .  . 'HOME' - 0.199600798403194 %, .  . 'PAGE1' - 0.0207900207900208 %, .  .  . 'PAGE2' - 47.9002079002079 %, .  .  . 'PAGE3' - 47.9002079002079 %, .  .  . 'END' - 4.17879417879418 %, .  .  . 'PAGE1' - 0.0207900207900208 %, . [END] - 0.0399201596806387 %]|   
 
-            lblPredicatedGender.Text = bool.Parse(text.Substring("|gender=".Length, 4)) == true? "MALE" : "FEMALE";
-            lblSlelectedCluster.Text = text.Substring("|gender=True&cluster=".Length, 2).Replace("&", "");
-            text = text.Substring((text.IndexOf("&markovpages=[") + "&markovpages=[".Length));
-            text = text.Substring(0, text.Length - 2);
-            var t = text.Split(',');
+            try
+            {
+                lblPredicatedGender.Text = bool.Parse(text.Substring("|gender=".Length, 4)) == true ? "MALE" : "FEMALE";
+            }
+            catch 
+            {
+                lblPredicatedGender.Text = "FEMALE";
+            }
+            try
+            {
+                lblSlelectedCluster.Text = text.Substring("|gender=True&cluster=".Length, 2).Replace("&", "").Replace("=","");
+            }
+            catch 
+            {
+                lblSlelectedCluster.Text = "0";
+            }
+            try
+            {
+                text = text.Substring((text.IndexOf("&markovpages=[") + "&markovpages=[".Length));
+                text = text.Substring(0, text.Length - 2);
+            }
+            catch { }
+            try
+            {
+                var t = text.Split(',');
 
-            lstboxSuggestedPages.Items.Clear();
-            foreach (var l in t)
-                lstboxSuggestedPages.Items.Add(l);
+                lstboxSuggestedPages.Items.Clear();
+                foreach (var l in t)
+                    lstboxSuggestedPages.Items.Add(l);
+            }
+            catch { }
+            try
+            {
+                pictureBox1.BackgroundImage = adsImages[int.Parse(lblSlelectedCluster.Text) % adsImages.Count];
+                pictureBox1.BackgroundImageLayout = ImageLayout.Stretch;
+            }
+            catch { }
         }
 
         private string gethttprequest()
@@ -150,6 +180,45 @@ namespace WebMiningClient
             lstboxRequestedPages.Items.Add("__________________________");
             txtboxDate.Text = DateTime.ParseExact(txtboxDate.Text, "dd-MM-yyyy", CultureInfo.InvariantCulture).AddDays(1).ToString("dd-MM-yyyy");
             lastone = "'START'";
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            adsImages.Clear();
+        }
+
+        List<Image> adsImages = new List<Image>();
+        private void button1_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog op = new OpenFileDialog() { Filter = "jpg|*.jpg|all|*.*" };
+            if (op.ShowDialog() == DialogResult.OK)
+            {
+                adsImages.Add(new Bitmap(op.FileName));
+            }
+        }
+
+        private void ClientForm_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                buildTree(File.ReadAllLines("sitemap.txt"));
+            }
+            catch { }
+
+            try
+            {
+                foreach (var p in Directory.GetFiles("images"))
+                {
+                    adsImages.Add(new Bitmap(p));
+                    lblState.Text = "images loaded";
+                }
+            }
+            catch { }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            cookie = General.getCookie();
         }
     }
 }

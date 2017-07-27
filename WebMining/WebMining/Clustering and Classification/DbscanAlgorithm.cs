@@ -94,7 +94,7 @@ namespace WebMining
 
         private IEnumerable<Cluster> fillResultInClusters(Func<IEnumerable<IDistancable>, IDistancable> marge)
         {
-            return _dataset.Where(x => x.ClusterId > 0).GroupBy(x => x.ClusterId).Where(x=>x.Count() > MinPts)
+            return _dataset.Where(x => x.ClusterId > 0).GroupBy(x => x.ClusterId).Where(x=>x.Count() >= MinPts)
                 .Select(x => new Cluster(x.Select(y => y.ClusterPoint), marge) { ID = x.First().ClusterId});
         }
 
@@ -127,9 +127,9 @@ namespace WebMining
                 visit(point);
 
                 var neighbors = neighbor(point.ClusterPoint);
-                if (neighbors.Count() >= MinPts)
-                    foreach (var neighbor in neighbors.Where(neighbor => !neighbor.IsVisited))
-                        queue.Enqueue(neighbor);
+                //if (neighbors.Count() >= MinPts)
+                    foreach (var y in neighbors.Where(x => !x.IsVisited))
+                        queue.Enqueue(y);
             }
         }
 

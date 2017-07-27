@@ -55,10 +55,10 @@ namespace WebMining
             double unnormalisedSimilarity = GetUnnormalisedSimilarity(firstWord, secondWord);
             double num2 = Math.Min(firstWord.Length, secondWord.Length);
 
-            if (DCostFunction.MaxCost > -GapCost)
-                num2 *= DCostFunction.MaxCost;
-            else
-                num2 *= -GapCost;
+            //if (DCostFunction.MaxCost > -GapCost)
+            //    num2 *= DCostFunction.MaxCost;
+            //else
+            //    num2 *= -GapCost;
 
             if (num2 == 0.0)
                 return DefaultPerfectMatchScore;
@@ -164,10 +164,6 @@ namespace WebMining
 
                 return firstWord[firstWordIndex] != secondWord[secondWordIndex] ? CharMismatchMatchScore : CharExactMatchScore;
             }
-
-
-            public double MaxCost => CharExactMatchScore;
-            public double MinCost => CharMismatchMatchScore;
         }
     }
 }

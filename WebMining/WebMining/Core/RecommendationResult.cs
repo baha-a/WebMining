@@ -23,7 +23,7 @@ namespace WebMining
         public override string ToString()
         {
             return "|gender=" + Gender + "&" +
-                "cluster=" + (Cluster != null ? Cluster.ID : -1) + "&" +
+                "cluster=" + (Cluster != null ? Cluster.ID : 0) + "&" +
                 "arpages=[" + singleLine(SuggestedPages) + "]&" +
                 "markovpages=[" + singleLine(SuggestedPagesByMarkov) + "]|";
         }

@@ -106,6 +106,7 @@ namespace WebMining
             return arg.First();
         }
 
+
         public static IDistancable AvarageUser(IEnumerable<IDistancable> arg)
         {
             Dictionary<string, int> countrycode = new Dictionary<string, int>();
@@ -174,6 +175,7 @@ namespace WebMining
 
             return avarage;
         }
+
 
         private static void searchInDic(Dictionary<string, int> dic, string s)
         {

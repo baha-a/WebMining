@@ -160,7 +160,7 @@
             this.txtboxMinSupp.Name = "txtboxMinSupp";
             this.txtboxMinSupp.Size = new System.Drawing.Size(58, 20);
             this.txtboxMinSupp.TabIndex = 6;
-            this.txtboxMinSupp.Text = "0.9800";
+            this.txtboxMinSupp.Text = "0.5";
             this.txtboxMinSupp.TextChanged += new System.EventHandler(this.numberOnlyTextBox_TextChanged);
             this.txtboxMinSupp.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.numberOnlyTextBox_KeyPress);
             // 
@@ -170,7 +170,7 @@
             this.txtboxMinConf.Name = "txtboxMinConf";
             this.txtboxMinConf.Size = new System.Drawing.Size(58, 20);
             this.txtboxMinConf.TabIndex = 7;
-            this.txtboxMinConf.Text = "0.9999";
+            this.txtboxMinConf.Text = "0.5";
             this.txtboxMinConf.TextChanged += new System.EventHandler(this.numberOnlyTextBox_TextChanged);
             this.txtboxMinConf.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.numberOnlyTextBox_KeyPress);
             // 
@@ -198,7 +198,7 @@
             this.txtboxEpsilon.Name = "txtboxEpsilon";
             this.txtboxEpsilon.Size = new System.Drawing.Size(58, 20);
             this.txtboxEpsilon.TabIndex = 3;
-            this.txtboxEpsilon.Text = "1.0000";
+            this.txtboxEpsilon.Text = "0.8";
             this.txtboxEpsilon.TextChanged += new System.EventHandler(this.numberOnlyTextBox_TextChanged);
             this.txtboxEpsilon.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.numberOnlyTextBox_KeyPress);
             // 
@@ -229,7 +229,7 @@
             this.txtboxClassificationRequest.Size = new System.Drawing.Size(329, 49);
             this.txtboxClassificationRequest.TabIndex = 11;
             this.txtboxClassificationRequest.Text = "0000014602 ofssobxxxmpdu1sr NONE 72.3.217.228 BM \'Opera\' \'Mac\' 01:47:53 21-12-201" +
-    "7 \'PAGE1\' \'PAGE2\'";
+    "7 \'HOME\' \'START\'";
             // 
             // label5
             // 
@@ -455,7 +455,7 @@
             this.txtboxClassification.Name = "txtboxClassification";
             this.txtboxClassification.Size = new System.Drawing.Size(44, 20);
             this.txtboxClassification.TabIndex = 12;
-            this.txtboxClassification.Text = "10";
+            this.txtboxClassification.Text = "1000";
             this.txtboxClassification.TextChanged += new System.EventHandler(this.numberOnlyTextBox_TextChanged);
             this.txtboxClassification.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.numberOnlyTextBox_KeyPress);
             // 

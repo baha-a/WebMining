@@ -35,7 +35,7 @@ namespace WebMining
         public override string ToString()
         {
             string str = "USER_" + ID + " Sesssion(" + Sessions.Count + ")";
-            Sessions.ForEach(s=> str += "\r\n\t" + s);
+            Sessions.ForEach(s=> str += "\r\n\t" + s.ToString());
             return str;
         }
 
@@ -142,7 +142,10 @@ namespace WebMining
 
         public override string ToString()
         {
-            return "Ses_" + ID + " Time[" + StartTime.ToString("HH:mm:ss dd-MM-yyyy") + "] Requests(" + Requests.Count + ")";
+            string req = "";
+            Requests.ForEach(x => req += x.RequstedPage + ", ");
+            return "Ses_" + ID + " " + Browser + " " + OperatingSystem + " " + counter 
+                + " Time[" + StartTime.ToString("HH:mm:ss dd-MM-yyyy") + "] Requests(" + Requests.Count + ")(" + req + ")";
         }
 
 
